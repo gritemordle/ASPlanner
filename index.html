@@ -52,8 +52,8 @@
 
 	var perk_points=30;
 	var root_nodes=0;
-	var epiphanies=0;
-	
+	var	epiphanies=0;
+	var focus_nodes=0;
 	
 	
      var canvas = document.getElementById('ASMain');
@@ -399,6 +399,8 @@ this.noise = function(x, y, z) {
 			    
 				if(ii===0)
 				{
+				if(nodes[i].rarity==1){ctx_tooltip.fillStyle='orange';}
+				else{ ctx_tooltip.fillStyle='white';  }
 				ctx_tooltip.font='bold ' + ts.toString() + 'pt sans-serif';
 				}
 				else
@@ -471,13 +473,18 @@ this.noise = function(x, y, z) {
 			 
 			 
 			 
-			 if(nodes[i].tooltip[0].includes('Root')) {  
+			 if(nodes[i].tooltip[0].includes('Root:')) {  
 			 root_nodes+=1;   
 				 if(root_nodes>1)
 					{perk_points-=1;}		 
 			 }
 			 else if(nodes[i].tooltip[0].includes('Singularity')) { perk_points-=1; perk_points+=3; }
 			 else if(nodes[i].tooltip[0].includes('Chakra') &&  epiphanies>0) { perk_points=perk_points; }
+			 else if(nodes[i].tooltip[0].includes('Focus:')) { 
+						if(focus_nodes==0)
+							{perk_points-=1; focus_nodes+=1;}
+						else
+							{nodes[i].stat='off';}  } 	
 			 else { perk_points-=1; }
 			 
 
@@ -493,7 +500,12 @@ this.noise = function(x, y, z) {
 				epiphanies-=1;
 			 }
 			 
-			 if(nodes[i].tooltip[0].includes('Root')) {  
+			 if(nodes[i].tooltip[0].includes('Focus:'))
+			 {
+				focus_nodes-=1;
+			 }
+			 
+			 if(nodes[i].tooltip[0].includes('Root:')) {  
 			 
 			 root_nodes-=1;
 			 if(root_nodes!==0)
@@ -501,7 +513,7 @@ this.noise = function(x, y, z) {
 
 				}	
 				else if(nodes[i].tooltip[0].includes('Singularity')) { perk_points+=1; perk_points-=3; }
-			    else if(nodes[i].tooltip[0].includes('Chakra') &&  epiphanies>0) { perk_points=perk_points; }				
+			    else if(nodes[i].tooltip[0].includes('Chakra') &&  epiphanies>0) { perk_points=perk_points; }			
 				else{perk_points+=1;}
 				
 				
@@ -553,12 +565,22 @@ this.noise = function(x, y, z) {
 	    var perk_experience={a:0,i:1,m:1,t:0,b:1,fs:0};
 		var melee_damage={a:0,i:1,m:1,t:0,b:1,fs:0};
 		var projectile_damage={a:0,i:1,m:1,t:0,b:1,fs:0};
+		var attack_speed={a:0,i:1,m:1,t:0,b:4,fs:1};
 		var critical_hit_chance={a:0,i:1,m:1,t:0,b:0,fs:0};		
 		var critical_damage_multiplier={a:0,i:1,m:1,t:0,b:1,fs:0};	
 		var projectile_speed={a:0,i:1,m:1,t:0,b:1,fs:0};	
 		var reach={a:0,i:1,m:1,t:0,b:5,fs:1};	
 		var gem_socket={a:0,i:1,m:1,t:0,b:0,fs:1};	
 
+		
+		var skill_blunt_bolts=0;
+		var skill_long_shot=0;
+		
+		var focus_alcara=0;
+		var focus_gelu=0;
+		var focus_ulteria=0
+		var focus_vorux=0;
+	
 		
 		var i;
 		
@@ -611,6 +633,12 @@ this.noise = function(x, y, z) {
 				nodes[i].projectile_damage,
 				nodes[i].projectile_damage_more,
 				projectile_damage,perk_effectiveness.t);		
+				
+			attack_speed=nodeCheck(
+				nodes[i].attack_speed_add,
+				nodes[i].attack_speed,
+				nodes[i].attack_speed_more,
+				attack_speed,perk_effectiveness.t);	
 
 			critical_hit_chance=nodeCheck(
 				nodes[i].critical_hit_chance_add,
@@ -642,6 +670,15 @@ this.noise = function(x, y, z) {
 				nodes[i].gem_socket_more,
 				gem_socket,perk_effectiveness.t);	
 			
+			
+			skill_blunt_bolts=skillCheck(nodes[i].skill_blunt_bolts,skill_blunt_bolts);
+			skill_long_shot=skillCheck(nodes[i].skill_long_shot,skill_long_shot);
+	
+			focus_alcara=skillCheck(nodes[i].focus_alcara,focus_alcara);
+			focus_gelu=skillCheck(nodes[i].focus_gelu,focus_gelu);	
+			focus_ulteria=skillCheck(nodes[i].focus_ulteria,focus_ulteria);
+			focus_vorux=skillCheck(nodes[i].focus_vorux,focus_vorux);	
+			
 			}
 		
 		
@@ -659,6 +696,10 @@ this.noise = function(x, y, z) {
 		projectile_damage.t=(projectile_damage.b + projectile_damage.a) * projectile_damage.i*projectile_damage.m;	
 		projectile_damage.t-=projectile_damage.b;
 		if(projectile_damage.t!==0){ the_results+='<p>Projectile Damage: +%' + ((projectile_damage.t)*100).toFixed(2) + '</p>';} 	
+		
+		attack_speed.t=(attack_speed.b + attack_speed.a) * attack_speed.i * attack_speed.m;
+		attack_speed.t-=attack_speed.b;
+		if(attack_speed.t!==0){ the_results+='<p>Attack Speed: +' + ((attack_speed.t)).toFixed(2) + '</p>'; }
 	
 		projectile_speed.t=(projectile_speed.b + projectile_speed.a) * projectile_speed.i * projectile_speed.m;	
 		projectile_speed.t-=projectile_speed.b;
@@ -680,9 +721,29 @@ this.noise = function(x, y, z) {
 		gem_socket.t-=gem_socket.b;
 		if((gem_socket.t!==0)){ the_results+='<p>Gem Sockets: +' + ((gem_socket.t)).toFixed(2) + '</p>';} 		
 		
+		
+		
+		///////////////////SKILLS/////////////////////////
+		
+
+		if(skill_blunt_bolts==1){ the_results+='<p style="font-weight:bold; color: orange;">Blunt Bolts</p>';} 		
+		if(skill_long_shot==1){ the_results+='<p style="font-weight:bold; color: orange;">Long Shot</p>';} 		
+		
+		
+		/////////////////FOCUS////////////////////////////////
+		
+		if(focus_alcara==1){ the_results+='<p style="font-weight:bold; color: orange;">Focus: Alcara</p>';} 		
+		if(focus_gelu==1){ the_results+='<p style="font-weight:bold; color: orange;">Focus: Gelu</p>';} 	
+		if(focus_ulteria==1){ the_results+='<p style="font-weight:bold; color: orange;">Focus: Ulteria</p>';} 		
+		if(focus_vorux==1){ the_results+='<p style="font-weight:bold; color: orange;">Focus: Vorux</p>';} 	
+
+		
+		
   the_text_area.innerHTML = the_results;
   
   }
+  
+  
   
   
   function nodeCheckPE(na,ni,nm,s)
@@ -708,6 +769,15 @@ this.noise = function(x, y, z) {
 			
 			return s;
    
+  }
+  
+  
+  function skillCheck(skill, s)
+  {
+	if(!!skill){ s+=skill; }
+	
+	return s;
+	
   }
   
    function nodeCheck(na,ni,nm,s,e)
@@ -1295,7 +1365,7 @@ this.noise = function(x, y, z) {
 				rarity: 0,
 				n:[nodes[48]],
 				mining_speed_more: 5,
-				melee_damage_more: 10
+				melee_damage: 10
 					}; 	
 
       		nodes[50] = { 
@@ -2096,7 +2166,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Focus: Vorux','Gain +1% Perk Effect per unsealed allocated Perk.','You cannot gain Perk Experience.','','You can only unlock 1 Focus Perk.'],
 				rarity: 1,
 				n:[nodes[119]],
-				focus_perk_effect_unsealed: 1
+				focus_vorux: 1
 					};
 
 			nodes[121] = { 
@@ -2217,7 +2287,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Focus: Alcara','Increases and decreases to Perk Experience','apply to Perk Effect instead at 50% of their value.','','You can only unlock 1 Focus Perk.'],
 				rarity: 1,
 				n:[nodes[130]],
-				focus_perk_xp_to_effect: 1
+				focus_alcara: 1
 					};
 					
 			nodes[132] = { 
@@ -2318,7 +2388,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Focus: Ulteria','+5% more Perk Experience per unspent Perk Point','','You can only unlock 1 Focus Perk.'],
 				rarity: 1,
 				n:[nodes[139]],
-				focus_perk_unspent: 1
+				focus_ulteria: 1
 					};					
 					
 			nodes[141] = { 
@@ -2563,7 +2633,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Focus: Gelu','Gain +3% increased Perk Effect per allocated Perk.','Other modifiers to Perk Effect no longer apply.','','You can only unlock 1 Focus Perk.'],
 				rarity: 1,
 				n:[nodes[161]],
-				focus_perk_effect_allocated: 1
+				focus_gelu: 1
 					};						
 
 			nodes[163] = { 
@@ -3661,10 +3731,10 @@ this.noise = function(x, y, z) {
 				y:708,
 				r:10, 
 				stat:'off', 
-				tooltip: ['Rapid Pace','4% increased Attack Speed'],
+				tooltip: ['Rapid Pace','15% increased Attack Speed'],
 				rarity: 0,
 				n:[nodes[259]],
-				attack_speed: 4,
+				attack_speed: 15,
 					}; 
 					
 			nodes[261] = { 
