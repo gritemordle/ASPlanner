@@ -9,7 +9,7 @@
   <meta name="description" content="Astral Sorcery Perk Planner">
   <meta name="author" content="gritemordle">
 
-<link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/minecraftia" type="text/css"/>
+
 
 </head>
 
@@ -22,22 +22,46 @@
 <div style="height: 1100px; float: left; background: white; padding-right: 15px; ">
   <canvas id = "ASMain" width = "1000" height = "1000" style="position: absolute; top: 0; left: 0;"></canvas>
   <canvas id = "canvas_lines" width = "1000" height = "1000" style="position: absolute; top: 0; left: 0;"></canvas>
+  <canvas id = "canvas_search" width = "1000" height = "1000" style="position: absolute; top: 0; left: 0;"></canvas>
   <canvas id = "canvas_nodes" width = "1000" height = "1000" style="position: absolute; top: 0; left: 0;"></canvas>
   <canvas id = "canvas_tooltip" width = "1000" height = "1000" style="position: absolute; top: 0; left: 0;"></canvas>
   <canvas id = "ASListen" width = "1000" height = "1000" style="position: absolute; top: 0; left: 0;"></canvas></div>
-<div id="results" style="padding-top: 25px; height: 1100px; background: white; font-family: MinecraftiaRegular; position: absolute; top: 0; left: 1025px; "></div>
+  
+  <div style="padding-top: 25px; height: 1100px; background: white; font-family: sans-serif; position: absolute; top: 0; left: 1025px; ">
+  
+  <label for="search_this">Search</label>
+  <input type="text" id="search_this"  maxlength="80" size="20" onkeyup="search()">
+
+<br/>
+
+
+  
+  
+<div id="results" >
+
+
+
+</div>
 </div>  
   
   <script>
   
+	var nodecolor='brown';
+	var linecolor='brown';
+	var searchcolor='orange';
 
-
+	var perk_points=30;
+	var root_nodes=0;
+	var epiphanies=0;
 	
      var canvas = document.getElementById('ASMain');
      var context = canvas.getContext('2d');  
 
      var canvas_lines = document.getElementById('canvas_lines');
 	 var ctx_lines = canvas_lines.getContext('2d');
+	 
+     var canvas_search = document.getElementById('canvas_search');
+	 var ctx_search = canvas_search.getContext('2d');
 	 
      var canvas_nodes = document.getElementById('canvas_nodes');
 	 var ctx_nodes = canvas_nodes.getContext('2d');
@@ -46,13 +70,13 @@
 	 var ctx_tooltip = canvas_tooltip.getContext('2d');
 	 
 	 var canvas_listen = document.getElementById('ASListen');
-     var context_listen = canvas.getContext('2d');  
+     var context_listen = canvas_listen.getContext('2d');  
 
 	 
 	 
 	var ts=10;
 	 
-	ctx_tooltip.font = 'normal ' + ts.toString() + 'pt MinecraftiaRegular';
+	ctx_tooltip.font = 'normal ' + ts.toString() + 'pt sans-serif';
   
   var player = { 
 	perk_points: 33,
@@ -166,98 +190,54 @@
   //nodes.forEach(drawAllNodes);
   
   
-  function drawAllLines(value) {
- 
-    var color='yellow';
-	
-	if(value.stat=='off')
-	{
-		color='brown';
-	}
-	else
-	{
-		color='yellow';
-	}
-  
-   
-	
-		if(value.n!==undefined)
-	{
-		var i;
-		for (i=0;i<value.n.length; i++) {
-		
-		try
-		{
-			if(value.n[i].x===undefined)
-			{
-			alert(value.x.toString() + ' ' + value.y.toString());
-			}	
-		}
-		catch(err)
-		{
-		 alert(value.x.toString() + ' ' + value.y.toString());
-		}
-		
 
-		
-		context.beginPath();
-		context.moveTo(value.x,value.y);
-		context.lineTo(value.n[i].x,value.n[i].y);
-		context.lineWidth=2;
-		
-		if(value.stat=='on' && value.n[i].stat=='on')
-		{
-		  context.strokeStyle='yellow';
-		}
-		else{ context.strokeStyle='brown'; }
-	
-		context.stroke();
-		
-		}
-		
-		
-	}
- 
   
-  }
   
-  function drawAllNodes(value) {
-  
-     var color='yellow';
-	
-	if(value.stat=='off')
-	{
-		color='brown';
-	}
-	else
-	{
-		color='yellow';
-	}
-  
-	context.beginPath();
-	context.arc(value.x,value.y,value.r,0, 2 * Math.PI, false);
-	context.fillStyle = color;
-	context.fill();
-	context.lineWidth = 2;
-	context.strokeStyle = '#000000';
-	context.stroke();
-    
-  
-   }
   
   function drawEverything(value) {
   
+
     
     var color='yellow';
 	
 	if(value.stat=='off')
 	{
-		color='brown';
+		color=nodecolor;
 	}
 	else
 	{
 		color='yellow';
 	}
+  
+  
+	//ctx_search.clearRect(0,0,canvas.width,canvas.height);
+  
+	var search_what=document.getElementById("search_this").value;
+  
+	if(search_what!=='')
+	{
+		
+		var j;
+		for(j=0;j<value.tooltip.length;j++)
+		{
+			if(value.tooltip[j].toLowerCase().includes(search_what.toLowerCase()))
+			{
+			
+			ctx_search.beginPath();
+			ctx_search.arc(value.x,value.y,value.r*1.5,0, 2 * Math.PI, false);
+			ctx_search.fillStyle = searchcolor;
+			ctx_search.fill();
+			ctx_search.lineWidth = 2;
+			ctx_search.strokeStyle = searchcolor;
+			ctx_search.stroke();
+	
+			}
+	
+		}
+	
+	}
+	
+
   
 	ctx_nodes.beginPath();
 	ctx_nodes.arc(value.x,value.y,value.r,0, 2 * Math.PI, false);
@@ -281,7 +261,7 @@
 		{
 		  ctx_lines.strokeStyle='yellow';
 		}
-		else{ ctx_lines.strokeStyle='brown'; }
+		else{ ctx_lines.strokeStyle=linecolor; }
 	
 		ctx_lines.stroke();
 		
@@ -317,18 +297,9 @@
 		
 		var distance=Math.sqrt(a*a + b*b); 
 		
-		// alert(distance.toString() + ' ' + nodes[i].r);
-		
-			//context.fillStyle = "black";
-		    //context.fillRect(0, 0, canvas.width, canvas.height);
-			
-			//nodes.forEach(drawAllLines);
-			//nodes.forEach(drawAllNodes);	
 
-			 //ctx_lines.clearRect(0, 0, canvas.width, canvas.height);
-			 //ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);
 			 ctx_tooltip.clearRect(0, 0, canvas.width, canvas.height);
-			 //nodes.forEach(drawEverything);	
+		
 		
 		if(distance<=nodes[i].r)
 		{
@@ -345,9 +316,9 @@
 			 for (ii=0;ii<nodes[i].tooltip.length; ii++) {	
 
 				if(ii===0)
-					{ctx_tooltip.font='bold ' + ts.toString() + 'pt MinecraftiaRegular';}
+					{ctx_tooltip.font='bold ' + ts.toString() + 'pt sans-serif';}
 				else
-					{ctx_tooltip.font='normal ' + ts.toString() + 'pt MinecraftiaRegular';}
+					{ctx_tooltip.font='normal ' + ts.toString() + 'pt sans-serif';}
 			 
 				if(tsize.width<ctx_tooltip.measureText(nodes[i].tooltip[ii]).width)
 				{tsize=ctx_tooltip.measureText(nodes[i].tooltip[ii]);}			 
@@ -377,11 +348,11 @@
 			    
 				if(ii===0)
 				{
-				ctx_tooltip.font='bold ' + ts.toString() + 'pt MinecraftiaRegular';
+				ctx_tooltip.font='bold ' + ts.toString() + 'pt sans-serif';
 				}
 				else
 				{
-				ctx_tooltip.font='normal ' + ts.toString() + 'pt MinecraftiaRegular';
+				ctx_tooltip.font='normal ' + ts.toString() + 'pt sans-serif';
 				}
 				
 				
@@ -443,28 +414,57 @@
 			
 			 nodes[i].stat='on';
 			 
-			 player.perk_points=player.perk_points-1;
+			 if(nodes[i].tooltip[0].includes('Epiphany'))
+			 {
+				epiphanies+=1;
+			 }
 			 
-			 changePlayer(nodes[i],1);
 			 
 			 
+			 if(nodes[i].tooltip[0].includes('Root')) {  
+			 root_nodes+=1;   
+				 if(root_nodes>1)
+					{perk_points-=1;}		 
+			 }
+			 else if(nodes[i].tooltip[0].includes('Singularity')) { perk_points-=1; perk_points+=3; }
+			 else if(nodes[i].tooltip[0].includes('Chakra') &&  epiphanies>0) { perk_points=perk_points; }
+			 else { perk_points-=1; }
+			 
+
+			 
+			 
+			 
+	
 			}
 			else
 			{
 			 
 			 nodes[i].stat='off';
-			 player.perk_points=player.perk_points+1;
+	
+			 if(nodes[i].tooltip[0].includes('Epiphany'))
+			 {
+				epiphanies-=1;
+			 }
 			 
-			 changePlayer(nodes[i],-1);
+			 if(nodes[i].tooltip[0].includes('Root')) {  
+			 
+			 root_nodes-=1;
+			 if(root_nodes!==0)
+			  {perk_points+=1;}	
+
+				}	
+				else if(nodes[i].tooltip[0].includes('Singularity')) { perk_points+=1; perk_points-=3; }
+			    else if(nodes[i].tooltip[0].includes('Chakra') &&  epiphanies>0) { perk_points=perk_points; }				
+				else{perk_points+=1;}
+				
+				
+				
+		 
+			 
 			 
 			}
 		
 		
-			//ctx_lines.clearRect(0, 0, canvas.width, canvas.height);
-			//ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);
-	
-		
-		    //nodes.forEach(drawEverything);
 		   
 		   
 		   
@@ -477,7 +477,7 @@
   
 			ctx_lines.clearRect(0, 0, canvas.width, canvas.height);
 			ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);
-	
+
 		
 		    nodes.forEach(drawEverything);
   
@@ -620,7 +620,7 @@
   {
        var the_results='';	   
 	   var the_text_area = document.getElementById('results');  
-	   the_results+='<p>Points Remaining: ' + player.perk_points + '</p>'; 
+	   the_results+='<p>Points Remaining: ' + perk_points + '</p>'; 
 	   
 	   
 	   
@@ -628,6 +628,7 @@
 		var melee_damage={a:0,i:1,m:1,t:0,b:1};
 		var projectile_damage={a:0,i:1,m:1,t:0,b:1};
 		var critical_hit_chance={a:0,i:1,m:1,t:0,b:0};		
+		var critical_damage_multiplier={a:0,i:1,m:1,t:0,b:1};	
 
 		
 		var i;
@@ -681,7 +682,13 @@
 				nodes[i].critical_hit_chance,
 				nodes[i].critical_hit_chance_more,
 				critical_hit_chance,perk_effectiveness.t);					
-				
+			
+			critical_damage_multiplier=nodeCheck(
+				nodes[i].critical_damage_multiplier_add,
+				nodes[i].critical_damage_multiplier,
+				nodes[i].critical_damage_multiplier_more,
+				critical_damage_multiplier,perk_effectiveness.t);	
+			
 			}
 		
 		
@@ -698,9 +705,11 @@
 	
 		critical_hit_chance.t=(critical_hit_chance.b + critical_hit_chance.a) * critical_hit_chance.i * critical_hit_chance.m;	
 		critical_hit_chance.t-=critical_hit_chance.b;
-		if((critical_hit_chance.t!==0)){ the_results+='<p>Critical Hit Chance: +%' + ((critical_hit_chance.t)*100).toFixed(2) + '</p>';
-
-		} 		   
+		if((critical_hit_chance.t!==0)){ the_results+='<p>Critical Hit Chance: +%' + ((critical_hit_chance.t)*100).toFixed(2) + '</p>';}
+		
+		critical_damage_multiplier.t=(critical_damage_multiplier.b + critical_damage_multiplier.a) * critical_damage_multiplier.i * critical_damage_multiplier.m;	
+		critical_damage_multiplier.t-=critical_damage_multiplier.b;
+		if((critical_damage_multiplier.t!==0)){ the_results+='<p>Critical Damage Multiplier: +%' + ((critical_damage_multiplier.t)*100).toFixed(2) + '</p>';} 		   
 
   the_text_area.innerHTML = the_results;
   
@@ -4427,7 +4436,16 @@
 					
         }
   
+ function search()
+ {
+ 
   
+    ctx_lines.clearRect(0, 0, canvas.width, canvas.height);
+	ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);
+	ctx_search.clearRect(0, 0, canvas.width, canvas.height);
+   nodes.forEach(drawEverything);
+ 
+ }
   
   
   </script>
