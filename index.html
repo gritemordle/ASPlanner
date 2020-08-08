@@ -208,97 +208,9 @@ this.noise = function(x, y, z) {
 	 
 	ctx_tooltip.font = 'normal ' + ts.toString() + 'pt sans-serif';
   
-  var player = { 
-	perk_points: 33,
-	perk_effectiveness: 0,
-	perk_experience: 0,
-	amulet_enchantments: 0,
-	reach_add: 0,
-	reach: 0,
-	movement_speed: 0,
-	dodge: 0,
-	elemental_resistances: 0,
-	armor_add: 0,
-	armor_toughness_add: 0,
-	armor: 0,
-	skill_bastion_of_flesh: 0,
-	reflection: 0,
-	skill_phoenix_blessing: 0,
-	skill_diamond_skin: 0,
-	runic_shielding_add: 0,
-	runic_shielding: 0,
-	skill_vis_innoculation: 0,	
-	potion_effect_duration: 0,	
-	skill_unwavering: 0,
-	skill_body_blocking: 0,	
-	critical_hit_chance: 0,
-	melee_damage: 0,
-	skill_culling_strike: 0,
-	skill_bleeding: 0,
-	bleed_duration: 0,
-	attack_speed_add: 0,
-	attack_speed: 0,	
-	projectile_damage: 0,
-	projectile_speed: 0,
-	skill_blunt_bolts: 0,
-	skill_long_shot: 0,		
-	mining_speed_add: 0,
-	mining_speed: 0,
-	maximum_life_add: 0,
-	maximum_life: 0,
-	critical_damage_multiplier: 0,	
-	swimming_speed: 0,	
-	skill_bigger_stomach: 0,	
-	skill_miners_delight: 0,	
-	skill_sigularity: 0,
-	skill_spectral_wings: 0,
-	skill_additional_fins: 0,
-	skill_trash_to_treasure: 0,
-	skill_spatial_manipulation: 0,
-	skill_spreading_growth: 0,
-	skill_hikin_boots: 0,
-	skill_cleansing: 0,
-	skill_stone_enrichment: 0,
-	skill_mending: 0,
-	skill_different_angles: 0,
-	skill_breaking_aim: 0,
-	skill_last_breath: 0,
-	skill_lightning_arc: 0,
-	lightning_arc_chains: 0,
-	skill_cursed_touch: 0,
-	skill_rampage: 0,	
-	life_leech: 0,	
-	sweeping_edge: 0,	
-	skill_chained_mining: 0,
-	chained_mining_length: 0,
-	chained_mining_chance: 0,
-	chained_mining_additional: 0,
-	fortune: 0,
-	life_recovery: 0,
-	gem_socket: 0,
-	epiphany: 0,
-	focus_perk_effect_unsealed: 0,
-	focus_perk_effect_allocated: 0,
-	focus_perk_unspent: 0,
-	focus_perk_xp_to_effect: 0,	
-	perk_effectiveness_more: 1,
-	attack_speed_more: 1,
-	mining_speed_more: 1,
-	armor_more: 1,
-	elemental_resistances_more: 1,
-	perk_experience_more: 1,
-	projectile_speed_more: 1,
-	melee_damage_more: 1,
-	maximum_life_more: 0,
-	projectile_damage_more: 1,
-	critical_hit_chance_add: 0,
-	dodge_add: 0,
-	armor_add: 0,
-	armor_toughness_add: 0,
-    skill_dislocated_reflection: 0
-	};
-	
-	
+  
+
+
 	
 	
   var nodes = new Array();
@@ -626,129 +538,7 @@ this.noise = function(x, y, z) {
   }, false);
   
 
-  function changePlayer(this_node,fctr)
-  {
   
-	if(!!this_node.perk_effectiveness){player.perk_effectiveness+=this_node.perk_effectiveness*fctr;}
-	if(!!this_node.perk_experience){player.perk_experience+=this_node.perk_experience*fctr;}
-	if(!!this_node.amulet_enchantments){player.amulet_enchantments+=this_node.amulet_enchantments*fctr;}
-	if(!!this_node.reach_add){player.reach_add+=this_node.reach_add*fctr;}
-	if(!!this_node.reach){player.reach+=this_node.reach*fctr;}
-	if(!!this_node.movement_speed){player.movement_speed+=this_node.movement_speed*fctr;}
-	if(!!this_node.dodge){player.dodge+=this_node.dodge*fctr;}
-	if(!!this_node.elemental_resistances){player.elemental_resistances+=this_node.elemental_resistances*fctr;}
-	if(!!this_node.armor_add){player.armor_add+=this_node.armor_add*fctr;}
-	if(!!this_node.armor_toughness_add){player.armor_toughness_add+=this_node.armor_toughness_add*fctr;}
-	if(!!this_node.armor){player.armor+=this_node.armor*fctr;}
-	if(!!this_node.skill_bastion_of_flesh){player.skill_bastion_of_flesh+=this_node.skill_bastion_of_flesh*fctr;}
-	if(!!this_node.reflection){player.reflection+=this_node.reflection*fctr;}
-	if(!!this_node.skill_phoenix_blessing){player.skill_phoenix_blessing+=this_node.skill_phoenix_blessing*fctr;}
-	if(!!this_node.skill_diamond_skin){player.skill_diamond_skin+=this_node.skill_diamond_skin*fctr;}
-	if(!!this_node.runic_shielding_add){player.runic_shielding_add+=this_node.runic_shielding_add*fctr;}
-	if(!!this_node.runic_shielding){player.runic_shielding+=this_node.runic_shielding*fctr;}
-	if(!!this_node.skill_vis_innoculation){player.skill_vis_innoculation+=this_node.skill_vis_innoculation*fctr;}
-	if(!!this_node.potion_effect_duration){player.potion_effect_duration+=this_node.potion_effect_duration*fctr;}
-	if(!!this_node.skill_unwavering){player.skill_unwavering+=this_node.skill_unwavering*fctr;}
-	if(!!this_node.skill_body_blocking){player.skill_body_blocking+=this_node.skill_body_blocking*fctr;}
-	if(!!this_node.critical_hit_chance){player.critical_hit_chance+=this_node.critical_hit_chance*fctr;}
-
-	if(!!this_node.skill_culling_strike){player.skill_culling_strike+=this_node.skill_culling_strike*fctr;}
-	if(!!this_node.skill_bleeding){player.skill_bleeding+=this_node.skill_bleeding*fctr;}
-	if(!!this_node.bleed_duration){player.bleed_duration+=this_node.bleed_duration*fctr;}
-	if(!!this_node.attack_speed_add){player.attack_speed_add+=this_node.attack_speed_add*fctr;}
-	if(!!this_node.attack_speed){player.attack_speed+=this_node.attack_speed*fctr;}
-	if(!!this_node.projectile_damage){player.projectile_damage+=this_node.projectile_damage*fctr;}
-	if(!!this_node.projectile_speed){player.projectile_speed+=this_node.projectile_speed*fctr;}
-	if(!!this_node.skill_blunt_bolts){player.skill_blunt_bolts+=this_node.skill_blunt_bolts*fctr;}
-	if(!!this_node.skill_long_shot){player.skill_long_shot+=this_node.skill_long_shot*fctr;}
-	if(!!this_node.mining_speed_add){player.mining_speed_add+=this_node.mining_speed_add*fctr;}
-	if(!!this_node.mining_speed){player.mining_speed+=this_node.mining_speed*fctr;}
-	if(!!this_node.maximum_life_add){player.maximum_life_add+=this_node.maximum_life_add*fctr;}
-	if(!!this_node.maximum_life){player.maximum_life+=this_node.maximum_life*fctr;}
-	if(!!this_node.critical_damage_multiplier){player.critical_damage_multiplier+=this_node.critical_damage_multiplier*fctr;}
-	if(!!this_node.swimming_speed){player.swimming_speed+=this_node.swimming_speed*fctr;}
-	if(!!this_node.skill_bigger_stomach){player.skill_bigger_stomach+=this_node.skill_bigger_stomach*fctr;}
-	if(!!this_node.skill_miners_delight){player.skill_miners_delight+=this_node.skill_miners_delight*fctr;}
-	if(!!this_node.skill_sigularity){player.skill_sigularity+=this_node.skill_sigularity*fctr;}
-	if(!!this_node.skill_spectral_wings){player.skill_spectral_wings+=this_node.skill_spectral_wings*fctr;}
-	if(!!this_node.skill_additional_fins){player.skill_additional_fins+=this_node.skill_additional_fins*fctr;}
-	if(!!this_node.skill_trash_to_treasure){player.skill_trash_to_treasure+=this_node.skill_trash_to_treasure*fctr;}
-	if(!!this_node.skill_spatial_manipulation){player.skill_spatial_manipulation+=this_node.skill_spatial_manipulation*fctr;}
-	if(!!this_node.skill_spreading_growth){player.skill_spreading_growth+=this_node.skill_spreading_growth*fctr;}
-	if(!!this_node.skill_hikin_boots){player.skill_hikin_boots+=this_node.skill_hikin_boots*fctr;}
-	if(!!this_node.skill_cleansing){player.skill_cleansing+=this_node.skill_cleansing*fctr;}
-	if(!!this_node.skill_stone_enrichment){player.skill_stone_enrichment+=this_node.skill_stone_enrichment*fctr;}
-	if(!!this_node.skill_mending){player.skill_mending+=this_node.skill_mending*fctr;}
-	if(!!this_node.skill_different_angles){player.skill_different_angles+=this_node.skill_different_angles*fctr;}
-	if(!!this_node.skill_breaking_aim){player.skill_breaking_aim+=this_node.skill_breaking_aim*fctr;}
-	if(!!this_node.skill_last_breath){player.skill_last_breath+=this_node.skill_last_breath*fctr;}
-	if(!!this_node.skill_lightning_arc){player.skill_lightning_arc+=this_node.skill_lightning_arc*fctr;}
-	if(!!this_node.lightning_arc_chains){player.lightning_arc_chains+=this_node.lightning_arc_chains*fctr;}
-	if(!!this_node.skill_cursed_touch){player.skill_cursed_touch+=this_node.skill_cursed_touch*fctr;}
-	if(!!this_node.skill_rampage){player.skill_rampage+=this_node.skill_rampage*fctr;}
-	if(!!this_node.life_leech){player.life_leech+=this_node.life_leech*fctr;}
-	if(!!this_node.sweeping_edge){player.sweeping_edge+=this_node.sweeping_edge*fctr;}
-	if(!!this_node.skill_chained_mining){player.skill_chained_mining+=this_node.skill_chained_mining*fctr;}
-	if(!!this_node.chained_mining_length){player.chained_mining_length+=this_node.chained_mining_length*fctr;}
-	if(!!this_node.chained_mining_chance){player.chained_mining_chance+=this_node.chained_mining_chance*fctr;}
-	if(!!this_node.chained_mining_additional){player.chained_mining_additional+=this_node.chained_mining_additional*fctr;}
-	if(!!this_node.fortune){player.fortune+=this_node.fortune*fctr;}
-	if(!!this_node.life_recovery){player.life_recovery+=this_node.life_recovery*fctr;}
-	if(!!this_node.gem_socket){player.gem_socket+=this_node.gem_socket*fctr;}
-	if(!!this_node.epiphany){player.epiphany+=this_node.epiphany*fctr;}
-	if(!!this_node.focus_perk_effect_unsealed){player.focus_perk_effect_unsealed+=this_node.focus_perk_effect_unsealed*fctr;}
-	if(!!this_node.focus_perk_effect_allocated){player.focus_perk_effect_allocated+=this_node.focus_perk_effect_allocated*fctr;}
-	if(!!this_node.focus_perk_unspent){player.focus_perk_unspent+=this_node.focus_perk_unspent*fctr;}
-	if(!!this_node.focus_perk_xp_to_effect){player.focus_perk_xp_to_effect+=this_node.focus_perk_xp_to_effect*fctr;}
-  
-	if(!!this_node.attack_speed_more){player.attack_speed_more+=this_node.attack_speed_more*fctr;}
-	if(!!this_node.mining_speed_more){player.mining_speed_more+=this_node.mining_speed_more*fctr;}
-	if(!!this_node.armor_more){player.armor_more+=this_node.armor_more*fctr;}
-	if(!!this_node.elemental_resistances_more){player.elemental_resistances_more+=this_node.elemental_resistances_more*fctr;}
-	if(!!this_node.perk_experience_more){player.perk_experience_more+=this_node.perk_experience_more*fctr;}
-	if(!!this_node.projectile_speed_more){player.projectile_speed_more+=this_node.projectile_speed_more*fctr;}
-	
- 
-	
-	if(!!this_node.critical_hit_chance_add){player.critical_hit_chance_add+=this_node.critical_hit_chance_add*fctr;}
-	if(!!this_node.dodge_add){player.dodge_add+=this_node.dodge_add*fctr;}
-	if(!!this_node.skill_dislocated_reflection){player.skill_dislocated_reflection+=this_node.skill_dislocated_reflection*fctr;}
-	
- 
-
-	
-	if(!!this_node.maximum_life_more){player.maximum_life_more+=this_node.maximum_life_more*fctr;}
-	
-	
-	if(!!this_node.projectile_damage_more){
-	if(fctr==1)
-		{ player.projectile_damage_more*=((this_node.projectile_damage_more/100)+1); }
-	else
-		{ player.projectile_damage_more/=((this_node.projectile_damage_more/100)+1); }
-	}
-  
-	if(!!this_node.melee_damage_more){
-	if(fctr==1)
-		{ player.melee_damage_more*=((this_node.melee_damage_more/100)+1); }
-	else
-		{ player.melee_damage_more/=((this_node.melee_damage_more/100)+1); }
-	}  
-	if(!!this_node.melee_damage){player.melee_damage+=(this_node.melee_damage/100)*fctr;}
-	
-	
-	
-	
-	if(!!this_node.perk_effectiveness_more){
-	if(fctr==1)
-		{ player.perk_effectiveness_more*=((this_node.perk_effectiveness_more/100)+1); }
-	else
-		{ player.perk_effectiveness_more/=((this_node.perk_effectiveness_more/100)+1); }
-	}  	
-
-
- 
-  
-  }
   
   
   function updateResults()
@@ -759,11 +549,15 @@ this.noise = function(x, y, z) {
 	   
 	   
 	   
-	    var perk_effectiveness={a:0,i:1,m:1,t:0,b:1};
-		var melee_damage={a:0,i:1,m:1,t:0,b:1};
-		var projectile_damage={a:0,i:1,m:1,t:0,b:1};
-		var critical_hit_chance={a:0,i:1,m:1,t:0,b:0};		
-		var critical_damage_multiplier={a:0,i:1,m:1,t:0,b:1};	
+	    var perk_effectiveness={a:0,i:1,m:1,t:0,b:1,fs:0};
+	    var perk_experience={a:0,i:1,m:1,t:0,b:1,fs:0};
+		var melee_damage={a:0,i:1,m:1,t:0,b:1,fs:0};
+		var projectile_damage={a:0,i:1,m:1,t:0,b:1,fs:0};
+		var critical_hit_chance={a:0,i:1,m:1,t:0,b:0,fs:0};		
+		var critical_damage_multiplier={a:0,i:1,m:1,t:0,b:1,fs:0};	
+		var projectile_speed={a:0,i:1,m:1,t:0,b:1,fs:0};	
+		var reach={a:0,i:1,m:1,t:0,b:5,fs:1};	
+		var gem_socket={a:0,i:1,m:1,t:0,b:0,fs:1};	
 
 		
 		var i;
@@ -800,6 +594,12 @@ this.noise = function(x, y, z) {
 			if(nodes[i].stat=='on')
 			{
 
+			perk_experience=nodeCheck(
+				nodes[i].perk_experience_add,
+				nodes[i].perk_experience,
+				nodes[i].perk_experience_more,
+				perk_experience,perk_effectiveness.t);
+			
 			melee_damage=nodeCheck(
 				nodes[i].melee_damage_add,
 				nodes[i].melee_damage,
@@ -823,12 +623,34 @@ this.noise = function(x, y, z) {
 				nodes[i].critical_damage_multiplier,
 				nodes[i].critical_damage_multiplier_more,
 				critical_damage_multiplier,perk_effectiveness.t);	
+				
+			projectile_speed=nodeCheck(
+				nodes[i].projectile_speed_add,
+				nodes[i].projectile_speed,
+				nodes[i].projectile_speed_more,
+				projectile_speed,perk_effectiveness.t);	
+				
+			reach=nodeCheck(
+				nodes[i].reach_add,
+				nodes[i].reach,
+				nodes[i].reach_more,
+				reach,perk_effectiveness.t);	
+				
+			gem_socket=nodeCheck(
+				nodes[i].gem_socket_add,
+				nodes[i].gem_socket,
+				nodes[i].gem_socket_more,
+				gem_socket,perk_effectiveness.t);	
 			
 			}
 		
 		
 		
 		}
+	
+		perk_experience.t=(perk_experience.b + perk_experience.a) * perk_experience.i * perk_experience.m;
+		perk_experience.t-=perk_experience.b;
+		if(perk_experience.t!==0){ the_results+='<p>Perk Experience: +%' + ((perk_experience.t)*100).toFixed(2) + '</p>'; }
 	
 		melee_damage.t=(melee_damage.b + melee_damage.a) * melee_damage.i * melee_damage.m;
 		melee_damage.t-=melee_damage.b;
@@ -838,6 +660,10 @@ this.noise = function(x, y, z) {
 		projectile_damage.t-=projectile_damage.b;
 		if(projectile_damage.t!==0){ the_results+='<p>Projectile Damage: +%' + ((projectile_damage.t)*100).toFixed(2) + '</p>';} 	
 	
+		projectile_speed.t=(projectile_speed.b + projectile_speed.a) * projectile_speed.i * projectile_speed.m;	
+		projectile_speed.t-=projectile_speed.b;
+		if((projectile_speed.t!==0)){ the_results+='<p>Projectile Speed: +%' + ((projectile_speed.t)*100).toFixed(2) + '</p>';} 
+	
 		critical_hit_chance.t=(critical_hit_chance.b + critical_hit_chance.a) * critical_hit_chance.i * critical_hit_chance.m;	
 		critical_hit_chance.t-=critical_hit_chance.b;
 		if((critical_hit_chance.t!==0)){ the_results+='<p>Critical Hit Chance: +%' + ((critical_hit_chance.t)*100).toFixed(2) + '</p>';}
@@ -846,6 +672,14 @@ this.noise = function(x, y, z) {
 		critical_damage_multiplier.t-=critical_damage_multiplier.b;
 		if((critical_damage_multiplier.t!==0)){ the_results+='<p>Critical Damage Multiplier: +%' + ((critical_damage_multiplier.t)*100).toFixed(2) + '</p>';} 		   
 
+		reach.t=(reach.b + reach.a) * reach.i * reach.m;	
+		reach.t-=reach.b;
+		if((reach.t!==0)){ the_results+='<p>Reach: +' + ((reach.t)).toFixed(2) + '</p>';} 	
+
+		gem_socket.t=(gem_socket.b + gem_socket.a) * gem_socket.i * gem_socket.m;	
+		gem_socket.t-=gem_socket.b;
+		if((gem_socket.t!==0)){ the_results+='<p>Gem Sockets: +' + ((gem_socket.t)).toFixed(2) + '</p>';} 		
+		
   the_text_area.innerHTML = the_results;
   
   }
@@ -881,7 +715,8 @@ this.noise = function(x, y, z) {
   
   			if(!!na)
 			{
-				s.a+=((na/100) * e);
+				if(s.fs==0){s.a+=((na/100) * e);}
+				else {s.a+=((na) * e);}
 			}
 		
 			if(!!ni)
@@ -3251,7 +3086,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Gem Socket','Empty Gem Socket'],
 				rarity: 0,
 				n:[nodes[207]],
-				gem_socket: 1
+				gem_socket_add: 1
 					}; 
 
 			nodes[209] = { 
@@ -3650,7 +3485,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Gem Socket','Empty Gem Socket'],
 				rarity: 1,
 				n:[nodes[243]],
-				gem_socket: 1
+				gem_socket_add: 1
 					}; 
 					
 			nodes[245] = { 
@@ -4060,7 +3895,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Gem Socket','Empty Gem Socket'],
 				rarity: 0,
 				n:[nodes[280]],
-				gem_socket: 1
+				gem_socket_add: 1
 					}; 	
 	
 			nodes[282] = { 
@@ -4431,7 +4266,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Gem Socket','Empty Gem Socket'],
 				rarity: 0,
 				n:[nodes[313]],
-				gem_socket: 1
+				gem_socket_add: 1
 					};
 
 			nodes[315] = { 
