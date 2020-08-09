@@ -588,7 +588,7 @@ this.noise = function(x, y, z) {
 		var successive_chains={a:0,i:1,m:1,t:0,b:0,fs:0};		
 		var chained_mining_length={a:0,i:1,m:1,t:0,b:0,fs:1};
 		
-
+		var amulet_enchantments={a:0,i:1,m:1,t:0,b:1,fs:0};
 				
 		var skill_blunt_bolts=0;
 		var skill_long_shot=0;
@@ -645,6 +645,30 @@ this.noise = function(x, y, z) {
 		
 		var i;
 		
+		var on_count=0;
+		
+		//find active focus and get allocated count
+		for(i=0;i<nodes.length;i++)
+		{
+		
+			if(nodes[i].stat=='on')
+			{
+						on_count++;
+						
+		
+			focus_alcara=skillCheck(nodes[i].focus_alcara,focus_alcara);
+			focus_gelu=skillCheck(nodes[i].focus_gelu,focus_gelu);	
+			focus_ulteria=skillCheck(nodes[i].focus_ulteria,focus_ulteria);
+			focus_vorux=skillCheck(nodes[i].focus_vorux,focus_vorux);		
+		
+			}
+			
+					
+		
+		}
+		
+		
+		
 		
 		//First calculate all effectiveness nodes
 		for(i=0;i<nodes.length;i++)
@@ -652,36 +676,94 @@ this.noise = function(x, y, z) {
 		
 			if(nodes[i].stat=='on')
 			{
-			
+					
+						
 			perk_effectiveness=nodeCheckPE(
 				nodes[i].perk_effectiveness_add,
 				nodes[i].perk_effectiveness,
 				nodes[i].perk_effectiveness_more,
 				perk_effectiveness);
 		
+			if(focus_alcara==1)
+				{
+			
+				perk_effectiveness=nodeCheckPE(
+					nodes[i].perk_experience_add/2,
+					nodes[i].perk_experience/2,
+					nodes[i].perk_experience_more/2,
+					perk_effectiveness);				
+			
+				}	
+		
+	
+		
 			}
+			
+					
 		
 		}
-				
-		perk_effectiveness.t=perk_effectiveness.i*perk_effectiveness.m;
-				
-		if(perk_effectiveness.t!==1){ the_results+='<p>Effectiveness of Perks: +%' + ((perk_effectiveness.t-1)*100).toFixed(2) + '</p>'; } 
+	
+
+		perk_effectiveness.t=(perk_effectiveness.b + perk_effectiveness.a) * perk_effectiveness.i * perk_effectiveness.m;				
+		//perk_effectiveness.t-=perk_effectiveness.b;
 		
-		
-	///////////////////////////////////////////////////	
-		
-		//Now calculate the other nodes
+		//calculate all perk experience nodes
 		for(i=0;i<nodes.length;i++)
 		{
 		
 			if(nodes[i].stat=='on')
 			{
-
+			
 			perk_experience=nodeCheck(
 				nodes[i].perk_experience_add,
 				nodes[i].perk_experience,
 				nodes[i].perk_experience_more,
 				perk_experience,perk_effectiveness.t);
+		
+			}
+		
+		}		
+		
+		
+		if(focus_ulteria==1)
+		{		
+				//for(var pps=1;pps<=perk_points;pps++)
+					//{   
+					perk_experience.m*=1+(0.05*perk_effectiveness.t*perk_points);   
+					//}
+		
+			 		
+		}			
+		
+		perk_experience.t=(perk_experience.b + perk_experience.a) * perk_experience.i * perk_experience.m;
+		perk_experience.t-=perk_experience.b;				
+			
+		if(focus_vorux==1){ perk_effectiveness.i+=(on_count/100); perk_experience.t=0; perk_experience.a=0; perk_experience.i=0; perk_experience.m=0; }
+	
+		if(focus_alcara==1)
+			{ 	
+			perk_experience.t=0; perk_experience.a=0; perk_experience.i=0; perk_experience.m=0;
+			}		
+
+			
+		
+			
+			
+		perk_effectiveness.t=(perk_effectiveness.b + perk_effectiveness.a) * perk_effectiveness.i * perk_effectiveness.m;				
+				
+		
+
+		
+		
+	///////////////////////////////////////////////////	
+		
+		//Now calculate the other nodes		
+		for(i=0;i<nodes.length;i++)
+		{
+		
+			if(nodes[i].stat=='on')
+			{
+		
 			
 			melee_damage=nodeCheck(
 				nodes[i].melee_damage_add,
@@ -813,9 +895,15 @@ this.noise = function(x, y, z) {
 				nodes[i].successive_chains_add,
 				nodes[i].successive_chains,
 				nodes[i].successive_chains_more,
-				successive_chains,perk_effectiveness.t);					
+				successive_chains,perk_effectiveness.t);	
+
+			amulet_enchantments=nodeCheck(
+				nodes[i].amulet_enchantments_add,
+				nodes[i].amulet_enchantments,
+				nodes[i].amulet_enchantments_more,
+				amulet_enchantments,perk_effectiveness.t);					
 			
-		
+	
 			
 			skill_blunt_bolts=skillCheck(nodes[i].skill_blunt_bolts,skill_blunt_bolts);
 			skill_long_shot=skillCheck(nodes[i].skill_long_shot,skill_long_shot);
@@ -872,10 +960,7 @@ this.noise = function(x, y, z) {
 			skill_additional_fins=skillCheck(nodes[i].skill_additional_fins,skill_additional_fins);	
 			skill_bastion_of_flesh=skillCheck(nodes[i].skill_bastion_of_flesh,skill_bastion_of_flesh);	
 	
-			focus_alcara=skillCheck(nodes[i].focus_alcara,focus_alcara);
-			focus_gelu=skillCheck(nodes[i].focus_gelu,focus_gelu);	
-			focus_ulteria=skillCheck(nodes[i].focus_ulteria,focus_ulteria);
-			focus_vorux=skillCheck(nodes[i].focus_vorux,focus_vorux);	
+	
 			
 			}
 		
@@ -884,12 +969,21 @@ this.noise = function(x, y, z) {
 		}
 		
 		
+		
+		
+
+		
 		if(skill_additional_fins==1)
-		{ swimming_speed.i+=((movement_speed.i-1)/2); }
+		{ 
+			swimming_speed.i+=((movement_speed.i-1)/2); 
+			swimming_speed.a+=((movement_speed.a)/2); 
+			swimming_speed.m*=(((movement_speed.m-1)/2)+1); 
+			
+			}
 		
 		if(skill_bastion_of_flesh==1)
 		{ 	
-			//maximum_life.a+=armor.a;
+		
 			maximum_life.i+=(armor.i-1); 
 			maximum_life.a+=(armor.a);
 			maximum_life.m*=(armor.m);
@@ -907,10 +1001,15 @@ this.noise = function(x, y, z) {
 
 			}
 
+		perk_effectiveness.t-=perk_effectiveness.b;
+		if(perk_effectiveness.t!==0){ the_results+='<p>Effectiveness of Perks: ' + signit(((perk_effectiveness.t)*100).toFixed(2)) + '%</p>'; } 	
 		
-		perk_experience.t=(perk_experience.b + perk_experience.a) * perk_experience.i * perk_experience.m;
-		perk_experience.t-=perk_experience.b;
-		if(perk_experience.t!==0){ the_results+='<p>Perk Experience: +%' + ((perk_experience.t)*100).toFixed(2) + '</p>'; }
+		if(perk_experience.t!==0){ the_results+='<p>Perk Experience: ' + signit(((perk_experience.t)*100).toFixed(2)) + '%</p>'; }
+		
+		//the_results+='<p>Perk Experiencet: ' + signit(((perk_experience.t)*100).toFixed(2)) + '%</p>';
+			//the_results+='<p>Perk Experiencea: ' + signit(((perk_experience.a)*100).toFixed(2)) + '%</p>';
+				//the_results+='<p>Perk Experiencei: ' + signit(((perk_experience.i)*100).toFixed(2)) + '%</p>';
+					//the_results+='<p>Perk Experiencem: ' + signit(((perk_experience.m)*100).toFixed(2)) + '%</p>';
 	
 		melee_damage.t=(melee_damage.b + melee_damage.a) * melee_damage.i * melee_damage.m;
 		melee_damage.t-=melee_damage.b;
@@ -918,7 +1017,7 @@ this.noise = function(x, y, z) {
 	
 		projectile_damage.t=(projectile_damage.b + projectile_damage.a) * projectile_damage.i*projectile_damage.m;	
 		projectile_damage.t-=projectile_damage.b;
-		if(projectile_damage.t!==0){ the_results+='<p>Projectile Damage: +%' + ((projectile_damage.t)*100).toFixed(2) + '</p>';} 	
+		if(projectile_damage.t!==0){ the_results+='<p>Projectile Damage: ' + signit(((projectile_damage.t)*100).toFixed(2)) + '%</p>';} 	
 		
 		attack_speed.t=(attack_speed.b + attack_speed.a) * attack_speed.i * attack_speed.m;
 		attack_speed.t-=attack_speed.b;
@@ -994,6 +1093,10 @@ this.noise = function(x, y, z) {
 		potion_effect_duration.t-=potion_effect_duration.b;
 		if(potion_effect_duration.t!==0){ the_results+='<p>PotionEffect Duration: +%' + ((potion_effect_duration.t)*100).toFixed(2) + '</p>'; }
 		
+		amulet_enchantments.t=(amulet_enchantments.b + amulet_enchantments.a) * amulet_enchantments.i * amulet_enchantments.m;
+		amulet_enchantments.t-=amulet_enchantments.b;
+		if(amulet_enchantments.t!==0){ the_results+='<p>Amulet Enchantments: +%' + ((amulet_enchantments.t)*100).toFixed(2) + '</p>'; }
+		
 		gem_socket.t=(gem_socket.b + gem_socket.a) * gem_socket.i * gem_socket.m;	
 		gem_socket.t-=gem_socket.b;
 		if((gem_socket.t!==0)){ the_results+='<p>Gem Sockets: +' + ((gem_socket.t)).toFixed(2) + '</p>';} 		
@@ -1031,7 +1134,7 @@ this.noise = function(x, y, z) {
 
  		successive_chains.t=(successive_chains.b + successive_chains.a) * successive_chains.i * successive_chains.m;	
 		successive_chains.t-=successive_chains.b;
-		if((successive_chains.t!==0)){ the_results+='<p>Successive Chains Chance: +%' + ((successive_chains.t)*100).toFixed(2) + '</p>';} 
+		if((successive_chains.t!==0)){ the_results+='<p>Successive Chains Chance: ' + signit(((successive_chains.t)*100).toFixed(2)) + '%</p>';} 
 
 		
 		if(skill_mending==1){ the_results+='<p style="font-weight:bold; color: orange;">Mending</p>';} 	
@@ -1045,7 +1148,7 @@ this.noise = function(x, y, z) {
 		if(skill_bleeding==1){ the_results+='<p style="font-weight:bold; color: orange;">Bleeding</p>';} 	
 		bleed_duration.t=(bleed_duration.b + bleed_duration.a) * bleed_duration.i * bleed_duration.m;	
 		bleed_duration.t-=bleed_duration.b;
-		if((bleed_duration.t!==0)){ the_results+='<p>Bleed Duration: +%' + ((bleed_duration.t)*100).toFixed(2) + '</p>';}		
+		if((bleed_duration.t!==0)){ the_results+='<p>Bleed Duration: ' + signit(((bleed_duration.t)*100).toFixed(2)) + '%</p>';}		
 		
 	
 
@@ -1082,33 +1185,40 @@ this.noise = function(x, y, z) {
   }
   
   
+  function signit(n)
+  {
   
+	return (n<0?'-':'+') + Math.abs(n);
   
+  }
+  
+
+ 
   function nodeCheckPE(na,ni,nm,s)
   {
   
   			if(!!na)
 			{
-				s.a+=((na/100));
+				if(s.fs==0){s.a+=((na/100) );}
+				else {s.a+=((na) );}
 			}
 		
 			if(!!ni)
 			{
-				s.i+=((ni/100));
+				s.i+=((ni/100) );
 			}
 			
 			if(!!nm)
 			{
 				if(nm>0)
-				{s.m*=1+((nm/100));}
+				{s.m*=1+((nm/100) );}
 				else
-				{s.m*=1-((Math.abs(nm)/100));}
+				{s.m*=1-((Math.abs(nm)/100) );}
 			}
 			
 			return s;
    
-  }
-  
+  } 
   
   function skillCheck(skill, s)
   {
