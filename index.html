@@ -571,10 +571,71 @@ this.noise = function(x, y, z) {
 		var projectile_speed={a:0,i:1,m:1,t:0,b:1,fs:0};	
 		var reach={a:0,i:1,m:1,t:0,b:5,fs:1};	
 		var gem_socket={a:0,i:1,m:1,t:0,b:0,fs:1};	
-
+		var lightning_arc_chains={a:0,i:1,m:1,t:0,b:0,fs:1};
+		var life_leech={a:0,i:1,m:1,t:0,b:0,fs:0};	
+		var maximum_life={a:0,i:1,m:1,t:0,b:20,fs:1};		
+		var potion_effect_duration={a:0,i:1,m:1,t:0,b:1,fs:0};		
+		var dodge={a:0,i:1,m:1,t:0,b:0,fs:0};				
+		var mining_speed={a:0,i:1,m:1,t:0,b:1,fs:1};
+		var life_recovery={a:0,i:1,m:1,t:0,b:1,fs:0};
+		var armor={a:0,i:1,m:1,t:0,b:0,fs:1};
+		var armor_toughness={a:0,i:1,m:1,t:0,b:0,fs:1};
+		var elemental_resistances={a:0,i:1,m:1,t:0,b:1,fs:0};
+		var movement_speed={a:0,i:1,m:1,t:0,b:0.1,fs:1};
+		var swimming_speed={a:0,i:1,m:1,t:0,b:1,fs:1};
 		
+		var chained_mining_chance={a:0,i:1,m:1,t:0,b:0,fs:0};
+		var successive_chains={a:0,i:1,m:1,t:0,b:0,fs:0};		
+		var chained_mining_length={a:0,i:1,m:1,t:0,b:0,fs:1};
+		
+
+				
 		var skill_blunt_bolts=0;
 		var skill_long_shot=0;
+		var skill_cursed_touch=0;
+		
+		var skill_lightning_arc=0;
+		
+		
+		var skill_last_breath=0;
+		var skill_rampage=0;
+		var skill_area_of_effect=0;
+		
+		var skill_breaking_aim=0;
+		var skill_different_angles=0;
+		var skill_chained_mining=0;
+		var skill_mending=0;
+		var skill_consistent_luck=0;
+		
+		var skill_vis_inoculation=0;
+		var runic_shielding={a:0,i:1,m:1,t:0,b:0,fs:1};		
+		
+		var skill_bleeding=0;
+		var bleed_duration={a:0,i:1,m:1,t:0,b:1,fs:0};
+		
+		var skill_cleansing=0;
+		var skill_stone_enrichment=0;		
+		var skill_spreading_growth=0;
+		var skill_hiking_boots=0;	
+		var skill_spatial_manipulation=0;
+		var skill_trash_to_treasure=0;	
+		var skill_bigger_stomach=0;
+		var skill_miners_delight=0;
+		var skill_diamond_skin=0;
+		var skill_phoenix_blessing=0;
+		var skill_body_blocking=0;
+		var skill_unwavering=0;
+		var skill_culling_strike=0;
+		
+		
+		
+		
+		
+		//////////special cases
+		var skill_additional_fins=0;
+		var skill_bastion_of_flesh=0;		
+		///////////////////////////
+		
 		
 		var focus_alcara=0;
 		var focus_gelu=0;
@@ -669,10 +730,146 @@ this.noise = function(x, y, z) {
 				nodes[i].gem_socket,
 				nodes[i].gem_socket_more,
 				gem_socket,perk_effectiveness.t);	
+				
+			mining_speed=nodeCheck(
+				nodes[i].mining_speed_add,
+				nodes[i].mining_speed,
+				nodes[i].mining_speed_more,
+				mining_speed,perk_effectiveness.t);
+				
+			life_leech=nodeCheck(
+				nodes[i].life_leech_add,
+				nodes[i].life_leech,
+				nodes[i].life_leech_more,
+				life_leech,perk_effectiveness.t);
+				
+			maximum_life=nodeCheck(
+				nodes[i].maximum_life_add,
+				nodes[i].maximum_life,
+				nodes[i].maximum_life_more,
+				maximum_life,perk_effectiveness.t);
+				
+			potion_effect_duration=nodeCheck(
+				nodes[i].potion_effect_duration_add,
+				nodes[i].potion_effect_duration,
+				nodes[i].potion_effect_duration_more,
+				potion_effect_duration,perk_effectiveness.t);
+				
+			dodge=nodeCheck(
+				nodes[i].dodge_add,
+				nodes[i].dodge,
+				nodes[i].dodge_more,
+				dodge,perk_effectiveness.t);
+
+			life_recovery=nodeCheck(
+				nodes[i].life_recovery_add,
+				nodes[i].life_recovery,
+				nodes[i].life_recovery_more,
+				life_recovery,perk_effectiveness.t);	
+
+			armor=nodeCheck(
+				nodes[i].armor_add,
+				nodes[i].armor,
+				nodes[i].armor_more,
+				armor,perk_effectiveness.t);		
+
+			armor_toughness=nodeCheck(
+				nodes[i].armor_toughness_add,
+				nodes[i].armor_toughness,
+				nodes[i].armor_toughness_more,
+				armor_toughness,perk_effectiveness.t);		
+
+			elemental_resistances=nodeCheck(
+				nodes[i].elemental_resistances_add,
+				nodes[i].elemental_resistances,
+				nodes[i].elemental_resistances_more,
+				elemental_resistances,perk_effectiveness.t);	
+
+			movement_speed=nodeCheck(
+				nodes[i].movement_speed_add,
+				nodes[i].movement_speed,
+				nodes[i].movement_speed_more,
+				movement_speed,perk_effectiveness.t);		
+
+			swimming_speed=nodeCheck(
+				nodes[i].swimming_speed_add,
+				nodes[i].swimming_speed,
+				nodes[i].swimming_speed_more,
+				swimming_speed,perk_effectiveness.t);		
+
+			chained_mining_chance=nodeCheck(
+				nodes[i].chained_mining_chance_add,
+				nodes[i].chained_mining_chance,
+				nodes[i].chained_mining_chance_more,
+				chained_mining_chance,perk_effectiveness.t);	
+
+			chained_mining_length=nodeCheck(
+				nodes[i].chained_mining_length_add,
+				nodes[i].chained_mining_length,
+				nodes[i].chained_mining_length_more,
+				chained_mining_length,perk_effectiveness.t);	
+
+			successive_chains=nodeCheck(
+				nodes[i].successive_chains_add,
+				nodes[i].successive_chains,
+				nodes[i].successive_chains_more,
+				successive_chains,perk_effectiveness.t);					
 			
+		
 			
 			skill_blunt_bolts=skillCheck(nodes[i].skill_blunt_bolts,skill_blunt_bolts);
 			skill_long_shot=skillCheck(nodes[i].skill_long_shot,skill_long_shot);
+
+			skill_cursed_touch=skillCheck(nodes[i].skill_cursed_touch,skill_cursed_touch);
+			skill_lightning_arc=skillCheck(nodes[i].skill_lightning_arc,skill_lightning_arc);
+			
+			lightning_arc_chains=nodeCheck(
+				nodes[i].lightning_arc_chains_add,
+				nodes[i].lightning_arc_chains,
+				nodes[i].lightning_arc_chains_more,
+				lightning_arc_chains,perk_effectiveness.t);	
+			
+			skill_last_breath=skillCheck(nodes[i].skill_last_breath,skill_last_breath);
+			skill_rampage=skillCheck(nodes[i].skill_rampage,skill_rampage);			
+			skill_area_of_effect=skillCheck(nodes[i].skill_area_of_effect,skill_area_of_effect);		
+	
+			skill_different_angles=skillCheck(nodes[i].skill_different_angles,skill_different_angles);	
+			skill_breaking_aim=skillCheck(nodes[i].skill_breaking_aim,skill_breaking_aim);	
+			skill_chained_mining=skillCheck(nodes[i].skill_chained_mining,skill_chained_mining);				
+			skill_mending=skillCheck(nodes[i].skill_mending,skill_mending);	
+			skill_consistent_luck=skillCheck(nodes[i].skill_consistent_luck,skill_consistent_luck);				
+	
+			skill_vis_inoculation=skillCheck(nodes[i].skill_vis_inoculation,skill_vis_inoculation);
+			runic_shielding=nodeCheck(
+				nodes[i].runic_shielding_add,
+				nodes[i].runic_shielding,
+				nodes[i].runic_shielding_more,
+				runic_shielding,perk_effectiveness.t);	
+	
+			skill_bleeding=skillCheck(nodes[i].skill_bleeding,skill_bleeding);	
+			bleed_duration=nodeCheck(
+				nodes[i].bleed_duration_add,
+				nodes[i].bleed_duration,
+				nodes[i].bleed_duration_more,
+				bleed_duration,perk_effectiveness.t);		
+	
+	
+			skill_cleansing=skillCheck(nodes[i].skill_cleansing,skill_cleansing);
+			skill_stone_enrichment=skillCheck(nodes[i].skill_stone_enrichment,skill_stone_enrichment);
+			skill_spreading_growth=skillCheck(nodes[i].skill_spreading_growth,skill_spreading_growth);
+			skill_hiking_boots=skillCheck(nodes[i].skill_hiking_boots,skill_hiking_boots);
+			skill_spatial_manipulation=skillCheck(nodes[i].skill_spatial_manipulation,skill_spatial_manipulation);
+			skill_trash_to_treasure=skillCheck(nodes[i].skill_trash_to_treasure,skill_trash_to_treasure);
+			skill_bigger_stomach=skillCheck(nodes[i].skill_bigger_stomach,skill_bigger_stomach);
+			skill_miners_delight=skillCheck(nodes[i].skill_miners_delight,skill_miners_delight);
+			skill_diamond_skin=skillCheck(nodes[i].skill_diamond_skin,skill_diamond_skin);
+			skill_phoenix_blessing=skillCheck(nodes[i].skill_phoenix_blessing,skill_phoenix_blessing);
+			skill_body_blocking=skillCheck(nodes[i].skill_body_blocking,skill_body_blocking);
+			skill_unwavering=skillCheck(nodes[i].skill_unwavering,skill_unwavering);
+			skill_culling_strike=skillCheck(nodes[i].skill_culling_strike,skill_culling_strike);
+			
+			skill_additional_fins=skillCheck(nodes[i].skill_additional_fins,skill_additional_fins);	
+			skill_bastion_of_flesh=skillCheck(nodes[i].skill_bastion_of_flesh,skill_bastion_of_flesh);	
 	
 			focus_alcara=skillCheck(nodes[i].focus_alcara,focus_alcara);
 			focus_gelu=skillCheck(nodes[i].focus_gelu,focus_gelu);	
@@ -684,7 +881,32 @@ this.noise = function(x, y, z) {
 		
 		
 		}
-	
+		
+		
+		if(skill_additional_fins==1)
+		{ swimming_speed.i+=((movement_speed.i-1)/2); }
+		
+		if(skill_bastion_of_flesh==1)
+		{ 	
+			//maximum_life.a+=armor.a;
+			maximum_life.i+=(armor.i-1); 
+			maximum_life.a+=(armor.a);
+			maximum_life.m*=(armor.m);
+			
+			armor.t=0; 
+			armor.b=0; 
+			armor.i=0; 
+			armor.a=0; 
+			armor.m=0;
+			armor_toughness.t=0; 
+			armor_toughness.b=0; 
+			armor_toughness.i=0; 
+			armor_toughness.a=0; 
+			armor_toughness.m=0;
+
+			}
+
+		
 		perk_experience.t=(perk_experience.b + perk_experience.a) * perk_experience.i * perk_experience.m;
 		perk_experience.t-=perk_experience.b;
 		if(perk_experience.t!==0){ the_results+='<p>Perk Experience: +%' + ((perk_experience.t)*100).toFixed(2) + '</p>'; }
@@ -713,10 +935,64 @@ this.noise = function(x, y, z) {
 		critical_damage_multiplier.t-=critical_damage_multiplier.b;
 		if((critical_damage_multiplier.t!==0)){ the_results+='<p>Critical Damage Multiplier: +%' + ((critical_damage_multiplier.t)*100).toFixed(2) + '</p>';} 		   
 
+		life_leech.t=(life_leech.b + life_leech.a) * life_leech.i * life_leech.m;
+		life_leech.t-=life_leech.b;
+		if(life_leech.t!==0){ the_results+='<p>Life Leech (Limited to 10%): +%' + ((life_leech.t)*100).toFixed(2) + '</p>'; }
+
+		dodge.t=(dodge.b + dodge.a) * dodge.i * dodge.m;
+		dodge.t-=dodge.b;
+		if(dodge.t!==0){ the_results+='<p>Dodge Chance (Limited to 75%): +%' + ((dodge.t)*100).toFixed(2) + '</p>'; }		
+		
+		maximum_life.t=(maximum_life.b + maximum_life.a) * maximum_life.i * maximum_life.m;
+		maximum_life.t-=maximum_life.b;		
+		if(skill_vis_inoculation==1){maximum_life.t=1; maximum_life.b=0;}		
+		if(maximum_life.t!==0){ 
+		
+		the_results+='<p>Maximum Life: ' + ((maximum_life.t)).toFixed(2) + '</p>'; 
+	
+		
+		}	
+
+		life_recovery.t=(life_recovery.b + life_recovery.a) * life_recovery.i * life_recovery.m;
+		life_recovery.t-=life_recovery.b;
+		if(life_recovery.t!==0){ the_results+='<p>Life Recovery: +%' + ((life_recovery.t)*100).toFixed(2) + '</p>'; }		
+		
+		armor.t=(armor.b + armor.a) * armor.i * armor.m;
+		armor.t-=armor.b;
+		if(armor.t!==0){ 
+		the_results+='<p>Armor: ' + ((armor.t)).toFixed(2) + '</p>'; 
+
+		}		
+
+		armor_toughness.t=(armor_toughness.b + armor_toughness.a) * armor_toughness.i * armor_toughness.m;
+		armor_toughness.t-=armor_toughness.b;
+		if(armor_toughness.t!==0){ the_results+='<p>Armor Toughness: ' + ((armor_toughness.t)).toFixed(2) + '</p>'; }	
+
+		elemental_resistances.t=(elemental_resistances.b + elemental_resistances.a) * elemental_resistances.i * elemental_resistances.m;
+		elemental_resistances.t-=elemental_resistances.b;
+		if(elemental_resistances.t!==0){ the_results+='<p>Elemental Resistances (Limited to 60%): +%' + ((elemental_resistances.t)*100).toFixed(2) + '</p>'; }			
+		
+		movement_speed.t=(movement_speed.b + movement_speed.a) * movement_speed.i * movement_speed.m;
+		movement_speed.t-=movement_speed.b;
+		if(movement_speed.t!==0){ the_results+='<p>Movement Speed: +' + ((movement_speed.t)).toFixed(2) + '</p>'; }	
+		
+		swimming_speed.t=(swimming_speed.b + swimming_speed.a) * swimming_speed.i * swimming_speed.m;
+		swimming_speed.t-=swimming_speed.b;
+		if(swimming_speed.t!==0){ the_results+='<p>Swimming Speed: +' + ((swimming_speed.t)).toFixed(2) + '</p>'; }	
+		
+		mining_speed.t=(mining_speed.b + mining_speed.a) * mining_speed.i * mining_speed.m;
+		mining_speed.t-=mining_speed.b;
+		if(mining_speed.t!==0){ the_results+='<p>Mining Speed: +' + ((mining_speed.t)).toFixed(2) + '</p>'; }
+		
+		
 		reach.t=(reach.b + reach.a) * reach.i * reach.m;	
 		reach.t-=reach.b;
 		if((reach.t!==0)){ the_results+='<p>Reach: +' + ((reach.t)).toFixed(2) + '</p>';} 	
 
+		potion_effect_duration.t=(potion_effect_duration.b + potion_effect_duration.a) * potion_effect_duration.i * potion_effect_duration.m;
+		potion_effect_duration.t-=potion_effect_duration.b;
+		if(potion_effect_duration.t!==0){ the_results+='<p>PotionEffect Duration: +%' + ((potion_effect_duration.t)*100).toFixed(2) + '</p>'; }
+		
 		gem_socket.t=(gem_socket.b + gem_socket.a) * gem_socket.i * gem_socket.m;	
 		gem_socket.t-=gem_socket.b;
 		if((gem_socket.t!==0)){ the_results+='<p>Gem Sockets: +' + ((gem_socket.t)).toFixed(2) + '</p>';} 		
@@ -728,6 +1004,67 @@ this.noise = function(x, y, z) {
 
 		if(skill_blunt_bolts==1){ the_results+='<p style="font-weight:bold; color: orange;">Blunt Bolts</p>';} 		
 		if(skill_long_shot==1){ the_results+='<p style="font-weight:bold; color: orange;">Long Shot</p>';} 		
+		
+		if(skill_cursed_touch==1){ the_results+='<p style="font-weight:bold; color: orange;">Cursed Touch</p>';} 		
+		if(skill_lightning_arc==1){ the_results+='<p style="font-weight:bold; color: orange;">Lightning Arc</p>';} 	
+		
+		lightning_arc_chains.t=(lightning_arc_chains.b + lightning_arc_chains.a) * lightning_arc_chains.i * lightning_arc_chains.m;
+		lightning_arc_chains.t-=lightning_arc_chains.b;
+		if(lightning_arc_chains.t!==0){ the_results+='<p>Lightning Arc Chains: ' + ((lightning_arc_chains.t)).toFixed(2) + '</p>'; }
+		
+		if(skill_last_breath==1){ the_results+='<p style="font-weight:bold; color: orange;">Last Breath</p>';} 		
+		if(skill_rampage==1){ the_results+='<p style="font-weight:bold; color: orange;">Rampage</p>';} 	
+		if(skill_area_of_effect==1){ the_results+='<p style="font-weight:bold; color: orange;">Area of Effect</p>';} 	
+		
+		if(skill_different_angles==1){ the_results+='<p style="font-weight:bold; color: orange;">Different Angles</p>';} 		
+		if(skill_breaking_aim==1){ the_results+='<p style="font-weight:bold; color: orange;">Breaking Aim</p>';} 	
+		if(skill_chained_mining==1){ the_results+='<p style="font-weight:bold; color: orange;">Chained Mining</p>';}
+
+		chained_mining_chance.t=(chained_mining_chance.b + chained_mining_chance.a) * chained_mining_chance.i * chained_mining_chance.m;	
+		chained_mining_chance.t-=chained_mining_chance.b;
+		if((chained_mining_chance.t!==0)){ the_results+='<p>Chained Mining Chance: +%' + ((chained_mining_chance.t)*100).toFixed(2) + '</p>';} 
+
+		chained_mining_length.t=(chained_mining_length.b + chained_mining_length.a) * chained_mining_length.i * chained_mining_length.m;	
+		chained_mining_length.t-=chained_mining_length.b;
+		if((chained_mining_length.t!==0)){ the_results+='<p>Chained Mining Length: +' + ((chained_mining_length.t)).toFixed(2) + '</p>';} 
+
+ 		successive_chains.t=(successive_chains.b + successive_chains.a) * successive_chains.i * successive_chains.m;	
+		successive_chains.t-=successive_chains.b;
+		if((successive_chains.t!==0)){ the_results+='<p>Successive Chains Chance: +%' + ((successive_chains.t)*100).toFixed(2) + '</p>';} 
+
+		
+		if(skill_mending==1){ the_results+='<p style="font-weight:bold; color: orange;">Mending</p>';} 	
+		if(skill_consistent_luck==1){ the_results+='<p style="font-weight:bold; color: orange;">Consistent Luck</p>';} 		
+		
+		if(skill_vis_inoculation==1){ the_results+='<p style="font-weight:bold; color: orange;">Vis Inoculation</p>';} 	
+		runic_shielding.t=(runic_shielding.b + runic_shielding.a) * runic_shielding.i * runic_shielding.m;	
+		runic_shielding.t-=runic_shielding.b;
+		if((runic_shielding.t!==0)){ the_results+='<p>Runic Shielding: +' + ((runic_shielding.t)).toFixed(2) + '</p>';}  			
+	
+		if(skill_bleeding==1){ the_results+='<p style="font-weight:bold; color: orange;">Bleeding</p>';} 	
+		bleed_duration.t=(bleed_duration.b + bleed_duration.a) * bleed_duration.i * bleed_duration.m;	
+		bleed_duration.t-=bleed_duration.b;
+		if((bleed_duration.t!==0)){ the_results+='<p>Bleed Duration: +%' + ((bleed_duration.t)*100).toFixed(2) + '</p>';}		
+		
+	
+
+
+
+		if(skill_cleansing==1){ the_results+='<p style="font-weight:bold; color: orange;">Cleansing</p>';} 	
+		if(skill_stone_enrichment==1){ the_results+='<p style="font-weight:bold; color: orange;">Stone Enrichment</p>';} 		
+		if(skill_spreading_growth==1){ the_results+='<p style="font-weight:bold; color: orange;">Spreading Growth</p>';} 	
+		if(skill_hiking_boots==1){ the_results+='<p style="font-weight:bold; color: orange;">Hiking Boots</p>';} 	
+		if(skill_spatial_manipulation==1){ the_results+='<p style="font-weight:bold; color: orange;">Spatial Manipulation</p>';} 	
+		if(skill_trash_to_treasure==1){ the_results+='<p style="font-weight:bold; color: orange;">Trash to Treasure</p>';} 	
+		if(skill_bigger_stomach==1){ the_results+='<p style="font-weight:bold; color: orange;">Bigger Stomach</p>';} 	
+		if(skill_miners_delight==1){ the_results+='<p style="font-weight:bold; color: orange;">Miner\'s Delight</p>';} 	
+		if(skill_diamond_skin==1){ the_results+='<p style="font-weight:bold; color: orange;">Diamond Skin</p>';} 	
+		if(skill_phoenix_blessing==1){ the_results+='<p style="font-weight:bold; color: orange;">Phoenix Blessing</p>';} 	
+		if(skill_body_blocking==1){ the_results+='<p style="font-weight:bold; color: orange;">Body Blocking</p>';} 	
+		if(skill_unwavering==1){ the_results+='<p style="font-weight:bold; color: orange;">Unwavering</p>';} 	
+		if(skill_culling_strike==1){ the_results+='<p style="font-weight:bold; color: orange;">Culling Strike</p>';} 	
+
+	
 		
 		
 		/////////////////FOCUS////////////////////////////////
@@ -1899,7 +2236,7 @@ this.noise = function(x, y, z) {
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','2% increased Mining Speed'],
 				rarity: 0,
-				n:[nodes[95],nodes[72]],
+				n:[nodes[96],nodes[72]],
 				mining_speed: 2
 					};  
 
@@ -2254,7 +2591,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Area of Effect','+2 levels to Sweeping Edge','Sweeping Edge also works on ranged attacks.'],
 				rarity: 1,
 				n:[nodes[127]],
-				sweeping_edge: 2
+				skill_area_of_effect: 1
 					};  
 					
  			nodes[129] = { 
@@ -2320,7 +2657,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Consistent Luck','+1 level of Fortune'],
 				rarity: 1,
 				n:[nodes[133]],
-				fortune: 1
+				skill_consistent_luck: 1
 					};  			
 
 			nodes[135] = { 
@@ -2542,7 +2879,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Vis Inoculation','200% increased Runic Shielding','75% less Armor','15% more Elemental Resistances','Your health is set to 1.'],
 				rarity: 1,
 				n:[nodes[153]],
-				skill_vis_innoculation: 1,
+				skill_vis_inoculation: 1,
 				runic_shielding: 200,
 				armor_more: -75,
 				elemental_resistances_more: 15,
@@ -2789,7 +3126,7 @@ this.noise = function(x, y, z) {
 				r:10, 
 				stat:'off', 
 				tooltip: ['Blade Finesse','25% increased Critical Damage Multiplier','20% increased Melee Damage'],
-				rarity: 1,
+				rarity: 0,
 				n:[nodes[175]],
 				critical_damage_multiplier: 25,
 				melee_damage: 20
@@ -2849,7 +3186,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Added Life Leech','3% of damage dealth gained as life'],
 				rarity: 0,
 				n:[nodes[12]],
-				life_leech: 3
+				life_leech_add: 3
 					}; 
 
 			nodes[182] = { 
@@ -2860,7 +3197,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Added Life Leech','3% of damage dealth gained as life'],
 				rarity: 0,
 				n:[nodes[181]],
-				life_leech: 3
+				life_leech_add: 3
 					}; 
 
 	
@@ -2872,7 +3209,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Vampirism','+5% of damage dealth gained as life','+2 added Maximum Life'],
 				rarity: 0,
 				n:[nodes[182]],
-				life_leech: 5,
+				life_leech_add: 5,
 				maximum_life_add: 2
 					}; 					
 
@@ -2999,7 +3336,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Arc Chaining','Lightning Arc bolts chain 1 additional time'],
 				rarity: 0,
 				n:[nodes[193]],
-				lightning_arc_chains: 1
+				lightning_arc_chains_add: 1
 					}; 
 
 			nodes[195] = { 
@@ -3010,7 +3347,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Arc Chaining','Lightning Arc bolts chain 2 additional time'],
 				rarity: 0,
 				n:[nodes[194]],
-				lightning_arc_chains: 2
+				lightning_arc_chains_add: 2
 					}; 	
 
 			nodes[196] = { 
@@ -3021,7 +3358,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Arc Chaining','Lightning Arc bolts chain 1 additional time'],
 				rarity: 0,
 				n:[nodes[195]],
-				lightning_arc_chains: 1
+				lightning_arc_chains_add: 1
 					}; 	
 
 			nodes[197] = { 
@@ -3123,7 +3460,7 @@ this.noise = function(x, y, z) {
 				rarity: 0,
 				n:[nodes[204]],
 				potion_effect_duration: 40,
-				maximum_life: -25
+				maximum_life_more: -25
 					}; 
 
 			nodes[206] = { 
@@ -3165,7 +3502,7 @@ this.noise = function(x, y, z) {
 				r:10, 
 				stat:'off', 
 				tooltip: ['Chained Mining','Breaking a block has a chance of breaking up to 4','nearby blocks of the same type.'],
-				rarity: 0,
+				rarity: 1,
 				n:[nodes[73]],
 				skill_chained_mining: 1
 					}; 
@@ -3178,7 +3515,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Added Chained Mining Chance','+15% added chance of Chained Mining'],
 				rarity: 0,
 				n:[nodes[209]],
-				chained_mining_chance: 15
+				chained_mining_chance_add: 15
 					}; 
 
 			nodes[211] = { 
@@ -3189,7 +3526,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Added Chained Mining Chance','+15% added chance of Chained Mining'],
 				rarity: 0,
 				n:[nodes[210]],
-				chained_mining_chance: 15
+				chained_mining_chance_add: 15
 					}; 
 
 			nodes[212] = { 
@@ -3211,7 +3548,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Added Chained Mining Length','+1 added Chained Mining Length'],
 				rarity: 0,
 				n:[nodes[209]],
-				chained_mining_length: 1
+				chained_mining_length_add: 1
 					}; 
 
 			nodes[214] = { 
@@ -3222,7 +3559,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Added Chained Mining Length','+1 added Chained Mining Length'],
 				rarity: 0,
 				n:[nodes[213]],
-				chained_mining_length: 1
+				chained_mining_length_add: 1
 					}; 
 
 			nodes[215] = { 
@@ -3233,7 +3570,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Successive Chains','+50% added chance of triggering additional','Mining Chains when triggering one'],
 				rarity: 0,
 				n:[nodes[214],nodes[211]],
-				chained_mining_additional: 50
+				successive_chains_add: 50
 					}; 
 
 			nodes[216] = { 
@@ -3244,7 +3581,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Greater Chained Mining Length','+3 added Chained Mining Length'],
 				rarity: 0,
 				n:[nodes[214]],
-				chained_mining_length: 3
+				chained_mining_length_add: 3
 					}; 
 
 			nodes[217] = { 
@@ -3286,7 +3623,7 @@ this.noise = function(x, y, z) {
 				r:10, 
 				stat:'off', 
 				tooltip: ['Mending','Occasionally your armor repairs itself a bit'],
-				rarity: 0,
+				rarity: 1,
 				n:[nodes[219]],
 				skill_mending: 1
 					}; 
@@ -3352,7 +3689,7 @@ this.noise = function(x, y, z) {
 				r:10, 
 				stat:'off', 
 				tooltip: ['Breaking Aim','Attacks have a chance of disarming the target'],
-				rarity: 0,
+				rarity: 1,
 				n:[nodes[225]],
 				skill_breaking_aim: 1
 					}; 
@@ -3519,7 +3856,7 @@ this.noise = function(x, y, z) {
 				r:10, 
 				stat:'off', 
 				tooltip: ['Greed','+1 added Reach','5% increased Mining Speed'],
-				rarity: 1,
+				rarity: 0,
 				n:[nodes[240]],
 				reach_add: 1,
 				mining_speed: 5
@@ -3553,7 +3890,7 @@ this.noise = function(x, y, z) {
 				r:10, 
 				stat:'off', 
 				tooltip: ['Gem Socket','Empty Gem Socket'],
-				rarity: 1,
+				rarity: 0,
 				n:[nodes[243]],
 				gem_socket_add: 1
 					}; 
@@ -3623,7 +3960,7 @@ this.noise = function(x, y, z) {
 				tooltip: ['Hiking Boots','Stepping up single blocks seems way easier.'],
 				rarity: 1,
 				n:[nodes[249]],
-				skill_hikin_boots: 1
+				skill_hiking_boots: 1
 					}; 
 					
 			nodes[251] = { 
@@ -4191,7 +4528,7 @@ this.noise = function(x, y, z) {
 				stat:'off', 
 				tooltip: ['Bastion of Flesh','Convert all increases and decreases of armor to life.','You have no armor.'],
 				rarity: 1,
-				n:[nodes[299]],
+				n:[nodes[300]],
 				skill_bastion_of_flesh: 1
 					};		
 
