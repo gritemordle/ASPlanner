@@ -22,8 +22,8 @@
 <div >
 
   <canvas id = "ASMain"  style="position: absolute; top: 0; left: 0;"></canvas>
-  <canvas id = "canvas_lines"  style="position: absolute; top: 0; left: 0;"></canvas>
   <canvas id = "canvas_search"  style="position: absolute; top: 0; left: 0;"></canvas>
+  <canvas id = "canvas_lines"  style="position: absolute; top: 0; left: 0;"></canvas>
   <canvas id = "canvas_nodes"  style="position: absolute; top: 0; left: 0;"></canvas>
   <canvas id = "canvas_tooltip"  style="position: absolute; top: 0; left: 0;"></canvas>
   <canvas id = "ASListen"  style="position: absolute; top: 0; left: 0;"></canvas>
@@ -295,6 +295,28 @@ function starfield()
   }
 
  
+ 				var leftmost=0;
+				var rightmost=0;	
+				var baseradius=5;
+				
+			for(var ii=0;ii<nodes.length;ii++)
+			{
+				if(nodes[ii].x<leftmost)
+				{leftmost=nodes[ii].x;}
+				if(nodes[ii].x>rightmost)
+				{rightmost=nodes[ii].x;}
+			}	
+
+			baseradius=((rightmost-leftmost)/200);
+			
+			for(var ii=0;ii<nodes.length;ii++)
+			{
+				if(nodes[ii].s==1){nodes[ii].r=baseradius*1.05;}
+				if(nodes[ii].s==2){nodes[ii].r=baseradius*1.75;}
+				if(nodes[ii].s==3){nodes[ii].r=baseradius*3.75;}
+			}					
+ 
+ 
   
   nodes.forEach(drawEverything);
   
@@ -434,34 +456,32 @@ function starfield()
  
      canvas_listen.onwheel = function(event) {
 	
-	
-	
+				var leftmost=0;
+				var rightmost=0;	
+				var baseradius=5;
+				
 	
 		if(event.deltaY>0)
 		
 		{ 		
 		
-				//scale2-=.1;
+			
 				
 			for(var i=0;i<nodes.length;i++)
 			{		
-				//nodes[i].x-=canvas.width/2;
-				//nodes[i].y-=canvas.height/2;
-				
-				nodes[i].x-=mouse.x;
-				nodes[i].y-=mouse.y	
+
+				nodes[i].x-=canvas.width/3;
+				nodes[i].y-=canvas.height/2	
 				
 				nodes[i].x*=.9;
-				nodes[i].y*=.9;
-				//nodes[i].r*=.9;
+				nodes[i].y*=.9;	
 				
-				if(nodes[i].r<1){nodes[i].r=1;}
 				
-				nodes[i].x+=mouse.x;
-				nodes[i].y+=mouse.y;
+			
+				nodes[i].x+=canvas.width/3;
+				nodes[i].y+=canvas.height/2;
 				
-				//nodes[i].x+=canvas.width/2;
-				//nodes[i].y+=canvas.height/2;		
+	
 										
 			}	
 	
@@ -471,25 +491,19 @@ function starfield()
 		
 		else{
 		
-			//scale2+=.1;
 
 			for(var i=0;i<nodes.length;i++)
 			{ 
 				//nodes[i].x-=canvas.width/2;  //
 				//nodes[i].y-=canvas.height/2;
-				nodes[i].x-=mouse.x;
-				nodes[i].y-=mouse.y;
+				nodes[i].x-=canvas.width/3;
+				nodes[i].y-=canvas.height/2;
 	
 				nodes[i].x*=1.1;
 				nodes[i].y*=1.1;
-				//nodes[i].r*=1.1;
-				
-				
-				
-				//nodes[i].x+=canvas.width/2;
-				//nodes[i].y+=canvas.height/2;
-				nodes[i].x+=mouse.x;
-				nodes[i].y+=mouse.y;			
+
+				nodes[i].x+=canvas.width/3;
+				nodes[i].y+=canvas.height/2;			
 				
 									
 			}
@@ -501,6 +515,24 @@ function starfield()
 			//ttrans.y-=(canvas.height*.1);
 			
 			}
+		
+		
+			for(var ii=0;ii<nodes.length;ii++)
+			{
+				if(nodes[ii].x<leftmost)
+				{leftmost=nodes[ii].x;}
+				if(nodes[ii].x>rightmost)
+				{rightmost=nodes[ii].x;}
+			}	
+
+			baseradius=((rightmost-leftmost)/200);
+			
+			for(var ii=0;ii<nodes.length;ii++)
+			{
+				if(nodes[ii].s==1){nodes[ii].r=baseradius*1.05;}
+				if(nodes[ii].s==2){nodes[ii].r=baseradius*1.75;}
+				if(nodes[ii].s==3){nodes[ii].r=baseradius*3.75;}
+			}			
 		
 		
 		
@@ -1501,7 +1533,7 @@ function starfield()
 		nodes[0] = { 
 				x:507,
 				y:454,
-				r:10.0, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Singularity','Other tree roots may be unlocked without','requiring a connection to the existing perks','Grants 3 additional Perk Points'],
 				rarity: 1,
@@ -1511,7 +1543,7 @@ function starfield()
 		nodes[1] = { 
 				x:522,
 				y:427,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Greater Increased Perk Effect','7% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1522,7 +1554,7 @@ function starfield()
 		nodes[2] = { 
 				x:480,
 				y:440,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Greater Increased Perk Effect','7% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1533,7 +1565,7 @@ function starfield()
   		nodes[3] = { 
 				x:493,
 				y:482,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Greater Increased Perk Effect','7% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1544,7 +1576,7 @@ function starfield()
    		nodes[4] = { 
 				x:536,
 				y:469,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Greater Increased Perk Effect','7% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1555,7 +1587,7 @@ function starfield()
    		nodes[5] = { 
 				x:481,
 				y:510,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1566,7 +1598,7 @@ function starfield()
    		nodes[6] = { 
 				x:466,
 				y:469,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Increased Amulet Effectiveness','15% increased Amulet Enchantments','','Enchantments gained by the Resplendant Prism', 'have 15% increased levels.'],
 				rarity: 0,
@@ -1577,7 +1609,7 @@ function starfield()
   		nodes[7] = { 
 				x:439,
 				y:427,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1588,7 +1620,7 @@ function starfield()
    		nodes[8] = { 
 				x:480,
 				y:413,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Increased Amulet Effectiveness','15% increased Amulet Enchantments','','Enchantments gained by the Resplendant Prism',  'have 15% increased levels.'],
 				rarity: 0,
@@ -1599,7 +1631,7 @@ function starfield()
   		nodes[9] = { 
 				x:507,
 				y:385,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1610,7 +1642,7 @@ function starfield()
     		nodes[10] = { 
 				x:522,
 				y:342,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1621,7 +1653,7 @@ function starfield()
      		nodes[11] = { 
 				x:493,
 				y:313,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1632,7 +1664,7 @@ function starfield()
       		nodes[12] = { 
 				x:508,
 				y:271,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1643,7 +1675,7 @@ function starfield()
     		nodes[13] = { 
 				x:409,
 				y:440,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1654,7 +1686,7 @@ function starfield()
      		nodes[14] = { 
 				x:367,
 				y:426,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1665,7 +1697,7 @@ function starfield()
       		nodes[15] = { 
 				x:326,
 				y:412,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1676,7 +1708,7 @@ function starfield()
 			nodes[16] = { 
 				x:439,
 				y:525,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1687,7 +1719,7 @@ function starfield()
      		nodes[17] = { 
 				x:424,
 				y:581,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1698,7 +1730,7 @@ function starfield()
       		nodes[18] = { 
 				x:395,
 				y:623,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1709,7 +1741,7 @@ function starfield()
 			nodes[19] = { 
 				x:522,
 				y:510,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1720,7 +1752,7 @@ function starfield()
      		nodes[20] = { 
 				x:563,
 				y:538,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1731,7 +1763,7 @@ function starfield()
       		nodes[21] = { 
 				x:592,
 				y:581,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1742,7 +1774,7 @@ function starfield()
       		nodes[22] = { 
 				x:619,
 				y:622,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1753,7 +1785,7 @@ function starfield()
 			nodes[23] = { 
 				x:564,
 				y:440,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1764,7 +1796,7 @@ function starfield()
      		nodes[24] = { 
 				x:606,
 				y:412,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1775,7 +1807,7 @@ function starfield()
       		nodes[25] = { 
 				x:648,
 				y:426,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1786,7 +1818,7 @@ function starfield()
       		nodes[26] = { 
 				x:690,
 				y:412,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1797,7 +1829,7 @@ function starfield()
       		nodes[27] = { 
 				x:649,
 				y:399,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','15% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1808,7 +1840,7 @@ function starfield()
       		nodes[28] = { 
 				x:676,
 				y:454,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Increased Perk Experience','20% increased Perk Experience gained'],
 				rarity: 0,
@@ -1819,7 +1851,7 @@ function starfield()
       		nodes[29] = { 
 				x:634,
 				y:581,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','15% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1830,7 +1862,7 @@ function starfield()
       		nodes[30] = { 
 				x:578,
 				y:609,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Increased Perk Experience','20% increased Perk Experience gained'],
 				rarity: 0,
@@ -1841,7 +1873,7 @@ function starfield()
       		nodes[31] = { 
 				x:438,
 				y:609,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','15% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1852,7 +1884,7 @@ function starfield()
       		nodes[32] = { 
 				x:381,
 				y:581,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Increased Perk Experience','20% increased Perk Experience gained'],
 				rarity: 0,
@@ -1863,7 +1895,7 @@ function starfield()
      		nodes[33] = { 
 				x:354,
 				y:454,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','15% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1874,7 +1906,7 @@ function starfield()
       		nodes[34] = { 
 				x:367,
 				y:384,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Increased Perk Experience','20% increased Perk Experience gained'],
 				rarity: 0,
@@ -1885,7 +1917,7 @@ function starfield()
      		nodes[35] = { 
 				x:466,
 				y:299,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','15% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1896,7 +1928,7 @@ function starfield()
       		nodes[36] = { 
 				x:536,
 				y:299,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Increased Perk Experience','20% increased Perk Experience gained'],
 				rarity: 0,
@@ -1907,7 +1939,7 @@ function starfield()
       		nodes[37] = { 
 				x:578,
 				y:285,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1918,7 +1950,7 @@ function starfield()
       		nodes[38] = { 
 				x:633,
 				y:314,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Precision','5% more Melee Damage','5% more Projectile Damage','+2% added Critical Hit Chance'],
 				rarity: 0,
@@ -1931,7 +1963,7 @@ function starfield()
       		nodes[39] = { 
 				x:662,
 				y:357,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1942,7 +1974,7 @@ function starfield()
       		nodes[40] = { 
 				x:704,
 				y:483,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1953,7 +1985,7 @@ function starfield()
       		nodes[41] = { 
 				x:675,
 				y:539,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Tough','20% more Armor'],
 				rarity: 0,
@@ -1964,7 +1996,7 @@ function starfield()
       		nodes[42] = { 
 				x:563,
 				y:637,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1975,7 +2007,7 @@ function starfield()
       		nodes[43] = { 
 				x:508,
 				y:652,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Agility','5% increased Movement Speed','+5% added Dodge Chance'],
 				rarity: 0,
@@ -1987,7 +2019,7 @@ function starfield()
       		nodes[44] = { 
 				x:465,
 				y:637,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -1998,7 +2030,7 @@ function starfield()
       		nodes[45] = { 
 				x:353,
 				y:582,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2009,7 +2041,7 @@ function starfield()
 			nodes[46] = { 
 				x:339,
 				y:538,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Bloom','15% more Maximum Life'],
 				rarity: 0,
@@ -2020,7 +2052,7 @@ function starfield()
       		nodes[47] = { 
 				x:312,
 				y:482,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2031,7 +2063,7 @@ function starfield()
       		nodes[48] = { 
 				x:353,
 				y:356,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2042,7 +2074,7 @@ function starfield()
 			nodes[49] = { 
 				x:381,
 				y:313,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Strong Arms','5% more Mining Speed','10% increased Melee Damage'],
 				rarity: 0,
@@ -2054,7 +2086,7 @@ function starfield()
       		nodes[50] = { 
 				x:437,
 				y:285,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2065,7 +2097,7 @@ function starfield()
       		nodes[51] = { 
 				x:662,
 				y:581,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2076,7 +2108,7 @@ function starfield()
       		nodes[52] = { 
 				x:591,
 				y:328,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Projectile Damage','5% increased Projectile Damage'],
 				rarity: 0,
@@ -2087,7 +2119,7 @@ function starfield()
       		nodes[53] = { 
 				x:606,
 				y:356,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Melee Damage','5% increased Melee Damage'],
 				rarity: 0,
@@ -2098,7 +2130,7 @@ function starfield()
       		nodes[54] = { 
 				x:564,
 				y:384,
-				r:20, 
+				r:20,s:3, 
 				stat:'off', 
 				tooltip: ['Root: Discidia','+10% added Critical Hit Chance','','Gain experience by dealing damage'],
 				rarity: 0,
@@ -2109,7 +2141,7 @@ function starfield()
      		nodes[55] = { 
 				x:423,
 				y:327,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','10% increased Mining Speed'],
 				rarity: 0,
@@ -2120,7 +2152,7 @@ function starfield()
       		nodes[56] = { 
 				x:410,
 				y:356,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','10% increased Mining Speed'],
 				rarity: 0,
@@ -2131,7 +2163,7 @@ function starfield()
       		nodes[57] = { 
 				x:451,
 				y:383,
-				r:20, 
+				r:20,s:3, 
 				stat:'off', 
 				tooltip: ['Root: Evorsio','20% more Mining Speed','','Gain experience by breaking blocks'],
 				rarity: 0,
@@ -2142,7 +2174,7 @@ function starfield()
      		nodes[58] = { 
 				x:395,
 				y:525,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Maximum Life','5% increased Maximum Life'],
 				rarity: 0,
@@ -2153,7 +2185,7 @@ function starfield()
       		nodes[59] = { 
 				x:381,
 				y:498,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Maximum Life','5% increased Maximum Life'],
 				rarity: 0,
@@ -2164,7 +2196,7 @@ function starfield()
       		nodes[60] = { 
 				x:422,
 				y:483,
-				r:20, 
+				r:20,s:3, 
 				stat:'off', 
 				tooltip: ['Root: Aevitas','+2 added Maximum Life','','Gain experience by building things'],
 				rarity: 0,
@@ -2175,7 +2207,7 @@ function starfield()
     		nodes[61] = { 
 				x:494,
 				y:609,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','3% increased Movement Speed'],
 				rarity: 0,
@@ -2186,7 +2218,7 @@ function starfield()
       		nodes[62] = { 
 				x:521,
 				y:594,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','3% increased Movement Speed'],
 				rarity: 0,
@@ -2197,7 +2229,7 @@ function starfield()
       		nodes[63] = { 
 				x:507,
 				y:554,
-				r:20, 
+				r:20,s:3, 
 				stat:'off', 
 				tooltip: ['Root: Vicio','+1 added Reach','','Gain experience by traveling the world'],
 				rarity: 0,
@@ -2208,7 +2240,7 @@ function starfield()
     		nodes[64] = { 
 				x:619,
 				y:525,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor','5% increased Armor'],
 				rarity: 0,
@@ -2219,7 +2251,7 @@ function starfield()
       		nodes[65] = { 
 				x:634,
 				y:497,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor','5% increased Armor'],
 				rarity: 0,
@@ -2230,7 +2262,7 @@ function starfield()
       		nodes[66] = { 
 				x:591,
 				y:482,
-				r:20, 
+				r:20,s:3, 
 				stat:'off', 
 				tooltip: ['Root: Armara','15% more Elemental Resistances','','Gain experience by taking damage'],
 				rarity: 0,
@@ -2241,7 +2273,7 @@ function starfield()
       		nodes[67] = { 
 				x:634,
 				y:201,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2252,7 +2284,7 @@ function starfield()
         	nodes[68] = { 
 				x:578,
 				y:159,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2263,7 +2295,7 @@ function starfield()
       		nodes[69] = { 
 				x:466,
 				y:173,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2274,7 +2306,7 @@ function starfield()
       		nodes[70] = { 
 				x:367,
 				y:201,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2285,7 +2317,7 @@ function starfield()
        		nodes[71] = { 
 				x:311,
 				y:257,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Expertise','+1 added Mining Speed','15% increased Reach'],
 				rarity: 0,
@@ -2297,7 +2329,7 @@ function starfield()
        		nodes[72] = { 
 				x:284,
 				y:315,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2308,7 +2340,7 @@ function starfield()
         	nodes[73] = { 
 				x:255,
 				y:370,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2319,7 +2351,7 @@ function starfield()
       		nodes[74] = { 
 				x:227,
 				y:441,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2330,7 +2362,7 @@ function starfield()
       		nodes[75] = { 
 				x:242,
 				y:510,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2341,7 +2373,7 @@ function starfield()
        		nodes[76] = { 
 				x:254,
 				y:580,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Added Maximum Life','+2 added Maximum Life'],
 				rarity: 0,
@@ -2352,7 +2384,7 @@ function starfield()
         		nodes[77] = { 
 				x:283,
 				y:623,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2363,7 +2395,7 @@ function starfield()
         	nodes[78] = { 
 				x:312,
 				y:693,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2374,7 +2406,7 @@ function starfield()
       		nodes[79] = { 
 				x:381,
 				y:723,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2385,7 +2417,7 @@ function starfield()
       		nodes[80] = { 
 				x:438,
 				y:737,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2396,7 +2428,7 @@ function starfield()
        		nodes[81] = { 
 				x:509,
 				y:750,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Haste','+1 added Attack Speed','+5% added Dodge Chance'],
 				rarity: 0,
@@ -2408,7 +2440,7 @@ function starfield()
         		nodes[82] = { 
 				x:578,
 				y:723,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2419,7 +2451,7 @@ function starfield()
         	nodes[83] = { 
 				x:635,
 				y:709,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2430,7 +2462,7 @@ function starfield()
       		nodes[84] = { 
 				x:705,
 				y:694,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2441,7 +2473,7 @@ function starfield()
       		nodes[85] = { 
 				x:718,
 				y:636,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2452,7 +2484,7 @@ function starfield()
        		nodes[86] = { 
 				x:759,
 				y:609,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Stellar Barrier','6% more Elemental Resistances','6% more Armor'],
 				rarity: 0,
@@ -2464,7 +2496,7 @@ function starfield()
          	nodes[87] = { 
 				x:773,
 				y:538,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2475,7 +2507,7 @@ function starfield()
         	nodes[88] = { 
 				x:761,
 				y:440,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2486,7 +2518,7 @@ function starfield()
       		nodes[89] = { 
 				x:773,
 				y:356,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2497,7 +2529,7 @@ function starfield()
       		nodes[90] = { 
 				x:745,
 				y:286,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','3% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2508,7 +2540,7 @@ function starfield()
        		nodes[91] = { 
 				x:703,
 				y:229,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Combat Focus','+1 added Reach','15% more Projectile Speed'],
 				rarity: 0,
@@ -2520,7 +2552,7 @@ function starfield()
 			nodes[92] = { 
 				x:662,
 				y:103,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Melee and Projectile Damage','2% increased Melee Damage','2% increased Projectile Damage'],
 				rarity: 0,
@@ -2532,7 +2564,7 @@ function starfield()
 			nodes[93] = { 
 				x:549,
 				y:62,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Melee and Projectile Damage','2% increased Melee Damage','2% increased Projectile Damage'],
 				rarity: 0,
@@ -2544,7 +2576,7 @@ function starfield()
 			nodes[94] = { 
 				x:437,
 				y:75,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Melee and Projectile Damage','2% increased Melee Damage','2% increased Projectile Damage'],
 				rarity: 0,
@@ -2556,7 +2588,7 @@ function starfield()
 			nodes[95] = { 
 				x:340,
 				y:117,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','2% increased Mining Speed'],
 				rarity: 0,
@@ -2567,7 +2599,7 @@ function starfield()
 			nodes[96] = { 
 				x:254,
 				y:187,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','2% increased Mining Speed'],
 				rarity: 0,
@@ -2578,7 +2610,7 @@ function starfield()
 			nodes[97] = { 
 				x:186,
 				y:244,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','2% increased Mining Speed'],
 				rarity: 0,
@@ -2589,7 +2621,7 @@ function starfield()
 			nodes[98] = { 
 				x:129,
 				y:327,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','2% increased Mining Speed'],
 				rarity: 0,
@@ -2600,7 +2632,7 @@ function starfield()
 			nodes[99] = { 
 				x:101,
 				y:413,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','2% increased Mining Speed'],
 				rarity: 0,
@@ -2611,7 +2643,7 @@ function starfield()
 			nodes[100] = { 
 				x:115,
 				y:482,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Maximum Life','2% increased Maximum Life'],
 				rarity: 0,
@@ -2622,7 +2654,7 @@ function starfield()
 			nodes[101] = { 
 				x:142,
 				y:566,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Maximum Life','2% increased Maximum Life'],
 				rarity: 0,
@@ -2633,7 +2665,7 @@ function starfield()
 			nodes[102] = { 
 				x:158,
 				y:653,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Maximum Life','2% increased Maximum Life'],
 				rarity: 0,
@@ -2644,7 +2676,7 @@ function starfield()
 			nodes[103] = { 
 				x:228,
 				y:709,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Maximum Life','2% increased Maximum Life'],
 				rarity: 0,
@@ -2655,7 +2687,7 @@ function starfield()
 			nodes[104] = { 
 				x:269,
 				y:765,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Maximum Life','2% increased Maximum Life'],
 				rarity: 0,
@@ -2666,7 +2698,7 @@ function starfield()
 			nodes[105] = { 
 				x:340,
 				y:793,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Reach and Movement Speed','2% increased Movement Speed','2% increased Reach'],
 				rarity: 0,
@@ -2678,7 +2710,7 @@ function starfield()
 			nodes[106] = { 
 				x:411,
 				y:835,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Reach and Movement Speed','2% increased Movement Speed','2% increased Reach'],
 				rarity: 0,
@@ -2690,7 +2722,7 @@ function starfield()
 			nodes[107] = { 
 				x:523,
 				y:862,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Reach and Movement Speed','2% increased Movement Speed','2% increased Reach'],
 				rarity: 0,
@@ -2702,7 +2734,7 @@ function starfield()
 			nodes[108] = { 
 				x:606,
 				y:822,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Reach and Movement Speed','2% increased Movement Speed','2% increased Reach'],
 				rarity: 0,
@@ -2714,7 +2746,7 @@ function starfield()
 			nodes[109] = { 
 				x:691,
 				y:779,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Reach and Movement Speed','2% increased Movement Speed','2% increased Reach'],
 				rarity: 0,
@@ -2726,7 +2758,7 @@ function starfield()
 			nodes[110] = { 
 				x:789,
 				y:736,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor and Elemental Resistances','2% increased Armor','2% increased Elemental Resistances'],
 				rarity: 0,
@@ -2738,7 +2770,7 @@ function starfield()
 			nodes[111] = { 
 				x:817,
 				y:667,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor and Elemental Resistances','2% increased Armor','2% increased Elemental Resistances'],
 				rarity: 0,
@@ -2750,7 +2782,7 @@ function starfield()
 			nodes[112] = { 
 				x:871,
 				y:581,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor and Elemental Resistances','2% increased Armor','2% increased Elemental Resistances'],
 				rarity: 0,
@@ -2762,7 +2794,7 @@ function starfield()
 			nodes[113] = { 
 				x:844,
 				y:468,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor and Elemental Resistances','2% increased Armor','2% increased Elemental Resistances'],
 				rarity: 0,
@@ -2774,7 +2806,7 @@ function starfield()
 			nodes[114] = { 
 				x:873,
 				y:385,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor and Elemental Resistances','2% increased Armor','2% increased Elemental Resistances'],
 				rarity: 0,
@@ -2786,7 +2818,7 @@ function starfield()
 			nodes[115] = { 
 				x:857,
 				y:299,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Melee and Projectile Damage','2% increased Melee Damage','2% increased Projectile Damage'],
 				rarity: 0,
@@ -2798,7 +2830,7 @@ function starfield()
 			nodes[116] = { 
 				x:830,
 				y:214,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Melee and Projectile Damage','2% increased Melee Damage','2% increased Projectile Damage'],
 				rarity: 0,
@@ -2810,7 +2842,7 @@ function starfield()
 			nodes[117] = { 
 				x:774,
 				y:131,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Melee and Projectile Damage','2% increased Melee Damage','2% increased Projectile Damage'],
 				rarity: 0,
@@ -2822,7 +2854,7 @@ function starfield()
  			nodes[118] = { 
 				x:703,
 				y:75,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2833,7 +2865,7 @@ function starfield()
 			nodes[119] = { 
 				x:676,
 				y:47,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','4% increased Effectiveness of Perks'],
 				rarity: 0,
@@ -2844,7 +2876,7 @@ function starfield()
 			nodes[120] = { 
 				x:718,
 				y:33,
-				r:20, 
+				r:20,s:3, 
 				stat:'off', 
 				tooltip: ['Focus: Vorux','Gain +1% Perk Effect per unsealed allocated Perk.','You cannot gain Perk Experience.','','You can only unlock 1 Focus Perk.'],
 				rarity: 1,
@@ -2855,7 +2887,7 @@ function starfield()
 			nodes[121] = { 
 				x:325,
 				y:74,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Chakra of Destruction','15% increased Perk Experience gained'],
 				rarity: 0,
@@ -2866,7 +2898,7 @@ function starfield()
 			nodes[122] = { 
 				x:298,
 				y:33,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Chakra of Destruction','15% increased Perk Experience gained'],
 				rarity: 0,
@@ -2877,7 +2909,7 @@ function starfield()
 			nodes[123] = { 
 				x:354,
 				y:33,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Chakra of Destruction','15% increased Perk Experience gained'],
 				rarity: 0,
@@ -2888,7 +2920,7 @@ function starfield()
 			nodes[124] = { 
 				x:325,
 				y:47,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Epiphany: Destruction','Other \'Epiphany\' nodes may be unlocked without','requiring a connection to the existing perks'],
 				rarity: 1,
@@ -2899,7 +2931,7 @@ function starfield()
 			nodes[125] = { 
 				x:227,
 				y:173,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Reach','3% increased Reach'],
 				rarity: 0,
@@ -2910,7 +2942,7 @@ function starfield()
 			nodes[126] = { 
 				x:241,
 				y:159,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Reach','3% increased Reach'],
 				rarity: 0,
@@ -2921,7 +2953,7 @@ function starfield()
 			nodes[127] = { 
 				x:226,
 				y:144,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Reach','3% increased Reach'],
 				rarity: 0,
@@ -2932,7 +2964,7 @@ function starfield()
 			nodes[128] = { 
 				x:241,
 				y:130,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Area of Effect','+2 levels to Sweeping Edge','Sweeping Edge also works on ranged attacks.'],
 				rarity: 1,
@@ -2943,7 +2975,7 @@ function starfield()
  			nodes[129] = { 
 				x:157,
 				y:215,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Perk Effect','4% more Effectiveness of Perks'],
 				rarity: 0,
@@ -2954,7 +2986,7 @@ function starfield()
 			nodes[130] = { 
 				x:128,
 				y:244,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Perk Effect','4% more Effectiveness of Perks'],
 				rarity: 0,
@@ -2965,7 +2997,7 @@ function starfield()
 			nodes[131] = { 
 				x:114,
 				y:202,
-				r:20, 
+				r:20,s:3, 
 				stat:'off', 
 				tooltip: ['Focus: Alcara','Increases and decreases to Perk Experience','apply to Perk Effect instead at 50% of their value.','','You can only unlock 1 Focus Perk.'],
 				rarity: 1,
@@ -2976,7 +3008,7 @@ function starfield()
 			nodes[132] = { 
 				x:73,
 				y:399,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Mining Speed','5% increased Mining Speed'],
 				rarity: 0,
@@ -2987,7 +3019,7 @@ function starfield()
 			nodes[133] = { 
 				x:58,
 				y:385,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Mining Speed','5% increased Mining Speed'],
 				rarity: 0,
@@ -2998,7 +3030,7 @@ function starfield()
 			nodes[134] = { 
 				x:73,
 				y:370,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Consistent Luck','+1 level of Fortune'],
 				rarity: 1,
@@ -3009,7 +3041,7 @@ function starfield()
 			nodes[135] = { 
 				x:115,
 				y:581,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Life Recovery','12% increased Life Recovery'],
 				rarity: 0,
@@ -3020,7 +3052,7 @@ function starfield()
 			nodes[136] = { 
 				x:102,
 				y:567,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Life Recovery','12% increased Life Recovery'],
 				rarity: 0,
@@ -3031,7 +3063,7 @@ function starfield()
 			nodes[137] = { 
 				x:87,
 				y:580,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Cleansing','Regenerating life may remove a negative status effect.'],
 				rarity: 1,
@@ -3042,7 +3074,7 @@ function starfield()
  			nodes[138] = { 
 				x:116,
 				y:667,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Perk Experience','5% more Perk Experience gained'],
 				rarity: 0,
@@ -3053,7 +3085,7 @@ function starfield()
 			nodes[139] = { 
 				x:144,
 				y:695,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Perk Experience','5% more Perk Experience gained'],
 				rarity: 0,
@@ -3066,7 +3098,7 @@ function starfield()
 			nodes[140] = { 
 				x:101,
 				y:708,
-				r:20, 
+				r:20,s:3, 
 				stat:'off', 
 				tooltip: ['Focus: Ulteria','+5% more Perk Experience per unspent Perk Point','','You can only unlock 1 Focus Perk.'],
 				rarity: 1,
@@ -3077,7 +3109,7 @@ function starfield()
 			nodes[141] = { 
 				x:284,
 				y:806,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','6% increased Mining Speed'],
 				rarity: 0,
@@ -3088,7 +3120,7 @@ function starfield()
 			nodes[142] = { 
 				x:271,
 				y:821,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','6% increased Mining Speed'],
 				rarity: 0,
@@ -3099,7 +3131,7 @@ function starfield()
 			nodes[143] = { 
 				x:284,
 				y:835,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Trash to Treasure','Voids all dropped trash items.','Occasionally yield valuable ore when voiding trash.'],
 				rarity: 1,
@@ -3110,7 +3142,7 @@ function starfield()
 			nodes[144] = { 
 				x:425,
 				y:878,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Chakra of Motion','15% increased Perk Experience gained'],
 				rarity: 0,
@@ -3121,7 +3153,7 @@ function starfield()
 			nodes[145] = { 
 				x:453,
 				y:919,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Chakra of Motion','15% increased Perk Experience gained'],
 				rarity: 0,
@@ -3132,7 +3164,7 @@ function starfield()
 			nodes[146] = { 
 				x:397,
 				y:919,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Chakra of Motion','15% increased Perk Experience gained'],
 				rarity: 0,
@@ -3143,7 +3175,7 @@ function starfield()
 			nodes[147] = { 
 				x:424,
 				y:905,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Epiphany: Motion','Other \'Epiphany\' nodes may be unlocked without','requiring a connection to the existing perks'],
 				rarity: 1,
@@ -3154,7 +3186,7 @@ function starfield()
 			nodes[148] = { 
 				x:565,
 				y:877,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','5% increased Movement Speed'],
 				rarity: 0,
@@ -3165,7 +3197,7 @@ function starfield()
 			nodes[149] = { 
 				x:578,
 				y:891,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','5% increased Movement Speed'],
 				rarity: 0,
@@ -3176,7 +3208,7 @@ function starfield()
 			nodes[150] = { 
 				x:565,
 				y:905,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','5% increased Movement Speed'],
 				rarity: 0,
@@ -3187,7 +3219,7 @@ function starfield()
 			nodes[151] = { 
 				x:578,
 				y:918,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Dodge Chance','10% increased Dodge Chance'],
 				rarity: 0,
@@ -3198,7 +3230,7 @@ function starfield()
 			nodes[152] = { 
 				x:564,
 				y:933,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Spectral wings','The vicio mantle now grants flight','instead of elytra gliding.'],
 				rarity: 1,
@@ -3209,7 +3241,7 @@ function starfield()
 			nodes[153] = { 
 				x:817,
 				y:793,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Runic Shielding','+2 added Runic Shielding'],
 				rarity: 0,
@@ -3220,7 +3252,7 @@ function starfield()
 			nodes[154] = { 
 				x:803,
 				y:821,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Vis Inoculation','200% increased Runic Shielding','75% less Armor','15% more Elemental Resistances','Your health is set to 1.'],
 				rarity: 1,
@@ -3234,7 +3266,7 @@ function starfield()
 			nodes[155] = { 
 				x:817,
 				y:849,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Runic Shielding','10% increased Runic Shielding'],
 				rarity: 0,
@@ -3245,7 +3277,7 @@ function starfield()
 			nodes[156] = { 
 				x:775,
 				y:835,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Runic Shielding','10% increased Runic Shielding'],
 				rarity: 0,
@@ -3256,7 +3288,7 @@ function starfield()
 			nodes[157] = { 
 				x:790,
 				y:878,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Runic Shielding','7% increased Runic Shielding'],
 				rarity: 0,
@@ -3267,7 +3299,7 @@ function starfield()
 			nodes[158] = { 
 				x:733,
 				y:848,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Runic Shielding','7% increased Runic Shielding'],
 				rarity: 0,
@@ -3278,7 +3310,7 @@ function starfield()
 			nodes[159] = { 
 				x:747,
 				y:905,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Runic Shielding','4% increased Runic Shielding'],
 				rarity: 0,
@@ -3289,7 +3321,7 @@ function starfield()
 			nodes[160] = { 
 				x:831,
 				y:708,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Experience','6% increased Perk Experience gained'],
 				rarity: 0,
@@ -3300,7 +3332,7 @@ function starfield()
 			nodes[161] = { 
 				x:860,
 				y:680,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Perk Experience','6% increased Perk Experience gained'],
 				rarity: 0,
@@ -3311,7 +3343,7 @@ function starfield()
 			nodes[162] = { 
 				x:873,
 				y:723,
-				r:20, 
+				r:20,s:3, 
 				stat:'off', 
 				tooltip: ['Focus: Gelu','Gain +3% increased Perk Effect per allocated Perk.','Other modifiers to Perk Effect no longer apply.','','You can only unlock 1 Focus Perk.'],
 				rarity: 1,
@@ -3322,7 +3354,7 @@ function starfield()
 			nodes[163] = { 
 				x:886,
 				y:608,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Maximum Life and less Armor','8% increased Maximum Life','25% less Armor'],
 				rarity: 0,
@@ -3334,7 +3366,7 @@ function starfield()
 			nodes[164] = { 
 				x:900,
 				y:623,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Maximum Life and less Armor','8% increased Maximum Life','25% less Armor'],
 				rarity: 0,
@@ -3346,7 +3378,7 @@ function starfield()
 			nodes[165] = { 
 				x:914,
 				y:609,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Unwavering','You cannot be knocked back.'],
 				rarity: 1,
@@ -3357,7 +3389,7 @@ function starfield()
 			nodes[166] = { 
 				x:872,
 				y:483,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor','6% increased Armor'],
 				rarity: 0,
@@ -3368,7 +3400,7 @@ function starfield()
 			nodes[167] = { 
 				x:887,
 				y:497,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor','6% increased Armor'],
 				rarity: 0,
@@ -3379,7 +3411,7 @@ function starfield()
 			nodes[168] = { 
 				x:901,
 				y:483,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor','6% increased Armor'],
 				rarity: 0,
@@ -3390,7 +3422,7 @@ function starfield()
 			nodes[169] = { 
 				x:914,
 				y:497,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Body Blocking','5% of damage taken is instead directly applied','to your armor per armor piece worn.'],
 				rarity: 1,
@@ -3401,7 +3433,7 @@ function starfield()
 			nodes[170] = { 
 				x:915,
 				y:399,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Chakra of Defense','15% increased Perk Experience gained'],
 				rarity: 0,
@@ -3412,7 +3444,7 @@ function starfield()
 			nodes[171] = { 
 				x:956,
 				y:427,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Chakra of Defense','15% increased Perk Experience gained'],
 				rarity: 0,
@@ -3423,7 +3455,7 @@ function starfield()
 			nodes[172] = { 
 				x:955,
 				y:371,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Chakra of Defense','15% increased Perk Experience gained'],
 				rarity: 0,
@@ -3434,7 +3466,7 @@ function starfield()
 			nodes[173] = { 
 				x:941,
 				y:398,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Epiphany: Defense','Other \'Epiphany\' nodes may be unlocked without','requiring a connection to the existing perks'],
 				rarity: 1,
@@ -3445,7 +3477,7 @@ function starfield()
 			nodes[174] = { 
 				x:857,
 				y:202,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Melee Damage and Critical Hit Chance','+3% added Critical Hit Chance','10% increased Melee Damage'],
 				rarity: 0,
@@ -3457,7 +3489,7 @@ function starfield()
 			nodes[175] = { 
 				x:872,
 				y:188,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Melee Damage and Critical Hit Chance','+3% added Critical Hit Chance','10% increased Melee Damage'],
 				rarity: 0,
@@ -3469,7 +3501,7 @@ function starfield()
 			nodes[176] = { 
 				x:886,
 				y:201,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Blade Finesse','25% increased Critical Damage Multiplier','20% increased Melee Damage'],
 				rarity: 0,
@@ -3481,7 +3513,7 @@ function starfield()
 			nodes[177] = { 
 				x:564,
 				y:201,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Critical Hit Chance','+3% added Critical Hit Chance'],
 				rarity: 0,
@@ -3492,7 +3524,7 @@ function starfield()
 			nodes[178] = { 
 				x:550,
 				y:214,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Rampage','Adds a chance to gain increased speed,','attack speed and damage after a killing the enemy.'],
 				rarity: 1,
@@ -3503,7 +3535,7 @@ function starfield()
 			nodes[179] = { 
 				x:564,
 				y:229,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Damage','8% increased Projectile Damage','8% increased Melee Damage'],
 				rarity: 0,
@@ -3515,7 +3547,7 @@ function starfield()
 			nodes[180] = { 
 				x:550,
 				y:242,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Damage','8% increased Projectile Damage','8% increased Melee Damage'],
 				rarity: 0,
@@ -3527,7 +3559,7 @@ function starfield()
 			nodes[181] = { 
 				x:493,
 				y:243,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Life Leech','3% of damage dealth gained as life'],
 				rarity: 0,
@@ -3538,7 +3570,7 @@ function starfield()
 			nodes[182] = { 
 				x:479,
 				y:229,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Life Leech','3% of damage dealth gained as life'],
 				rarity: 0,
@@ -3550,7 +3582,7 @@ function starfield()
 			nodes[183] = { 
 				x:493,
 				y:215,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Vampirism','+5% of damage dealth gained as life','+2 added Maximum Life'],
 				rarity: 0,
@@ -3562,7 +3594,7 @@ function starfield()
 			nodes[184] = { 
 				x:409,
 				y:215,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','8% increased Mining Speed'],
 				rarity: 0,
@@ -3573,7 +3605,7 @@ function starfield()
 			nodes[185] = { 
 				x:423,
 				y:230,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','8% increased Mining Speed'],
 				rarity: 0,
@@ -3585,7 +3617,7 @@ function starfield()
 			nodes[186] = { 
 				x:437,
 				y:215,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Last Breath','More Damage and Mining Speed','the more health you\'re missing'],
 				rarity: 1,
@@ -3596,7 +3628,7 @@ function starfield()
 			nodes[187] = { 
 				x:634,
 				y:117,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Attack Speed','5% increased Attack Speed'],
 				rarity: 0,
@@ -3607,7 +3639,7 @@ function starfield()
 			nodes[188] = { 
 				x:620,
 				y:131,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Attack Speed','5% increased Attack Speed'],
 				rarity: 0,
@@ -3619,7 +3651,7 @@ function starfield()
 			nodes[189] = { 
 				x:606,
 				y:116,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Cursed Touch','Adds a chance to poison, slow or ignite enemies on it.'],
 				rarity: 1,
@@ -3630,7 +3662,7 @@ function starfield()
 			nodes[190] = { 
 				x:535,
 				y:102,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Projectile Damage and Critical Hit Chance','+2% added Critical Hit Chance','20% increased Projectile Damage'],
 				rarity: 0,
@@ -3642,7 +3674,7 @@ function starfield()
 			nodes[191] = { 
 				x:522,
 				y:117,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Projectile Damage and Critical Hit Chance','+2% added Critical Hit Chance','20% increased Projectile Damage'],
 				rarity: 0,
@@ -3654,7 +3686,7 @@ function starfield()
 			nodes[192] = { 
 				x:535,
 				y:131,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Lethal Draw','15% Critical Damage Multiplier','30% increased Projectile Damage'],
 				rarity: 0,
@@ -3666,7 +3698,7 @@ function starfield()
 			nodes[193] = { 
 				x:480,
 				y:130,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Lightning Arc','Hitting mobs has a chance','to spawn chaining lightning bolts','between the hit and nearby monsters'],
 				rarity: 1,
@@ -3677,7 +3709,7 @@ function starfield()
 			nodes[194] = { 
 				x:437,
 				y:117,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Arc Chaining','Lightning Arc bolts chain 1 additional time'],
 				rarity: 0,
@@ -3688,7 +3720,7 @@ function starfield()
 			nodes[195] = { 
 				x:423,
 				y:131,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Arc Chaining','Lightning Arc bolts chain 2 additional time'],
 				rarity: 0,
@@ -3699,7 +3731,7 @@ function starfield()
 			nodes[196] = { 
 				x:437,
 				y:144,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Arc Chaining','Lightning Arc bolts chain 1 additional time'],
 				rarity: 0,
@@ -3710,7 +3742,7 @@ function starfield()
 			nodes[197] = { 
 				x:354,
 				y:300,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','5% increased Mining Speed'],
 				rarity: 0,
@@ -3721,7 +3753,7 @@ function starfield()
 			nodes[198] = { 
 				x:339,
 				y:314,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Excavation','10% more Mining Speed','10% more Attack Speed'],
 				rarity: 0,
@@ -3733,7 +3765,7 @@ function starfield()
 			nodes[199] = { 
 				x:325,
 				y:299,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','5% increased Mining Speed'],
 				rarity: 0,
@@ -3744,7 +3776,7 @@ function starfield()
 			nodes[200] = { 
 				x:366,
 				y:271,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','5% increased Mining Speed'],
 				rarity: 0,
@@ -3755,7 +3787,7 @@ function starfield()
 			nodes[201] = { 
 				x:354,
 				y:258,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Tunneling','8% increased Minig Speed','15% increased Reach'],
 				rarity: 0,
@@ -3767,7 +3799,7 @@ function starfield()
 			nodes[202] = { 
 				x:340,
 				y:271,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','5% increased Mining Speed'],
 				rarity: 0,
@@ -3778,7 +3810,7 @@ function starfield()
 			nodes[203] = { 
 				x:298,
 				y:229,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased PotionEffect Duration','10% increased PotionEffect Duration'],
 				rarity: 0,
@@ -3789,7 +3821,7 @@ function starfield()
 			nodes[204] = { 
 				x:311,
 				y:214,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased PotionEffect Duration','10% increased PotionEffect Duration'],
 				rarity: 0,
@@ -3800,7 +3832,7 @@ function starfield()
 			nodes[205] = { 
 				x:298,
 				y:201,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Profane Chemistry','40% increased PotionEffect Duration','25% less Maximum Life'],
 				rarity: 0,
@@ -3812,7 +3844,7 @@ function starfield()
 			nodes[206] = { 
 				x:241,
 				y:228,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Perk Effect','2% more Effectiveness of Perks'],
 				rarity: 0,
@@ -3823,7 +3855,7 @@ function starfield()
 			nodes[207] = { 
 				x:254,
 				y:244,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Perk Effect','2% more Effectiveness of Perks'],
 				rarity: 0,
@@ -3834,7 +3866,7 @@ function starfield()
 			nodes[208] = { 
 				x:270,
 				y:230,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Gem Socket','Empty Gem Socket'],
 				rarity: 0,
@@ -3845,7 +3877,7 @@ function starfield()
 			nodes[209] = { 
 				x:227,
 				y:357,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Chained Mining','Breaking a block has a chance of breaking up to 4','nearby blocks of the same type.'],
 				rarity: 1,
@@ -3856,7 +3888,7 @@ function starfield()
 			nodes[210] = { 
 				x:199,
 				y:370,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Chained Mining Chance','+15% added chance of Chained Mining'],
 				rarity: 0,
@@ -3867,7 +3899,7 @@ function starfield()
 			nodes[211] = { 
 				x:185,
 				y:385,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Chained Mining Chance','+15% added chance of Chained Mining'],
 				rarity: 0,
@@ -3878,7 +3910,7 @@ function starfield()
 			nodes[212] = { 
 				x:171,
 				y:412,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Increased Chained Mining Chance','+100% chance of Chained Mining'],
 				rarity: 0,
@@ -3889,7 +3921,7 @@ function starfield()
 			nodes[213] = { 
 				x:213,
 				y:327,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Chained Mining Length','+1 added Chained Mining Length'],
 				rarity: 0,
@@ -3900,7 +3932,7 @@ function starfield()
 			nodes[214] = { 
 				x:200,
 				y:313,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Chained Mining Length','+1 added Chained Mining Length'],
 				rarity: 0,
@@ -3911,7 +3943,7 @@ function starfield()
 			nodes[215] = { 
 				x:171,
 				y:341,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Successive Chains','+50% added chance of triggering additional','Mining Chains when triggering one'],
 				rarity: 0,
@@ -3922,7 +3954,7 @@ function starfield()
 			nodes[216] = { 
 				x:185,
 				y:285,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Greater Chained Mining Length','+3 added Chained Mining Length'],
 				rarity: 0,
@@ -3933,7 +3965,7 @@ function starfield()
 			nodes[217] = { 
 				x:214,
 				y:498,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Dodge Chance','+2% added Dodge Chance'],
 				rarity: 0,
@@ -3944,7 +3976,7 @@ function starfield()
 			nodes[218] = { 
 				x:199,
 				y:510,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Dodge Chance','5% increased Dodge Chance'],
 				rarity: 0,
@@ -3955,7 +3987,7 @@ function starfield()
 			nodes[219] = { 
 				x:185,
 				y:497,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Dodge Chance','5% increased Dodge Chance'],
 				rarity: 0,
@@ -3966,7 +3998,7 @@ function starfield()
 			nodes[220] = { 
 				x:200,
 				y:482,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Mending','Occasionally your armor repairs itself a bit'],
 				rarity: 1,
@@ -3977,7 +4009,7 @@ function starfield()
 			nodes[221] = { 
 				x:311,
 				y:384,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Mining Speed','+1 added Mining Speed'],
 				rarity: 0,
@@ -3988,7 +4020,7 @@ function starfield()
 			nodes[222] = { 
 				x:298,
 				y:371,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Different Angles','A pickaxe can be used instead of','an axe or shovel'],
 				rarity: 1,
@@ -3999,7 +4031,7 @@ function starfield()
 			nodes[223] = { 
 				x:312,
 				y:356,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','6% increased Mining Speed'],
 				rarity: 0,
@@ -4010,7 +4042,7 @@ function starfield()
 			nodes[224] = { 
 				x:297,
 				y:341,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','6% increased Mining Speed'],
 				rarity: 0,
@@ -4021,7 +4053,7 @@ function starfield()
 			nodes[225] = { 
 				x:255,
 				y:426,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Melee Damage','5% more Melee Damage'],
 				rarity: 0,
@@ -4032,7 +4064,7 @@ function starfield()
 			nodes[226] = { 
 				x:269,
 				y:413,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Breaking Aim','Attacks have a chance of disarming the target'],
 				rarity: 1,
@@ -4043,7 +4075,7 @@ function starfield()
 			nodes[227] = { 
 				x:269,
 				y:440,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Melee Damage','5% more Melee Damage'],
 				rarity: 0,
@@ -4054,7 +4086,7 @@ function starfield()
 			nodes[228] = { 
 				x:282,
 				y:426,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Melee Damage','5% more Melee Damage'],
 				rarity: 0,
@@ -4065,7 +4097,7 @@ function starfield()
 			nodes[229] = { 
 				x:295,
 				y:539,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Maximum Life','4% increased Maximum Life'],
 				rarity: 0,
@@ -4076,7 +4108,7 @@ function starfield()
 			nodes[230] = { 
 				x:283,
 				y:525,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Thick Skin','5% increased Maximum Life','10% increased Armor'],
 				rarity: 0,
@@ -4088,7 +4120,7 @@ function starfield()
 			nodes[231] = { 
 				x:269,
 				y:538,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Maximum Life','4% increased Maximum Life'],
 				rarity: 0,
@@ -4099,7 +4131,7 @@ function starfield()
 			nodes[232] = { 
 				x:311,
 				y:567,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Maximum Life','4% increased Maximum Life'],
 				rarity: 0,
@@ -4110,7 +4142,7 @@ function starfield()
 			nodes[233] = { 
 				x:297,
 				y:581,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Melding','5% increased Maximum Life','10% increased Elemental Resistances'],
 				rarity: 0,
@@ -4122,7 +4154,7 @@ function starfield()
 			nodes[234] = { 
 				x:283,
 				y:567,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Maximum Life','4% increased Maximum Life'],
 				rarity: 0,
@@ -4133,7 +4165,7 @@ function starfield()
 			nodes[235] = { 
 				x:255,
 				y:636,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','4% increased Mining Speed'],
 				rarity: 0,
@@ -4144,7 +4176,7 @@ function starfield()
 			nodes[236] = { 
 				x:241,
 				y:623,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','4% increased Mining Speed'],
 				rarity: 0,
@@ -4155,7 +4187,7 @@ function starfield()
 			nodes[237] = { 
 				x:227,
 				y:637,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Mining Speed','4% increased Mining Speed'],
 				rarity: 0,
@@ -4166,7 +4198,7 @@ function starfield()
 			nodes[238] = { 
 				x:242,
 				y:653,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Stone Enrichment','Stone near you might','turn into more valuable stone'],
 				rarity: 1,
@@ -4177,7 +4209,7 @@ function starfield()
 			nodes[239] = { 
 				x:339,
 				y:609,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Reach','8% increased Reach'],
 				rarity: 0,
@@ -4188,7 +4220,7 @@ function starfield()
 			nodes[240] = { 
 				x:353,
 				y:623,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Reach','8% increased Reach'],
 				rarity: 0,
@@ -4199,7 +4231,7 @@ function starfield()
 			nodes[241] = { 
 				x:339,
 				y:637,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Greed','+1 added Reach','5% increased Mining Speed'],
 				rarity: 0,
@@ -4211,7 +4243,7 @@ function starfield()
 			nodes[242] = { 
 				x:285,
 				y:667,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Perk Effect','2% more Effectiveness of Perks'],
 				rarity: 0,
@@ -4222,7 +4254,7 @@ function starfield()
 			nodes[243] = { 
 				x:271,
 				y:695,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Perk Effect','2% more Effectiveness of Perks'],
 				rarity: 0,
@@ -4233,7 +4265,7 @@ function starfield()
 			nodes[244] = { 
 				x:284,
 				y:722,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Gem Socket','Empty Gem Socket'],
 				rarity: 0,
@@ -4244,7 +4276,7 @@ function starfield()
 			nodes[245] = { 
 				x:370,
 				y:779,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Attack Speed and Reach','5% increased Attack Speed','5% increased Reach'],
 				rarity: 0,
@@ -4256,7 +4288,7 @@ function starfield()
 			nodes[246] = { 
 				x:383,
 				y:792,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Attack Speed and Reach','5% increased Attack Speed','5% increased Reach'],
 				rarity: 0,
@@ -4268,7 +4300,7 @@ function starfield()
 			nodes[247] = { 
 				x:397,
 				y:778,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Spatial Manipulation','Items dropped when mining or slaying monsters are','directly transferred to your inventory.'],
 				rarity: 1,
@@ -4279,7 +4311,7 @@ function starfield()
 			nodes[248] = { 
 				x:425,
 				y:709,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','5% increased Movement Speed'],
 				rarity: 0,
@@ -4290,7 +4322,7 @@ function starfield()
 			nodes[249] = { 
 				x:410,
 				y:694,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','5% increased Movement Speed'],
 				rarity: 0,
@@ -4301,7 +4333,7 @@ function starfield()
 			nodes[250] = { 
 				x:425,
 				y:681,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Hiking Boots','Stepping up single blocks seems way easier.'],
 				rarity: 1,
@@ -4312,7 +4344,7 @@ function starfield()
 			nodes[251] = { 
 				x:411,
 				y:667,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Reach','10% increased Reach'],
 				rarity: 0,
@@ -4323,7 +4355,7 @@ function starfield()
 			nodes[252] = { 
 				x:355,
 				y:667,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Life Recovery','15% increased Life Recovery'],
 				rarity: 0,
@@ -4334,7 +4366,7 @@ function starfield()
 			nodes[253] = { 
 				x:369,
 				y:680,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Spreading Growth','Plants around you grow faster'],
 				rarity: 1,
@@ -4345,7 +4377,7 @@ function starfield()
 			nodes[254] = { 
 				x:369,
 				y:652,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Life Recovery','15% increased Life Recovery'],
 				rarity: 0,
@@ -4356,7 +4388,7 @@ function starfield()
 			nodes[255] = { 
 				x:383,
 				y:667,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Life Recovery','15% increased Life Recovery'],
 				rarity: 0,
@@ -4367,7 +4399,7 @@ function starfield()
 			nodes[256] = { 
 				x:522,
 				y:680,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','4% increased Movement Speed'],
 				rarity: 0,
@@ -4378,7 +4410,7 @@ function starfield()
 			nodes[257] = { 
 				x:537,
 				y:694,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Swift','4% increased Movement Speed','10% increased Dodge Chance'],
 				rarity: 0,
@@ -4390,7 +4422,7 @@ function starfield()
 			nodes[258] = { 
 				x:522,
 				y:708,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','4% increased Movement Speed'],
 				rarity: 0,
@@ -4401,7 +4433,7 @@ function starfield()
 			nodes[259] = { 
 				x:495,
 				y:694,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','4% increased Movement Speed'],
 				rarity: 0,
@@ -4412,7 +4444,7 @@ function starfield()
 			nodes[260] = { 
 				x:479,
 				y:708,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Rapid Pace','15% increased Attack Speed'],
 				rarity: 0,
@@ -4423,7 +4455,7 @@ function starfield()
 			nodes[261] = { 
 				x:494,
 				y:723,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','4% increased Movement Speed'],
 				rarity: 0,
@@ -4434,7 +4466,7 @@ function starfield()
 			nodes[262] = { 
 				x:481,
 				y:778,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Swimming Speed','10% increased Swimming Speed'],
 				rarity: 0,
@@ -4445,7 +4477,7 @@ function starfield()
 			nodes[263] = { 
 				x:466,
 				y:793,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Swimming Speed','10% increased Swimming Speed'],
 				rarity: 0,
@@ -4456,7 +4488,7 @@ function starfield()
 			nodes[264] = { 
 				x:480,
 				y:806,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Swimming Speed','10% increased Swimming Speed'],
 				rarity: 0,
@@ -4467,7 +4499,7 @@ function starfield()
 			nodes[265] = { 
 				x:466,
 				y:821,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Additional Fins','Increases and decreases to Movement Speed also','apply to Swimming Speed at 50% of their value.'],
 				rarity: 1,
@@ -4478,7 +4510,7 @@ function starfield()
 			nodes[266] = { 
 				x:551,
 				y:765,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Dodge Chance','10% Increased Dodge Chance'],
 				rarity: 0,
@@ -4489,7 +4521,7 @@ function starfield()
 			nodes[267] = { 
 				x:537,
 				y:779,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Dodge Chance','10% Increased Dodge Chance'],
 				rarity: 0,
@@ -4500,7 +4532,7 @@ function starfield()
 			nodes[268] = { 
 				x:551,
 				y:793,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Dodge Chance','10% Increased Dodge Chance'],
 				rarity: 0,
@@ -4511,7 +4543,7 @@ function starfield()
 			nodes[269] = { 
 				x:565,
 				y:778,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Bigger Stomach','Reduces your overall need for food.'],
 				rarity: 1,
@@ -4522,7 +4554,7 @@ function starfield()
 			nodes[270] = { 
 				x:593,
 				y:695,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','5% increased Movement Speed'],
 				rarity: 0,
@@ -4533,7 +4565,7 @@ function starfield()
 			nodes[271] = { 
 				x:606,
 				y:680,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','5% increased Movement Speed'],
 				rarity: 0,
@@ -4544,7 +4576,7 @@ function starfield()
 			nodes[272] = { 
 				x:592,
 				y:667,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Miner\'s Delight','Places light sources close to you in caves'],
 				rarity: 1,
@@ -4555,7 +4587,7 @@ function starfield()
 			nodes[273] = { 
 				x:635,
 				y:652,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Attack Speed','5% Increased Attack Speed'],
 				rarity: 0,
@@ -4566,7 +4598,7 @@ function starfield()
 			nodes[274] = { 
 				x:620,
 				y:667,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Attack Speed','5% Increased Attack Speed'],
 				rarity: 0,
@@ -4577,7 +4609,7 @@ function starfield()
 			nodes[275] = { 
 				x:606,
 				y:653,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Zeal','15% Increased Attack Speed'],
 				rarity: 0,
@@ -4588,7 +4620,7 @@ function starfield()
 			nodes[276] = { 
 				x:677,
 				y:667,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor','10% Increased Armor'],
 				rarity: 0,
@@ -4599,7 +4631,7 @@ function starfield()
 			nodes[277] = { 
 				x:662,
 				y:652,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Elemental Resistance','10% Increased Elemental Resistances'],
 				rarity: 0,
@@ -4610,7 +4642,7 @@ function starfield()
 			nodes[278] = { 
 				x:675,
 				y:637,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Diamond Skin','Take 30% less damage when wearing','less that 2 armor pieces.'],
 				rarity: 1,
@@ -4621,7 +4653,7 @@ function starfield()
 			nodes[279] = { 
 				x:719,
 				y:737,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Perk Effect','2% more Effectiveness of Perks'],
 				rarity: 0,
@@ -4632,7 +4664,7 @@ function starfield()
 			nodes[280] = { 
 				x:705,
 				y:751,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Perk Effect','2% more Effectiveness of Perks'],
 				rarity: 0,
@@ -4643,7 +4675,7 @@ function starfield()
 			nodes[281] = { 
 				x:690,
 				y:737,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Gem Socket','Empty Gem Socket'],
 				rarity: 0,
@@ -4654,7 +4686,7 @@ function starfield()
 			nodes[282] = { 
 				x:733,
 				y:680,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Elemental Resistance','5% increased Elemental Reistances'],
 				rarity: 0,
@@ -4665,7 +4697,7 @@ function starfield()
 			nodes[283] = { 
 				x:747,
 				y:667,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Elemental Resistance','5% increased Elemental Reistances'],
 				rarity: 0,
@@ -4676,7 +4708,7 @@ function starfield()
 			nodes[284] = { 
 				x:761,
 				y:681,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Elemental Resistance','5% increased Elemental Reistances'],
 				rarity: 0,
@@ -4687,7 +4719,7 @@ function starfield()
 			nodes[285] = { 
 				x:747,
 				y:694,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Phoenix Blessing','Can save you from death in dire situations.'],
 				rarity: 1,
@@ -4701,7 +4733,7 @@ function starfield()
 			nodes[286] = { 
 				x:704,
 				y:594,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor','5% increased Armor'],
 				rarity: 0,
@@ -4712,7 +4744,7 @@ function starfield()
 			nodes[287] = { 
 				x:690,
 				y:580,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Unwavering','5% more Armor','+3% added Dodge Chance'],
 				rarity: 0,
@@ -4724,7 +4756,7 @@ function starfield()
 			nodes[288] = { 
 				x:705,
 				y:568,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor','5% increased Armor'],
 				rarity: 0,
@@ -4735,7 +4767,7 @@ function starfield()
 			nodes[289] = { 
 				x:732,
 				y:581,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Elemental Resistances','6% increased Elemental Resistances'],
 				rarity: 0,
@@ -4746,7 +4778,7 @@ function starfield()
 			nodes[290] = { 
 				x:746,
 				y:567,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Shrouded Shield','10% increased Elemental Resistances','+1 added Maximum Life'],
 				rarity: 0,
@@ -4758,7 +4790,7 @@ function starfield()
 			nodes[291] = { 
 				x:732,
 				y:553,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Elemental Resistances','6% increased Elemental Resistances'],
 				rarity: 0,
@@ -4769,7 +4801,7 @@ function starfield()
 			nodes[292] = { 
 				x:801,
 				y:524,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Armor','+1 added Armor'],
 				rarity: 0,
@@ -4780,7 +4812,7 @@ function starfield()
 			nodes[293] = { 
 				x:816,
 				y:511,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Armor','+1 added Armor'],
 				rarity: 0,
@@ -4791,7 +4823,7 @@ function starfield()
 			nodes[294] = { 
 				x:828,
 				y:525,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Added Armor','+1 added Armor'],
 				rarity: 0,
@@ -4802,7 +4834,7 @@ function starfield()
 			nodes[295] = { 
 				x:816,
 				y:539,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Bulwark','+6 added Armor','+2 added Armor Toughness'],
 				rarity: 0,
@@ -4814,7 +4846,7 @@ function starfield()
 			nodes[296] = { 
 				x:731,
 				y:469,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Thorns','+5% of melee damage taken is reflected'],
 				rarity: 0,
@@ -4825,7 +4857,7 @@ function starfield()
 			nodes[297] = { 
 				x:745,
 				y:454,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Thorns','+10% of melee damage taken is reflected'],
 				rarity: 0,
@@ -4836,7 +4868,7 @@ function starfield()
 			nodes[298] = { 
 				x:732,
 				y:440,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Dislocated Reflection','+10% of melee damage taken is reflected','Ranged damage is also being reflected'],
 				rarity: 0,
@@ -4848,7 +4880,7 @@ function starfield()
 			nodes[299] = { 
 				x:718,
 				y:398,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor','5% increased Armor'],
 				rarity: 0,
@@ -4859,7 +4891,7 @@ function starfield()
 			nodes[300] = { 
 				x:731,
 				y:412,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Armor','5% increased Armor'],
 				rarity: 0,
@@ -4870,7 +4902,7 @@ function starfield()
 			nodes[301] = { 
 				x:746,
 				y:398,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Bastion of Flesh','Convert all increases and decreases of armor to life.','You have no armor.'],
 				rarity: 1,
@@ -4881,7 +4913,7 @@ function starfield()
 			nodes[302] = { 
 				x:718,
 				y:370,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Bleeding','Adds a chance that mobs bleed after being hit','dealing damage to them for the bleed duration'],
 				rarity: 1,
@@ -4892,7 +4924,7 @@ function starfield()
 			nodes[303] = { 
 				x:732,
 				y:357,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Bleed Duration','40% increased Bleed Duration'],
 				rarity: 0,
@@ -4903,7 +4935,7 @@ function starfield()
 			nodes[304] = { 
 				x:717,
 				y:341,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Bleed Duration','40% increased Bleed Duration'],
 				rarity: 0,
@@ -4914,7 +4946,7 @@ function starfield()
 			nodes[305] = { 
 				x:801,
 				y:370,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased PotionEffect Duration','15% increased PotionEffect Duration'],
 				rarity: 0,
@@ -4925,7 +4957,7 @@ function starfield()
 			nodes[306] = { 
 				x:815,
 				y:384,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased PotionEffect Duration','15% increased PotionEffect Duration'],
 				rarity: 0,
@@ -4936,7 +4968,7 @@ function starfield()
 			nodes[307] = { 
 				x:830,
 				y:370,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Alchemists Flasks','30% increased PotionEffect Duration','5% increased Movement Speed'],
 				rarity: 0,
@@ -4948,7 +4980,7 @@ function starfield()
 			nodes[308] = { 
 				x:831,
 				y:313,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','5% increased Movement Speed'],
 				rarity: 0,
@@ -4959,7 +4991,7 @@ function starfield()
 			nodes[309] = { 
 				x:817,
 				y:299,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Movement Speed','5% increased Movement Speed'],
 				rarity: 0,
@@ -4970,7 +5002,7 @@ function starfield()
 			nodes[310] = { 
 				x:802,
 				y:314,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Critical Hit Chance','8% increased Critical Hit Chance'],
 				rarity: 0,
@@ -4981,7 +5013,7 @@ function starfield()
 			nodes[311] = { 
 				x:788,
 				y:299,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Culling Strike','Enemies hit below 15% of their maximum life are instantly killed.'],
 				rarity: 1,
@@ -4992,7 +5024,7 @@ function starfield()
 			nodes[312] = { 
 				x:760,
 				y:187,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Perk Effect','2% more Effectiveness of Perks'],
 				rarity: 0,
@@ -5003,7 +5035,7 @@ function starfield()
 			nodes[313] = { 
 				x:747,
 				y:159,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['More Perk Effect','2% more Effectiveness of Perks'],
 				rarity: 0,
@@ -5014,7 +5046,7 @@ function starfield()
 			nodes[314] = { 
 				x:718,
 				y:145,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Gem Socket','Empty Gem Socket'],
 				rarity: 0,
@@ -5025,7 +5057,7 @@ function starfield()
 			nodes[315] = { 
 				x:745,
 				y:243,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Less Projectile Damage','10% less Projectile Damage'],
 				rarity: 0,
@@ -5036,7 +5068,7 @@ function starfield()
 			nodes[316] = { 
 				x:760,
 				y:229,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Less Projectile Damage','10% less Projectile Damage'],
 				rarity: 0,
@@ -5047,7 +5079,7 @@ function starfield()
 			nodes[317] = { 
 				x:745,
 				y:215,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Blunt Bolts','The closer the enemy hit by a projectile, the','more damage the projectile deals','If the monster is further away, it deals significantly less damage.'],
 				rarity: 1,
@@ -5059,7 +5091,7 @@ function starfield()
 			nodes[318] = { 
 				x:690,
 				y:186,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Less Projectile Damage','10% less Projectile Damage'],
 				rarity: 0,
@@ -5070,7 +5102,7 @@ function starfield()
 			nodes[319] = { 
 				x:703,
 				y:173,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Less Projectile Damage','10% less Projectile Damage'],
 				rarity: 0,
@@ -5081,7 +5113,7 @@ function starfield()
 			nodes[320] = { 
 				x:718,
 				y:187,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Long shot','The further away the enemy hit by a projectile is,','the more damage the projectile deals. If the enemy','is closer, your attack deals significantly less damage.'],
 				rarity: 1,
@@ -5092,7 +5124,7 @@ function starfield()
 			nodes[321] = { 
 				x:662,
 				y:286,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Projectile Damage','10% increased Projectile Damage'],
 				rarity: 0,
@@ -5103,7 +5135,7 @@ function starfield()
 			nodes[322] = { 
 				x:676,
 				y:299,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Sniper','5% more Projectile Damage','+2% added Critical Hit Chance'],
 				rarity: 0,
@@ -5115,7 +5147,7 @@ function starfield()
 			nodes[323] = { 
 				x:690,
 				y:285,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Projectile Damage','10% increased Projectile Damage'],
 				rarity: 0,
@@ -5126,7 +5158,7 @@ function starfield()
 			nodes[324] = { 
 				x:647,
 				y:257,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Melee Damage','10% increased Melee Damage'],
 				rarity: 0,
@@ -5137,7 +5169,7 @@ function starfield()
 			nodes[325] = { 
 				x:662,
 				y:243,
-				r:10, 
+				r:10,s:2, 
 				stat:'off', 
 				tooltip: ['Heavy Strike','5% more Melee Damage','30% increased Critical Damage Multiplier'],
 				rarity: 0,
@@ -5149,7 +5181,7 @@ function starfield()
 			nodes[326] = { 
 				x:676,
 				y:256,
-				r:5, 
+				r:5,s:1, 
 				stat:'off', 
 				tooltip: ['Increased Melee Damage','10% increased Melee Damage'],
 				rarity: 0,
