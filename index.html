@@ -453,7 +453,9 @@ function starfield()
 				
 				nodes[i].x*=.9;
 				nodes[i].y*=.9;
-				nodes[i].r*=.9;
+				//nodes[i].r*=.9;
+				
+				if(nodes[i].r<1){nodes[i].r=1;}
 				
 				nodes[i].x+=mouse.x;
 				nodes[i].y+=mouse.y;
@@ -480,7 +482,9 @@ function starfield()
 	
 				nodes[i].x*=1.1;
 				nodes[i].y*=1.1;
-				nodes[i].r*=1.1;
+				//nodes[i].r*=1.1;
+				
+				
 				
 				//nodes[i].x+=canvas.width/2;
 				//nodes[i].y+=canvas.height/2;
@@ -1326,7 +1330,7 @@ function starfield()
 		
 		amulet_enchantments.t=(amulet_enchantments.b + amulet_enchantments.a) * amulet_enchantments.i * amulet_enchantments.m;
 		amulet_enchantments.t-=amulet_enchantments.b;
-		if(amulet_enchantments.t!==0){ the_results+='<p>Amulet Enchantments: +%' + ((amulet_enchantments.t)*100).toFixed(2) + '</p>'; }
+		if(amulet_enchantments.t!==0){ the_results+='<p>Amulet Enchantments: ' + signit(((amulet_enchantments.t)*100).toFixed(2)) + '%</p>'; }
 		
 		gem_socket.t=(gem_socket.b + gem_socket.a) * gem_socket.i * gem_socket.m;	
 		gem_socket.t-=gem_socket.b;
