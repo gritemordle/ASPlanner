@@ -86,6 +86,7 @@
 	var perk_points=30;
 	var root_nodes=0;
 	var	epiphanies=0;
+	var first_epiphany=0;
 	var focus_nodes=0;
 	var singularity_node=0;
 	
@@ -452,6 +453,9 @@ function starfield()
 			}
 	
 		}
+		
+		
+		
 	
 	}
 	
@@ -794,6 +798,8 @@ function starfield()
 			 }		 
 			 
 			 
+			 ctx_tooltip.fillText(nodes[i].tag.toString(),x+10+ts+flip,y-(th)+((ii+1)*th)+(th/2)+(ts/2));
+			 
 			 
 			 break;
 		
@@ -848,6 +854,7 @@ function starfield()
 			if(nodes[i].tooltip[0].includes('Epiphany'))
 			 {
 				epiphanies+=1;
+				if(first_epiphany==0){ first_epiphany=nodes[i];}
 			 }		
 			
 			
@@ -928,7 +935,12 @@ function starfield()
 	
 			 if(nodes[i].tooltip[0].includes('Epiphany'))
 			 {
-				epiphanies-=1;
+			 
+				if(nodes[i]==first_epiphany && epiphanies>1)
+				{  nodes[i].stat='on'; perk_points++;       }
+				else 
+				{ epiphanies-=1;
+				  if(nodes[i]==first_epiphany) { first_epiphany=0; } }
 			 }
 			 
 			 if(nodes[i].tooltip[0].includes('Focus:'))
@@ -1090,7 +1102,7 @@ function starfield()
 	
 		nodes[i].tag=0;
 	
-		if(nodes[i].stat=='on' && (nodes[i].tooltip[0].includes('Root:') || nodes[i].tooltip[0].includes('Epiphany')))
+		if(nodes[i].stat=='on' && (nodes[i].tooltip[0].includes('Root:') || ( nodes[i].tooltip[0].includes('Epiphany') && epiphanies>1 && nodes[i]!==first_epiphany)) )
 		{
 			root_nodes.push(nodes[i]);
 		}
@@ -1149,7 +1161,7 @@ function starfield()
 	if(n==f)
 	{
 		hits++;
-		console.log('found ' + f.tooltip[0]);
+		//console.log('found ' + f.tooltip[0]);
 	
 	}
 	else
@@ -1160,14 +1172,14 @@ function starfield()
 	  for(var iii=0, count=n.ncomplete.length; iii<count;iii++)
 	  {
 	  
-		console.log(n.tooltip[0] + ' checking ' + n.ncomplete[iii].tooltip[0] + ' ' + n.ncomplete[iii].stat + ' / ' + n.ncomplete[iii].tag);
+		//console.log(n.tooltip[0] + ' checking ' + n.ncomplete[iii].tooltip[0] + ' ' + n.ncomplete[iii].stat + ' / ' + n.ncomplete[iii].tag);
 	  
 		if(n.ncomplete[iii].stat=='on' && n.ncomplete[iii].tag==0)
 		{
 	  
 
 
-			console.log(n.tooltip[0] + ' tracing ' + n.ncomplete[iii].tooltip[0] + ' ' + iii + ' / ' + n.ncomplete.length);
+			//console.log(n.tooltip[0] + ' tracing ' + n.ncomplete[iii].tooltip[0] + ' ' + iii + ' / ' + n.ncomplete.length);
 			
 			var check=trace(n.ncomplete[iii],f);
 			
