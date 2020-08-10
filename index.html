@@ -14,37 +14,50 @@
 </head>
 
 <body>
-<div style="width: 100%;">
 
 
 
 
-<div style="height: 1100px; float: left; background: white; padding-right: 15px; ">
-  <canvas id = "ASMain" width = "1000" height = "1000" style="position: absolute; top: 0; left: 0;"></canvas>
-  <canvas id = "canvas_lines" width = "1000" height = "1000" style="position: absolute; top: 0; left: 0;"></canvas>
-  <canvas id = "canvas_search" width = "1000" height = "1000" style="position: absolute; top: 0; left: 0;"></canvas>
-  <canvas id = "canvas_nodes" width = "1000" height = "1000" style="position: absolute; top: 0; left: 0;"></canvas>
-  <canvas id = "canvas_tooltip" width = "1000" height = "1000" style="position: absolute; top: 0; left: 0;"></canvas>
-  <canvas id = "ASListen" width = "1000" height = "1000" style="position: absolute; top: 0; left: 0;"></canvas></div>
-  
-  <div style="padding-top: 25px; height: 1100px; background: white; font-family: sans-serif; position: absolute; top: 0; left: 1025px; ">
+
+<div >
+
+  <canvas id = "ASMain"  style="position: absolute; top: 0; left: 0;"></canvas>
+  <canvas id = "canvas_lines"  style="position: absolute; top: 0; left: 0;"></canvas>
+  <canvas id = "canvas_search"  style="position: absolute; top: 0; left: 0;"></canvas>
+  <canvas id = "canvas_nodes"  style="position: absolute; top: 0; left: 0;"></canvas>
+  <canvas id = "canvas_tooltip"  style="position: absolute; top: 0; left: 0;"></canvas>
+  <canvas id = "ASListen"  style="position: absolute; top: 0; left: 0;"></canvas>
   
   <label for="search_this">Search</label>
-  <input type="text" id="search_this"  maxlength="80" size="20" onkeyup="search()">
+  <input type="text" id="search_this"  maxlength="80" size="20" onkeyup="search()">  
 
-<br/>
-
-
+ </div>
   
+
+ 
   
 <div id="results" >
 
 
 
 </div>
-</div>  
+
+
+  
+  
+
+
+
+
+
+
+
   
   <script>
+  
+  
+  
+  
   
 	var nodecolor='white';
 	var linecolor='white';
@@ -74,31 +87,57 @@
 	 var canvas_listen = document.getElementById('ASListen');
      var context_listen = canvas_listen.getContext('2d');  
 
-	 var perm = new Array(512)
 	 
+	 canvas.width=window.innerWidth;
+	 canvas.height=window.innerHeight;
+	 
+	 canvas_lines.width=window.innerWidth;
+	 canvas_lines.height=window.innerHeight;
+
+	 canvas_search.width=window.innerWidth;
+	 canvas_search.height=window.innerHeight;
+
+	 canvas_nodes.width=window.innerWidth;
+	 canvas_nodes.height=window.innerHeight;
+
+	 canvas_tooltip.width=window.innerWidth;
+	 canvas_tooltip.height=window.innerHeight;
+
+	 canvas_listen.width=window.innerWidth;
+	 canvas_listen.height=window.innerHeight;
+	 
+	positionResults();
+	 
+	 var perm = new Array(512)	 
 	 for(p=0;p<256;p++)
 	 {perm[p]=Math.floor(Math.random() * 256);}
+	 
+function positionResults()
+{
+
+     var results_panel = document.getElementById('results');
+	 results_panel.style.position = "absolute";
+	 results_panel.style.top="20px";
+	 results_panel.style.height=(window.innerHeight-40).toString() + "px";
+	 results_panel.style.width=((window.innerWidth/3) * .95).toString() + "px";	 
+	 results_panel.style.left=((window.innerWidth/3)*2).toString() + "px";
+	 results_panel.style.borderStyle = "solid";
+
+	 results_panel.style.zIndex=99;
+	 results_panel.style.backgroundColor="white";
+
+
+
+}	 
+	 
 	 
 	 
  PerlinNoise = new function() {
 
-this.noise = function(x, y, z) {
+	this.noise = function(x, y, z) {
 
    var p = new Array(512)
-   var permutation = [ 151,160,137,91,90,15,
-   131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
-   190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
-   88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
-   77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
-   102,143,54, 65,25,63,161, 1,216,80,73,209,76,132,187,208, 89,18,169,200,196,
-   135,130,116,188,159,86,164,100,109,198,173,186, 3,64,52,217,226,250,124,123,
-   5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,
-   223,183,170,213,119,248,152, 2,44,154,163, 70,221,153,101,155,167, 43,172,9,
-   129,22,39,253, 19,98,108,110,79,113,224,232,178,185, 112,104,218,246,97,228,
-   251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
-   49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
-   138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
-   ];
+
    
    permutation = perm;
    
@@ -136,19 +175,23 @@ this.noise = function(x, y, z) {
    } 
    function scale(n) { return (1 + n)/2; }
 } 	 
+
+
+function starfield()
+{
+
 	  context.fillStyle = "midnightblue";
- context.fillRect(0, 0, canvas.width, canvas.height);
-	 
-	 
-	 for(xx=0;xx<1000;xx+=8)
+	  context.fillRect(0, 0, canvas.width, canvas.height);
+	 	 
+	 for(xx=0;xx<canvas.width;xx+=8)
 	 {
-	  for(yy=0;yy<1000;yy+=8)
+	  for(yy=0;yy<canvas.height;yy+=8)
 	  {
 	  
 			var xi=xx;
 			var yi=yy;
 	  
-			xi /= 1000; yi /= 1000; // normalize
+			xi /= canvas.width; yi /= canvas.height; // normalize
 			size = 3;  // pick a scaling value
 			n = PerlinNoise.noise( size*xi, size*yi, .8 );
 			//b=200;
@@ -168,22 +211,18 @@ this.noise = function(x, y, z) {
 	  }
 	 
 	 }
+		
 	
-
-	
-	
-	
-	
-	 for(xx=0;xx<1000;xx+=(Math.floor(Math.random() * 40)+1))
+	 for(xx=0;xx<canvas.width;xx+=(Math.floor(Math.random() * 40)+1))
 	 {
-	  for(yy=0;yy<1000;yy+=(Math.floor(Math.random() * 100)+1))
+	  for(yy=0;yy<canvas.height;yy+=(Math.floor(Math.random() * 100)+1))
 	  {
 	  
 	
 		    var xi=xx;
 			var yi=yy;
 	  
-			xi /= 1000; yi /= 1000; // normalize
+			xi /= canvas.width; yi /= canvas.height; // normalize
 			size = 3;  // pick a scaling value
 			n = PerlinNoise.noise( size*xi, size*yi, .8 );
 	
@@ -203,6 +242,13 @@ this.noise = function(x, y, z) {
 
 	 }	 
 	 
+	
+}	
+	 
+	
+
+
+	starfield();
 	 
 	var ts=10;
 	 
@@ -216,12 +262,36 @@ this.noise = function(x, y, z) {
   var nodes = new Array();
   
   
+  var mouse={x:0,y:0};
+  
+  var ttrans={x:0,y:0};  
+  var trans={x:0,y:0};
+  var scale=1.0;
+  var scale2=1.0;
+  var md=0;
+  var start={x:0,y:0};
+  
+  
 
   defineNodes();
   
+ 
+	 canvas_nodes.width=window.innerWidth;
+	 canvas_nodes.height=window.innerHeight;
+	 
+	 var middlex=window.innerWidth/3;
+	 var middley=window.innerHeight/1.91;
+ 
+		var mtx=500-middlex;
+		var mty=500-middley;
+		
+		
+  for(var i=0;i<nodes.length;i++)
+  {
+		nodes[i].x-=mtx;
+		nodes[i].y-=mty;
   
- 
- 
+  }
 
  
   
@@ -265,7 +335,7 @@ this.noise = function(x, y, z) {
 			{
 			
 			ctx_search.beginPath();
-			ctx_search.arc(value.x,value.y,value.r*1.5,0, 2 * Math.PI, false);
+			ctx_search.arc((value.x+ttrans.x+trans.x)*scale,(value.y+ttrans.y+trans.y)*scale,value.r*1.5,0, 2 * Math.PI, false);
 			ctx_search.fillStyle = searchcolor;
 			ctx_search.fill();
 			//ctx_search.lineWidth = 2;
@@ -281,7 +351,7 @@ this.noise = function(x, y, z) {
 
   
 	ctx_nodes.beginPath();
-	ctx_nodes.arc(value.x,value.y,value.r,0, 2 * Math.PI, false);
+	ctx_nodes.arc((value.x+ttrans.x+trans.x)*scale,(value.y+ttrans.y+trans.y)*scale,value.r,0, 2 * Math.PI, false);
 	ctx_nodes.fillStyle = color;
 	ctx_nodes.fill();
 	ctx_nodes.lineWidth = 4;
@@ -296,8 +366,8 @@ this.noise = function(x, y, z) {
 		for (i=0;i<value.n.length; i++) {
 		
 		ctx_lines.beginPath();
-		ctx_lines.moveTo(value.x,value.y);
-		ctx_lines.lineTo(value.n[i].x,value.n[i].y);
+		ctx_lines.moveTo((value.x+ttrans.x+trans.x)*scale,(value.y+ttrans.y+trans.y)*scale);
+		ctx_lines.lineTo((value.n[i].x+ttrans.x+trans.x)*scale,(value.n[i].y+ttrans.y+trans.y)*scale);
 		ctx_lines.lineWidth=2;
 		
 		if(value.stat=='on' && value.n[i].stat=='on')
@@ -329,6 +399,148 @@ this.noise = function(x, y, z) {
   
   updateResults();
   
+    canvas_listen.onmousedown = function(event) {
+
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+		md=1;
+		start.x=x;
+		start.y=y;
+	
+	}
+ 
+    canvas_listen.onmouseup = function(event) {
+	
+		md=0;
+		
+		for(var i=0;i<nodes.length;i++)
+		{
+			nodes[i].x+=trans.x;
+			nodes[i].y+=trans.y;
+		}
+				
+		trans.x=0;
+		trans.y=0;
+			
+			
+	}
+	
+	
+
+ 
+ 
+     canvas_listen.onwheel = function(event) {
+	
+	
+	
+	
+		if(event.deltaY>0)
+		
+		{ 		
+		
+				//scale2-=.1;
+				
+			for(var i=0;i<nodes.length;i++)
+			{		
+				//nodes[i].x-=canvas.width/2;
+				//nodes[i].y-=canvas.height/2;
+				
+				nodes[i].x-=mouse.x;
+				nodes[i].y-=mouse.y	
+				
+				nodes[i].x*=.9;
+				nodes[i].y*=.9;
+				nodes[i].r*=.9;
+				
+				nodes[i].x+=mouse.x;
+				nodes[i].y+=mouse.y;
+				
+				//nodes[i].x+=canvas.width/2;
+				//nodes[i].y+=canvas.height/2;		
+										
+			}	
+	
+		
+		}
+		
+		
+		else{
+		
+			//scale2+=.1;
+
+			for(var i=0;i<nodes.length;i++)
+			{
+				//nodes[i].x-=canvas.width/2;
+				//nodes[i].y-=canvas.height/2;
+				nodes[i].x-=mouse.x;
+				nodes[i].y-=mouse.y;
+	
+				nodes[i].x*=1.1;
+				nodes[i].y*=1.1;
+				nodes[i].r*=1.1;
+				
+				//nodes[i].x+=canvas.width/2;
+				//nodes[i].y+=canvas.height/2;
+				nodes[i].x+=mouse.x;
+				nodes[i].y+=mouse.y;			
+				
+									
+			}
+
+
+
+			
+			//ttrans.x-=(canvas.width*.1); 
+			//ttrans.y-=(canvas.height*.1);
+			
+			}
+		
+		
+		
+		
+			ctx_lines.clearRect(0, 0, canvas.width, canvas.height);
+			ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);		
+		    nodes.forEach(drawEverything);		
+	
+			event.preventDefault();
+			
+	}
+  
+  
+
+  window.onresize = function(event) {
+  
+  
+  	 canvas.width=window.innerWidth;
+	 canvas.height=window.innerHeight;
+	 
+	 canvas_lines.width=window.innerWidth;
+	 canvas_lines.height=window.innerHeight;
+
+	 canvas_search.width=window.innerWidth;
+	 canvas_search.height=window.innerHeight;
+
+	 canvas_nodes.width=window.innerWidth;
+	 canvas_nodes.height=window.innerHeight;
+
+	 canvas_tooltip.width=window.innerWidth;
+	 canvas_tooltip.height=window.innerHeight;
+
+	 canvas_listen.width=window.innerWidth;
+	 canvas_listen.height=window.innerHeight;
+	 	 
+	 starfield();
+	 
+			ctx_lines.clearRect(0, 0, canvas.width, canvas.height);
+			ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);		
+		    nodes.forEach(drawEverything);	
+  
+  positionResults();
+  
+  
+  }
   
   
   canvas_listen.onmousemove = function(event) {
@@ -337,14 +549,32 @@ this.noise = function(x, y, z) {
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
   
+  
+	mouse.x=x;
+	mouse.y=y;
+  
+  
+	if(md==1)
+	{
+	
+		trans.x=x-start.x;
+		trans.y=y-start.y;
+	
+			ctx_lines.clearRect(0, 0, canvas.width, canvas.height);
+			ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);		
+		    nodes.forEach(drawEverything);		
+	
+	}
+  
+  
     var i;
 	
   	for (i=0;i<nodes.length; i++) {
 	
 
 	
-		var a=nodes[i].x - x;
-		var b=nodes[i].y - y;
+		var a=((nodes[i].x+ttrans.x+trans.x)*scale) - x;
+		var b=((nodes[i].y+ttrans.y+trans.y)*scale) - y;
 		
 		var distance=Math.sqrt(a*a + b*b); 
 		
@@ -449,8 +679,8 @@ this.noise = function(x, y, z) {
 	
 
 	
-		var a=nodes[i].x - x;
-		var b=nodes[i].y - y;
+		var a=((nodes[i].x+ttrans.x+trans.x)*scale) - x;
+		var b=((nodes[i].y+ttrans.y+trans.y)*scale) - y;
 		
 		var distance=Math.sqrt(a*a + b*b); 
 		
@@ -535,9 +765,7 @@ this.noise = function(x, y, z) {
 	}  
   
 			ctx_lines.clearRect(0, 0, canvas.width, canvas.height);
-			ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);
-
-		
+			ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);		
 		    nodes.forEach(drawEverything);
   
 
@@ -703,7 +931,14 @@ this.noise = function(x, y, z) {
 		
 		}
 	
-
+		if(focus_gelu==1)
+		{
+			perk_effectiveness.i=1+(on_count*.03);
+			perk_effectiveness.m=1; 
+			perk_effectiveness.a=0; 
+		}
+	
+	
 		perk_effectiveness.t=(perk_effectiveness.b + perk_effectiveness.a) * perk_effectiveness.i * perk_effectiveness.m;				
 		//perk_effectiveness.t-=perk_effectiveness.b;
 		
@@ -727,12 +962,7 @@ this.noise = function(x, y, z) {
 		
 		if(focus_ulteria==1)
 		{		
-				//for(var pps=1;pps<=perk_points;pps++)
-					//{   
-					perk_experience.m*=1+(0.05*perk_effectiveness.t*perk_points);   
-					//}
-		
-			 		
+					perk_experience.m*=1+(0.05*perk_effectiveness.t*perk_points);   		
 		}			
 		
 		perk_experience.t=(perk_experience.b + perk_experience.a) * perk_experience.i * perk_experience.m;
@@ -1180,7 +1410,7 @@ this.noise = function(x, y, z) {
 
 		
 		
-  the_text_area.innerHTML = the_results;
+  the_text_area.innerHTML = '<div style="padding: 15px;">' + the_results + '</div>';
   
   }
   
