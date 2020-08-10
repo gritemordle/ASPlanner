@@ -9,6 +9,14 @@
   <meta name="description" content="Astral Sorcery Perk Planner">
   <meta name="author" content="gritemordle">
 
+<style>
+
+  @font-face {
+  font-family: "Grayfel-Normal-Demi";
+  src: url("Grayfel-Normal-Demi.otf");
+  }
+
+</style>
 
 
 </head>
@@ -19,29 +27,40 @@
 
 
 
-<div >
+<div style="margin: 0; padding:0;">
 
-  <canvas id = "ASMain"  style="position: absolute; top: 0; left: 0;"></canvas>
-  <canvas id = "canvas_search"  style="position: absolute; top: 0; left: 0;"></canvas>
-  <canvas id = "canvas_lines"  style="position: absolute; top: 0; left: 0;"></canvas>
-  <canvas id = "canvas_nodes"  style="position: absolute; top: 0; left: 0;"></canvas>
-  <canvas id = "canvas_tooltip"  style="position: absolute; top: 0; left: 0;"></canvas>
-  <canvas id = "ASListen"  style="position: absolute; top: 0; left: 0;"></canvas>
+  <canvas id = "ASMain"  style="position: absolute; top: 0; left: 0; margin: 0; padding:0;"></canvas>
+  <canvas id = "canvas_search"  style="position: absolute; top: 0; left: 0; margin: 0; padding:0;"></canvas>
+  <canvas id = "canvas_available"  style="position: absolute; top: 0; left: 0; margin: 0; padding:0;"></canvas>  
+  <canvas id = "canvas_lines"  style="position: absolute; top: 0; left: 0; margin: 0; padding:0;"></canvas>
+  <canvas id = "canvas_nodes"  style="position: absolute; top: 0; left: 0; margin: 0; padding:0;"></canvas>
+  <canvas id = "canvas_tooltip"  style="position: absolute; top: 0; left: 100;  z-index:100; margin: 0; padding:0;"></canvas>
+  <canvas id = "ASListen"  style="position: absolute; top: 0; left: 0; z-index:101; margin: 0; padding:0;"></canvas>
   
 
 
  </div>
   
 
- 
-<div id="resultswrap">  
-  <label for="search_this" style="margin: 10px;">Search</label>
+<div id="searchwrap" style=" font-family: Grayfel-Normal-Demi;">  
+ <label for="search_this" style="margin: 10px;">Search</label>
   <input type="text" id="search_this"  style="margin: 10px;" maxlength="80" size="20" onkeyup="search()">  
+</div>
+
+
+ 
+<div id="resultswrap" style="overflow-y:scroll; font-family: Grayfel-Normal-Demi;">  
+
+
+
+
 <div id="results" >
 
 
 
 </div>
+
+
 </div>
 
   
@@ -68,6 +87,7 @@
 	var root_nodes=0;
 	var	epiphanies=0;
 	var focus_nodes=0;
+	var singularity_node=0;
 	
 	
      var canvas = document.getElementById('ASMain');
@@ -78,6 +98,10 @@
 	 
      var canvas_search = document.getElementById('canvas_search');
 	 var ctx_search = canvas_search.getContext('2d');
+
+	 var canvas_available = document.getElementById('canvas_available');
+     var ctx_available = canvas_available.getContext('2d');  
+
 	 
      var canvas_nodes = document.getElementById('canvas_nodes');
 	 var ctx_nodes = canvas_nodes.getContext('2d');
@@ -87,6 +111,9 @@
 	 
 	 var canvas_listen = document.getElementById('ASListen');
      var context_listen = canvas_listen.getContext('2d');  
+	 
+	 
+
 
 	 
 	 canvas.width=window.innerWidth;
@@ -107,6 +134,9 @@
 	 canvas_listen.width=window.innerWidth;
 	 canvas_listen.height=window.innerHeight;
 	 
+	 canvas_available.width=window.innerWidth;
+	 canvas_available.height=window.innerHeight;	 
+	 
 	positionResults();
 	 
 	 var perm = new Array(512)	 
@@ -118,16 +148,28 @@ function positionResults()
 
      var results_panel = document.getElementById('resultswrap');
 	 results_panel.style.position = "absolute";
-	 results_panel.style.top="20px";
-	 results_panel.style.height=(window.innerHeight-40).toString() + "px";
-	 results_panel.style.width=((window.innerWidth/3) * .95).toString() + "px";	 
+	 results_panel.style.top="100px";
+	 results_panel.style.height=(window.innerHeight-40-75-20).toString() + "px";
+	 results_panel.style.width=((window.innerWidth/3) * .9).toString() + "px";	 
 	 results_panel.style.left=((window.innerWidth/3)*2).toString() + "px";
 	 results_panel.style.borderStyle = "solid";
 
 	 results_panel.style.zIndex=99;
 	 results_panel.style.backgroundColor="white";
+	 
+     var results_panel = document.getElementById('searchwrap');
+	 results_panel.style.position = "absolute";
+	 results_panel.style.top="10px";
+	 results_panel.style.height="75px";
+	 results_panel.style.width=((window.innerWidth/3) * .9).toString() + "px";	 
+	 results_panel.style.left=((window.innerWidth/3)*2).toString() + "px";
+	 results_panel.style.borderStyle = "solid";
+
+	 results_panel.style.zIndex=105;
+	 results_panel.style.backgroundColor="white";	 
 
 
+    
 
 }	 
 	 
@@ -253,7 +295,7 @@ function starfield()
 	 
 	var ts=10;
 	 
-	ctx_tooltip.font = 'normal ' + ts.toString() + 'pt sans-serif';
+	ctx_tooltip.font = 'normal ' + ts.toString() + 'pt Grayfel-Normal-Demi';
   
   
 
@@ -276,6 +318,48 @@ function starfield()
 
   defineNodes();
   
+  for(var i=0;i<nodes.length;i++)
+  {
+	
+	if(nodes[i].tooltip[0].includes('Root:'))
+	{
+		nodes[i].available=1;}
+	else
+		{nodes[i].available=0;		
+	}
+
+  
+  }
+  
+  
+  //complete node bindings
+  
+  for(var ii=0;ii<nodes.length;ii++)
+  {
+	
+		nodes[ii].ncomplete = new Array();
+	
+	if(!!nodes[ii].n)
+	{
+		for(var jj=0;jj<nodes[ii].n.length;jj++)
+		{
+			nodes[ii].ncomplete.push(nodes[ii].n[jj]);
+			
+			if(!(!!nodes[ii].n[jj].ncomplete))
+			{
+				nodes[ii].n[jj].ncomplete = new Array();
+			}
+			
+			nodes[ii].n[jj].ncomplete.push(nodes[ii]);		
+		}
+	
+	}
+
+  
+  }
+  
+  
+ 
  
 	 canvas_nodes.width=window.innerWidth;
 	 canvas_nodes.height=window.innerHeight;
@@ -370,6 +454,27 @@ function starfield()
 		}
 	
 	}
+	
+	
+		
+			if(value.available==1)
+			{
+			
+			ctx_available.beginPath();
+			
+			var rsize=0;
+			
+			//if(value.s==1){rsize=10;}
+			//if(value.s==1){rsize=10;}
+			
+			ctx_available.arc((value.x+ttrans.x+trans.x)*scale,(value.y+ttrans.y+trans.y)*scale,value.r+10,0, 2 * Math.PI, false);
+				ctx_available.globalAlpha=.8;
+			ctx_available.fillStyle = 'purple';
+				ctx_nodes.globalAlpha=1;
+			ctx_available.fill();
+	
+			}
+	
 	
 
   
@@ -536,7 +641,8 @@ function starfield()
 		
 		
 		
-		
+		    ctx_search.clearRect(0, 0, canvas.width, canvas.height);	
+		    ctx_available.clearRect(0, 0, canvas.width, canvas.height);			
 			ctx_lines.clearRect(0, 0, canvas.width, canvas.height);
 			ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);		
 		    nodes.forEach(drawEverything);		
@@ -569,7 +675,9 @@ function starfield()
 	 canvas_listen.height=window.innerHeight;
 	 	 
 	 starfield();
-	 
+
+		    ctx_available.clearRect(0, 0, canvas.width, canvas.height);	 
+		    ctx_search.clearRect(0, 0, canvas.width, canvas.height);	 
 			ctx_lines.clearRect(0, 0, canvas.width, canvas.height);
 			ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);		
 		    nodes.forEach(drawEverything);	
@@ -596,7 +704,9 @@ function starfield()
 	
 		trans.x=x-start.x;
 		trans.y=y-start.y;
-	
+
+		    ctx_available.clearRect(0, 0, canvas.width, canvas.height);	 
+		    ctx_search.clearRect(0, 0, canvas.width, canvas.height);	
 			ctx_lines.clearRect(0, 0, canvas.width, canvas.height);
 			ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);		
 		    nodes.forEach(drawEverything);		
@@ -634,15 +744,16 @@ function starfield()
 			 for (ii=0;ii<nodes[i].tooltip.length; ii++) {	
 
 				if(ii===0)
-					{ctx_tooltip.font='bold ' + ts.toString() + 'pt sans-serif';}
+					{ctx_tooltip.font='bold ' + (ts+1).toString() + 'pt Grayfel-Normal-Demi';
+						 }
 				else
-					{ctx_tooltip.font='normal ' + ts.toString() + 'pt sans-serif';}
+					{ctx_tooltip.font='normal ' + ts.toString() + 'pt Grayfel-Normal-Demi';}
 			 
 				if(tsize.width<ctx_tooltip.measureText(nodes[i].tooltip[ii]).width)
 				{tsize=ctx_tooltip.measureText(nodes[i].tooltip[ii]);}			 
 			 }
 	
-	          if(x+10+tsize.width+(ts*2)>=1000)
+	          if(x+10+tsize.width+(ts*2)>=(canvas.width/3)*2 && x+10-(tsize.width+(ts*2)+20)>0)
 			  {
 				flip=-(tsize.width+(ts*2)+20);
 			  }
@@ -668,11 +779,12 @@ function starfield()
 				{
 				if(nodes[i].rarity==1){ctx_tooltip.fillStyle='orange';}
 				else{ ctx_tooltip.fillStyle='white';  }
-				ctx_tooltip.font='bold ' + ts.toString() + 'pt sans-serif';
+				ctx_tooltip.font='bold ' + (ts+1).toString() + 'pt Grayfel-Normal-Demi';
+				
 				}
 				else
 				{
-				ctx_tooltip.font='normal ' + ts.toString() + 'pt sans-serif';
+				ctx_tooltip.font='normal ' + ts.toString() + 'pt Grayfel-Normal-Demi';
 				}
 				
 				
@@ -701,7 +813,7 @@ function starfield()
   
   canvas_listen.addEventListener('click', function(event){
   
-  //alert(event.clientX.toString() + ' ' + event.clientY.toString());
+
   
   	const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
@@ -721,21 +833,44 @@ function starfield()
 		
 		var distance=Math.sqrt(a*a + b*b); 
 		
-		// alert(distance.toString() + ' ' + nodes[i].r);
+
 		
 		
 		if(distance<=nodes[i].r)
 		{
 			
+			
+
 		
-			if(nodes[i].stat=='off')
+			if(nodes[i].stat=='off' && nodes[i].available==1)
 			{
 			
-			 nodes[i].stat='on';
-			 
-			 if(nodes[i].tooltip[0].includes('Epiphany'))
+			if(nodes[i].tooltip[0].includes('Epiphany'))
 			 {
 				epiphanies+=1;
+			 }		
+			
+			
+			
+			
+			 nodes[i].stat='on';
+		     nodes[i].available='off';
+		 
+					 
+			 
+
+			 
+			 //if epiphany already selected, select chakras around this one for free
+			 if(epiphanies>1 && nodes[i].tooltip[0].includes('Epiphany'))
+			 {
+			 
+				for(var e=0;e<nodes[i].ncomplete.length;e++)
+				{
+				
+					nodes[i].ncomplete[e].stat='on';
+				
+				}
+			 
 			 }
 			 
 			 
@@ -745,20 +880,49 @@ function starfield()
 				 if(root_nodes>1)
 					{perk_points-=1;}		 
 			 }
-			 else if(nodes[i].tooltip[0].includes('Singularity')) { perk_points-=1; perk_points+=3; }
+			 else if(nodes[i].tooltip[0].includes('Singularity')) { perk_points-=1; perk_points+=3;  singularity_node+=1; }
 			 else if(nodes[i].tooltip[0].includes('Chakra') &&  epiphanies>0) { perk_points=perk_points; }
 			 else if(nodes[i].tooltip[0].includes('Focus:')) { 
 						if(focus_nodes==0)
 							{perk_points-=1; focus_nodes+=1;}
 						else
-							{nodes[i].stat='off';}  } 	
+							{nodes[i].stat='off';  nodes[i].available='on';}  } 	
 			 else { perk_points-=1; }
 			 
 
 	
 			}
-			else
+			
+			else if(nodes[i].stat=='on')
 			{
+			 
+			 
+
+			 
+			 
+			var binding_count=0;
+			
+			
+			if(!!nodes[i].ncomplete)
+			{
+			 for(j=0;j<nodes[i].ncomplete.length;j++)
+			 {
+				if(nodes[i].ncomplete[j].stat=='on')
+				{ binding_count++;  }
+			 
+			 }
+			 
+			}
+			
+			var paths=0;
+			
+			if(binding_count>1)
+			{  paths=findRoutes(nodes[i]);   }
+			
+			
+			
+			if(binding_count<2 || (binding_count>1 && paths>1) ) {
+			 
 			 
 			 nodes[i].stat='off';
 	
@@ -779,18 +943,22 @@ function starfield()
 			  {perk_points+=1;}	
 
 				}	
-				else if(nodes[i].tooltip[0].includes('Singularity')) { perk_points+=1; perk_points-=3; }
+				else if(nodes[i].tooltip[0].includes('Singularity')) { perk_points+=1; perk_points-=3; singularity_node-=1; }
 			    else if(nodes[i].tooltip[0].includes('Chakra') &&  epiphanies>0) { perk_points=perk_points; }			
 				else{perk_points+=1;}
 				
 				
 				
 		 
-			 
+				}
 			 
 			}
 		
 		
+		   
+		   			 
+
+		   
 		   
 		   
 		   
@@ -800,7 +968,99 @@ function starfield()
 	
 	
 	}  
-  
+	
+				for (i=0;i<nodes.length; i++) {	
+				
+				if(nodes[i].tooltip[0].includes('Root:') && nodes[i].stat=='off' && ( root_nodes==0 || singularity_node==1 ))
+				{
+					nodes[i].available=1;}
+				else
+					{nodes[i].available=0;		
+									}
+				
+				}
+	
+	
+	
+				 //updateavailable
+				for (i=0;i<nodes.length; i++) {	
+				
+					if(nodes[i].stat=='on')
+					{
+					
+						if(!!nodes[i].n)
+						{
+						for (j=0;j<nodes[i].n.length; j++)
+						{
+							
+							if(nodes[i].n[j].available==0 && nodes[i].n[j].stat=='off')
+								{
+									nodes[i].n[j].available=1;
+								}
+						
+						}
+						}
+					
+					}
+					else if(!!nodes[i].n)
+						{
+						for (j=0;j<nodes[i].n.length; j++)
+						{
+							
+							if(nodes[i].n[j].stat=='on')
+								{
+									nodes[i].available=1;
+								}
+						
+						}
+						}				
+				
+			
+				
+
+							
+				}
+				
+
+				
+				//do epiphanies separate
+				for (i=0;i<nodes.length; i++)
+				{
+				
+					var cnt=0;
+				
+					if(nodes[i].tooltip[0].includes('Epiphany') && nodes[i].available==1)
+					{
+						for(var ch=0;ch<nodes[i].ncomplete.length;ch++)
+						{
+						
+							if(nodes[i].ncomplete[ch].stat=='on'){ cnt++; }
+						
+						}
+					
+						if(cnt<3){ nodes[i].available=0; };
+					
+					}
+				
+				}					
+				
+				//do epiphanies separate
+				for (i=0;i<nodes.length; i++)
+				{
+				
+				if(nodes[i].tooltip[0].includes('Epiphany') && nodes[i].stat=='off' && epiphanies>0)
+				{
+						nodes[i].available=1;
+				}
+				
+				}					
+				
+				
+	
+	
+
+		    ctx_available.clearRect(0, 0, canvas.width, canvas.height);	 
+		    ctx_search.clearRect(0, 0, canvas.width, canvas.height);  
 			ctx_lines.clearRect(0, 0, canvas.width, canvas.height);
 			ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);		
 		    nodes.forEach(drawEverything);
@@ -817,18 +1077,126 @@ function starfield()
 
   
   
+  function findRoutes(find_this)
+  {
+  
+	var paths=0;
+  
+	//find active root nodes
+	var root_nodes=new Array();
+	
+	for(i=0;i<nodes.length;i++)
+	{
+	
+		nodes[i].tag=0;
+	
+		if(nodes[i].stat=='on' && (nodes[i].tooltip[0].includes('Root:') || nodes[i].tooltip[0].includes('Epiphany')))
+		{
+			root_nodes.push(nodes[i]);
+		}
+	
+	}
+	
+
+	
+	for(m=0;m<root_nodes.length;m++)
+	{
+	
+	
+	  
+	
+		root_nodes[m].tag=1;
+	
+		for(j=0;j<root_nodes[m].ncomplete.length;j++)
+		{
+			
+			paths+=trace(root_nodes[m].ncomplete[j],find_this);	
+		}
+	
+		
+		
+		if(paths>1)
+		{
+		
+			for(j=0;j<find_this.ncomplete.length;j++)
+			{
+				if(find_this.ncomplete[j].stat=='on' && find_this.ncomplete[j].tag==0)
+				{	paths=0;	}
+						
+			
+			}
+		
+		}
+	
+		
+	
+	}
+	
+	return paths;
+	
+	  
+  }
+  
+  
+  function trace(n,f)
+  {
+  
+  
+	
+  
+	var hits=0;
+  
+	if(n==f)
+	{
+		hits++;
+		console.log('found ' + f.tooltip[0]);
+	
+	}
+	else
+	{
+  
+		n.tag=1;
+  
+	  for(var iii=0, count=n.ncomplete.length; iii<count;iii++)
+	  {
+	  
+		console.log(n.tooltip[0] + ' checking ' + n.ncomplete[iii].tooltip[0] + ' ' + n.ncomplete[iii].stat + ' / ' + n.ncomplete[iii].tag);
+	  
+		if(n.ncomplete[iii].stat=='on' && n.ncomplete[iii].tag==0)
+		{
+	  
+
+
+			console.log(n.tooltip[0] + ' tracing ' + n.ncomplete[iii].tooltip[0] + ' ' + iii + ' / ' + n.ncomplete.length);
+			
+			var check=trace(n.ncomplete[iii],f);
+			
+			hits+=check;
+	  		
+	  
+		}
+	  
+	  }
+	  
+	  }
+	  
+	  return hits;
+  
+  }
+  
+  
   
   function updateResults()
   {
        var the_results='';	   
 	   var the_text_area = document.getElementById('results');  
-	   the_results+='<p>Points Remaining: ' + perk_points + '</p>'; 
+	   the_results+='<table><tr style="font-size: larger;"><td>Available Points</td><td style="padding-left: 10px;">' + perk_points + '</td><tr>'; 
 	   
-	   
+	   the_results+='<tr><td></td></tr>';
 	   
 	    var perk_effectiveness={a:0,i:1,m:1,t:0,b:1,fs:0};
 	    var perk_experience={a:0,i:1,m:1,t:0,b:1,fs:0};
-		var melee_damage={a:0,i:1,m:1,t:0,b:1,fs:0};
+		var melee_damage={a:0,i:1,m:1,t:0,b:1,fs:1};
 		var projectile_damage={a:0,i:1,m:1,t:0,b:1,fs:0};
 		var attack_speed={a:0,i:1,m:1,t:0,b:4,fs:1};
 		var critical_hit_chance={a:0,i:1,m:1,t:0,b:0,fs:0};		
@@ -1074,11 +1442,10 @@ function starfield()
 				nodes[i].reach_more,
 				reach,perk_effectiveness.t);	
 				
-			gem_socket=nodeCheck(
-				nodes[i].gem_socket_add,
-				nodes[i].gem_socket,
-				nodes[i].gem_socket_more,
-				gem_socket,perk_effectiveness.t);	
+				
+				if(!!nodes[i].gem_socket_add){gem_socket.a+=nodes[i].gem_socket_add;}
+				
+		
 				
 			mining_speed=nodeCheck(
 				nodes[i].mining_speed_add,
@@ -1268,184 +1635,176 @@ function starfield()
 
 			}
 
-		perk_effectiveness.t-=perk_effectiveness.b;
-		if(perk_effectiveness.t!==0){ the_results+='<p>Effectiveness of Perks: ' + signit(((perk_effectiveness.t)*100).toFixed(2)) + '%</p>'; } 	
-		
-		if(perk_experience.t!==0){ the_results+='<p>Perk Experience: ' + signit(((perk_experience.t)*100).toFixed(2)) + '%</p>';  } 
-		
-		//the_results+='<p>Perk Experiencet: ' + signit(((perk_experience.t)*100).toFixed(2)) + '%</p>';
-			//the_results+='<p>Perk Experiencea: ' + signit(((perk_experience.a)*100).toFixed(2)) + '%</p>';
-				//the_results+='<p>Perk Experiencei: ' + signit(((perk_experience.i)*100).toFixed(2)) + '%</p>';
-					//the_results+='<p>Perk Experiencem: ' + signit(((perk_experience.m)*100).toFixed(2)) + '%</p>';
-	
-		melee_damage.t=(melee_damage.b + melee_damage.a) * melee_damage.i * melee_damage.m;
-		melee_damage.t-=melee_damage.b;
-		if(melee_damage.t!==0){ the_results+='<p>Melee Damage: +%' + ((melee_damage.t)*100).toFixed(2) + '</p>'; }
-	
-		projectile_damage.t=(projectile_damage.b + projectile_damage.a) * projectile_damage.i*projectile_damage.m;	
-		projectile_damage.t-=projectile_damage.b;
-		if(projectile_damage.t!==0){ the_results+='<p>Projectile Damage: ' + signit(((projectile_damage.t)*100).toFixed(2)) + '%</p>';} 	
-		
-		attack_speed.t=(attack_speed.b + attack_speed.a) * attack_speed.i * attack_speed.m;
-		attack_speed.t-=attack_speed.b;
-		if(attack_speed.t!==0){ the_results+='<p>Attack Speed: +' + ((attack_speed.t)).toFixed(2) + '</p>'; }
-	
-		projectile_speed.t=(projectile_speed.b + projectile_speed.a) * projectile_speed.i * projectile_speed.m;	
-		projectile_speed.t-=projectile_speed.b;
-		if((projectile_speed.t!==0)){ the_results+='<p>Projectile Speed: +%' + ((projectile_speed.t)*100).toFixed(2) + '</p>';} 
-	
-		critical_hit_chance.t=(critical_hit_chance.b + critical_hit_chance.a) * critical_hit_chance.i * critical_hit_chance.m;	
-		critical_hit_chance.t-=critical_hit_chance.b;
-		if((critical_hit_chance.t!==0)){ the_results+='<p>Critical Hit Chance: +%' + ((critical_hit_chance.t)*100).toFixed(2) + '</p>';}
-		
-		critical_damage_multiplier.t=(critical_damage_multiplier.b + critical_damage_multiplier.a) * critical_damage_multiplier.i * critical_damage_multiplier.m;	
-		critical_damage_multiplier.t-=critical_damage_multiplier.b;
-		if((critical_damage_multiplier.t!==0)){ the_results+='<p>Critical Damage Multiplier: +%' + ((critical_damage_multiplier.t)*100).toFixed(2) + '</p>';} 		   
 
-		life_leech.t=(life_leech.b + life_leech.a) * life_leech.i * life_leech.m;
-		life_leech.t-=life_leech.b;
-		if(life_leech.t!==0){ the_results+='<p>Life Leech (Limited to 10%): +%' + ((life_leech.t)*100).toFixed(2) + '</p>'; }
+		//the_results+='<table>'
 
-		dodge.t=(dodge.b + dodge.a) * dodge.i * dodge.m;
-		dodge.t-=dodge.b;
-		if(dodge.t!==0){ the_results+='<p>Dodge Chance (Limited to 75%): +%' + ((dodge.t)*100).toFixed(2) + '</p>'; }		
-		
-		maximum_life.t=(maximum_life.b + maximum_life.a) * maximum_life.i * maximum_life.m;
-		maximum_life.t-=maximum_life.b;		
-		if(skill_vis_inoculation==1){maximum_life.t=1; maximum_life.b=0;}		
-		if(maximum_life.t!==0){ 
-		
-		the_results+='<p>Maximum Life: ' + ((maximum_life.t)).toFixed(2) + '</p>'; 
-	
-		
-		}	
+		amulet_enchantments.t=(amulet_enchantments.b + amulet_enchantments.a) * amulet_enchantments.i * amulet_enchantments.m;
+		amulet_enchantments.t-=amulet_enchantments.b;
+		if(amulet_enchantments.t!==0){ the_results+='<tr><td>Amulet Enchantments</td><td style="padding-left:10px;"> ' + signit(((amulet_enchantments.t)*100).toFixed(2)) + '%</td></tr>'; }
 
-		life_recovery.t=(life_recovery.b + life_recovery.a) * life_recovery.i * life_recovery.m;
-		life_recovery.t-=life_recovery.b;
-		if(life_recovery.t!==0){ the_results+='<p>Life Recovery: +%' + ((life_recovery.t)*100).toFixed(2) + '</p>'; }		
-		
 		armor.t=(armor.b + armor.a) * armor.i * armor.m;
 		armor.t-=armor.b;
-		if(armor.t!==0){ 
-		the_results+='<p>Armor: ' + ((armor.t)).toFixed(2) + '</p>'; 
+		if(!(armor.a==0 && armor.i==1 && armor.m==1)){ 
+		the_results+='<tr><td>Armor</td><td style="padding-left:10px;"> ' + Math.floor(((armor.t))) + '</td></tr>'; 
 
 		}		
 
 		armor_toughness.t=(armor_toughness.b + armor_toughness.a) * armor_toughness.i * armor_toughness.m;
 		armor_toughness.t-=armor_toughness.b;
-		if(armor_toughness.t!==0){ the_results+='<p>Armor Toughness: ' + ((armor_toughness.t)).toFixed(2) + '</p>'; }	
+		if(!(armor_toughness.a==0 && armor_toughness.i==1 && armor_toughness.m==1)){ the_results+='<tr><td>Armor Toughness</td><td style="padding-left:10px;"> ' + Math.floor(((armor_toughness.t))) + '</td></tr>'; }	
+
+		attack_speed.t=(attack_speed.b + attack_speed.a) * attack_speed.i * attack_speed.m;
+		//attack_speed.t-=attack_speed.b;
+		if(!(attack_speed.a==0 && attack_speed.i==1 && attack_speed.m==1)){ the_results+='<tr><td>Attack Speed</td><td style="padding-left:10px;"> +' + ((attack_speed.t)).toFixed(2) + '</td></tr>'; }
+
+		critical_damage_multiplier.t=(critical_damage_multiplier.b + critical_damage_multiplier.a) * critical_damage_multiplier.i * critical_damage_multiplier.m;	
+		critical_damage_multiplier.t-=critical_damage_multiplier.b;
+		if((critical_damage_multiplier.t!==0)){ the_results+='<tr><td>Critical Damage Multiplier</td><td style="padding-left:10px;"> ' + signit(((critical_damage_multiplier.t)*100).toFixed(2)) + '%</td></tr>';} 		   
+	
+		critical_hit_chance.t=(critical_hit_chance.b + critical_hit_chance.a) * critical_hit_chance.i * critical_hit_chance.m;	
+		critical_hit_chance.t-=critical_hit_chance.b;
+		if(!(critical_hit_chance.a==0 && critical_hit_chance.i==1 && critical_hit_chance.m==1)){ the_results+='<tr><td>Critical Hit Chance</td><td style="padding-left:10px;"> ' + signit(((critical_hit_chance.t)*100).toFixed(2)) + '%</td></tr>';}
+
+		dodge.t=(dodge.b + dodge.a) * dodge.i * dodge.m;
+		dodge.t-=dodge.b;
+		if(dodge.t!==0){ the_results+='<tr><td>Dodge Chance <br/>&nbsp;&nbsp;&nbsp;&nbsp;(Limited to 75%)</td><td style="padding-left:10px;"> ' + signit((dodge.t*100.00).toFixed(2)) + '%</td></tr>'; }	
+
+		perk_effectiveness.t-=perk_effectiveness.b;
+		if(perk_effectiveness.t!==0){ the_results+='<tr><td>Effectiveness of Perks</td><td style="padding-left:10px;"> ' + signit(((perk_effectiveness.t)*100).toFixed(2)) + '%</td></tr>'; } 	
 
 		elemental_resistances.t=(elemental_resistances.b + elemental_resistances.a) * elemental_resistances.i * elemental_resistances.m;
 		elemental_resistances.t-=elemental_resistances.b;
-		if(elemental_resistances.t!==0){ the_results+='<p>Elemental Resistances (Limited to 60%): +%' + ((elemental_resistances.t)*100).toFixed(2) + '</p>'; }			
+		if(elemental_resistances.t!==0){ the_results+='<tr><td>Elemental Resistances <br/>&nbsp;&nbsp;&nbsp;&nbsp;(Limited to 60%)</td><td style="padding-left:10px;"> ' + signit(((elemental_resistances.t)*100).toFixed(2)) + '%</td></tr>'; }			
+		
+	
+		life_leech.t=(life_leech.b + life_leech.a) * life_leech.i * life_leech.m;
+		life_leech.t-=life_leech.b;
+		if(life_leech.t!==0){ the_results+='<tr><td>Life Leech <br/>&nbsp;&nbsp;&nbsp;&nbsp;(Limited to 10%)</td><td style="padding-left:10px;"> ' + signit(((life_leech.t)*100).toFixed(2)) + '%</td></tr>'; }	
+	
+		life_recovery.t=(life_recovery.b + life_recovery.a) * life_recovery.i * life_recovery.m;
+		life_recovery.t-=life_recovery.b;
+		if(life_recovery.t!==0){ the_results+='<tr><td>Life Recovery</td><td style="padding-left:10px;"> ' + signit(((life_recovery.t)*100).toFixed(2)) + '%</td></tr>'; }	
+	
+		maximum_life.t=(maximum_life.b + maximum_life.a) * maximum_life.i * maximum_life.m;
+		//maximum_life.t-=maximum_life.b;		
+		if(skill_vis_inoculation==1){maximum_life.t=1; maximum_life.b=0;}		
+		if(!(maximum_life.a==0 && maximum_life.i==1 && maximum_life.m==1)){ the_results+='<tr><td>Maximum Life</td><td style="padding-left:10px;"> ' + Math.floor((maximum_life.t)) + '</td></tr>'; }		
+	
+		melee_damage.t=(melee_damage.b + melee_damage.a) * melee_damage.i * melee_damage.m;
+		//melee_damage.t-=melee_damage.b;
+		if(!(melee_damage.a==0 && melee_damage.i==1 && melee_damage.m==1)){ the_results+='<tr><td>Melee Damage</td><td style="padding-left:10px;"> ' + ((melee_damage.t)).toFixed(2) + '</td></tr>'; }
+
+		mining_speed.t=(mining_speed.b + mining_speed.a) * mining_speed.i * mining_speed.m;
+		//mining_speed.t-=mining_speed.b;
+		if(!(mining_speed.a==0 && mining_speed.i==1 && mining_speed.m==1)){ the_results+='<tr><td>Mining Speed</td><td style="padding-left:10px;"> ' + signit(((mining_speed.t)).toFixed(2)) + '</td></tr>'; }
 		
 		movement_speed.t=(movement_speed.b + movement_speed.a) * movement_speed.i * movement_speed.m;
-		movement_speed.t-=movement_speed.b;
-		if(movement_speed.t!==0){ the_results+='<p>Movement Speed: +' + ((movement_speed.t)).toFixed(2) + '</p>'; }	
-		
-		swimming_speed.t=(swimming_speed.b + swimming_speed.a) * swimming_speed.i * swimming_speed.m;
-		swimming_speed.t-=swimming_speed.b;
-		if(swimming_speed.t!==0){ the_results+='<p>Swimming Speed: +' + ((swimming_speed.t)).toFixed(2) + '</p>'; }	
-		
-		mining_speed.t=(mining_speed.b + mining_speed.a) * mining_speed.i * mining_speed.m;
-		mining_speed.t-=mining_speed.b;
-		if(mining_speed.t!==0){ the_results+='<p>Mining Speed: +' + ((mining_speed.t)).toFixed(2) + '</p>'; }
-		
-		
-		reach.t=(reach.b + reach.a) * reach.i * reach.m;	
-		reach.t-=reach.b;
-		if((reach.t!==0)){ the_results+='<p>Reach: +' + ((reach.t)).toFixed(2) + '</p>';} 	
-
+		//movement_speed.t-=movement_speed.b;
+		if(!(movement_speed.a==0 && movement_speed.i==1 && movement_speed.m==1)){ the_results+='<tr><td>Movement Speed</td><td style="padding-left:10px;"> ' + ((movement_speed.t)).toFixed(2) + '</td></tr>'; }	
+			
+		if(perk_experience.t!==0){ the_results+='<tr><td>Perk Experience</td><td style="padding-left:10px;"> ' + signit(((perk_experience.t)*100).toFixed(2)) + '%</td></tr>';  } 
+	
 		potion_effect_duration.t=(potion_effect_duration.b + potion_effect_duration.a) * potion_effect_duration.i * potion_effect_duration.m;
 		potion_effect_duration.t-=potion_effect_duration.b;
-		if(potion_effect_duration.t!==0){ the_results+='<p>PotionEffect Duration: +%' + ((potion_effect_duration.t)*100).toFixed(2) + '</p>'; }
+		if(potion_effect_duration.t!==0){ the_results+='<tr><td>PotionEffect Duration</td><td style="padding-left:10px;"> ' + signit(((potion_effect_duration.t)*100).toFixed(2)) + '%</td></tr>'; }	
+	
+		projectile_damage.t=(projectile_damage.b + projectile_damage.a) * projectile_damage.i*projectile_damage.m;	
+		projectile_damage.t-=projectile_damage.b;
+		if(projectile_damage.t!==0){ the_results+='<tr><td>Projectile Damage</td><td style="padding-left:10px;"> ' + signit(((projectile_damage.t)*100).toFixed(2)) + '%</td></tr>';} 	
+
+		projectile_speed.t=(projectile_speed.b + projectile_speed.a) * projectile_speed.i * projectile_speed.m;	
+		projectile_speed.t-=projectile_speed.b;
+		if((projectile_speed.t!==0)){ the_results+='<tr><td>Projectile Speed</td><td style="padding-left:10px;"> ' + signit(((projectile_speed.t)*100).toFixed(2)) + '%</td></tr>';} 
+	
+		reach.t=(reach.b + reach.a) * reach.i * reach.m;	
+		//reach.t-=reach.b;
+		if(!(reach.a==0 && reach.i==1 && reach.m==1)){ the_results+='<tr><td>Reach</td><td style="padding-left:10px;"> ' + ((reach.t)).toFixed(2) + '</td></tr>';} 	
+	
+		swimming_speed.t=(swimming_speed.b + swimming_speed.a) * swimming_speed.i * swimming_speed.m;
+		//swimming_speed.t-=swimming_speed.b;
+		if(!(swimming_speed.a==0 && swimming_speed.i==1 && swimming_speed.m==1)){ the_results+='<tr><td>Swimming Speed</td><td style="padding-left:10px;"> ' + ((swimming_speed.t)).toFixed(2) + '</td></tr>'; }	
 		
-		amulet_enchantments.t=(amulet_enchantments.b + amulet_enchantments.a) * amulet_enchantments.i * amulet_enchantments.m;
-		amulet_enchantments.t-=amulet_enchantments.b;
-		if(amulet_enchantments.t!==0){ the_results+='<p>Amulet Enchantments: ' + signit(((amulet_enchantments.t)*100).toFixed(2)) + '%</p>'; }
 		
-		gem_socket.t=(gem_socket.b + gem_socket.a) * gem_socket.i * gem_socket.m;	
-		gem_socket.t-=gem_socket.b;
-		if((gem_socket.t!==0)){ the_results+='<p>Gem Sockets: +' + ((gem_socket.t)).toFixed(2) + '</p>';} 		
+	
+		//the_results+='<hr/>'
+
 		
+
 		
+		gem_socket.t=gem_socket.a		
+		if((gem_socket.t!==0)){ the_results+='<tr><td>Gem Sockets</td><td style="padding-left:10px;"> ' + (gem_socket.t) + '</td></tr>';} 		
+		
+
+		//the_results+='<hr/>'		
 		
 		///////////////////SKILLS/////////////////////////
 		
-
-		if(skill_blunt_bolts==1){ the_results+='<p style="font-weight:bold; color: orange;">Blunt Bolts</p>';} 		
-		if(skill_long_shot==1){ the_results+='<p style="font-weight:bold; color: orange;">Long Shot</p>';} 		
+		if(skill_area_of_effect==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Area of Effect</td></tr>';} 
+		if(skill_bigger_stomach==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Bigger Stomach</td></tr>';} 
 		
-		if(skill_cursed_touch==1){ the_results+='<p style="font-weight:bold; color: orange;">Cursed Touch</p>';} 		
-		if(skill_lightning_arc==1){ the_results+='<p style="font-weight:bold; color: orange;">Lightning Arc</p>';} 	
-		
-		lightning_arc_chains.t=(lightning_arc_chains.b + lightning_arc_chains.a) * lightning_arc_chains.i * lightning_arc_chains.m;
-		lightning_arc_chains.t-=lightning_arc_chains.b;
-		if(lightning_arc_chains.t!==0){ the_results+='<p>Lightning Arc Chains: ' + ((lightning_arc_chains.t)).toFixed(2) + '</p>'; }
-		
-		if(skill_last_breath==1){ the_results+='<p style="font-weight:bold; color: orange;">Last Breath</p>';} 		
-		if(skill_rampage==1){ the_results+='<p style="font-weight:bold; color: orange;">Rampage</p>';} 	
-		if(skill_area_of_effect==1){ the_results+='<p style="font-weight:bold; color: orange;">Area of Effect</p>';} 	
-		
-		if(skill_different_angles==1){ the_results+='<p style="font-weight:bold; color: orange;">Different Angles</p>';} 		
-		if(skill_breaking_aim==1){ the_results+='<p style="font-weight:bold; color: orange;">Breaking Aim</p>';} 	
-		if(skill_chained_mining==1){ the_results+='<p style="font-weight:bold; color: orange;">Chained Mining</p>';}
-
-		chained_mining_chance.t=(chained_mining_chance.b + chained_mining_chance.a) * chained_mining_chance.i * chained_mining_chance.m;	
-		chained_mining_chance.t-=chained_mining_chance.b;
-		if((chained_mining_chance.t!==0)){ the_results+='<p>Chained Mining Chance: +%' + ((chained_mining_chance.t)*100).toFixed(2) + '</p>';} 
-
-		chained_mining_length.t=(chained_mining_length.b + chained_mining_length.a) * chained_mining_length.i * chained_mining_length.m;	
-		chained_mining_length.t-=chained_mining_length.b;
-		if((chained_mining_length.t!==0)){ the_results+='<p>Chained Mining Length: +' + ((chained_mining_length.t)).toFixed(2) + '</p>';} 
-
- 		successive_chains.t=(successive_chains.b + successive_chains.a) * successive_chains.i * successive_chains.m;	
-		successive_chains.t-=successive_chains.b;
-		if((successive_chains.t!==0)){ the_results+='<p>Successive Chains Chance: ' + signit(((successive_chains.t)*100).toFixed(2)) + '%</p>';} 
-
-		
-		if(skill_mending==1){ the_results+='<p style="font-weight:bold; color: orange;">Mending</p>';} 	
-		if(skill_consistent_luck==1){ the_results+='<p style="font-weight:bold; color: orange;">Consistent Luck</p>';} 		
-		
-		if(skill_vis_inoculation==1){ the_results+='<p style="font-weight:bold; color: orange;">Vis Inoculation</p>';} 	
-		runic_shielding.t=(runic_shielding.b + runic_shielding.a) * runic_shielding.i * runic_shielding.m;	
-		runic_shielding.t-=runic_shielding.b;
-		if((runic_shielding.t!==0)){ the_results+='<p>Runic Shielding: +' + ((runic_shielding.t)).toFixed(2) + '</p>';}  			
-	
-		if(skill_bleeding==1){ the_results+='<p style="font-weight:bold; color: orange;">Bleeding</p>';} 	
+		if(skill_bleeding==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Bleeding</td></tr>';} 	
 		bleed_duration.t=(bleed_duration.b + bleed_duration.a) * bleed_duration.i * bleed_duration.m;	
 		bleed_duration.t-=bleed_duration.b;
-		if((bleed_duration.t!==0)){ the_results+='<p>Bleed Duration: ' + signit(((bleed_duration.t)*100).toFixed(2)) + '%</p>';}		
+		if((bleed_duration.t!==0)){ the_results+='<tr><td><tr><td>Bleed Duration</td><td style="padding-left:10px;"> ' + signit(((bleed_duration.t)*100).toFixed(2)) + '%</td></tr>';}	
 		
+		if(skill_blunt_bolts==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Blunt Bolts</td></tr>';} 	
+		if(skill_body_blocking==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Body Blocking</td></tr>';} 		
+		if(skill_breaking_aim==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Breaking Aim</td></tr>';} 
+
+		if(skill_chained_mining==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Chained Mining</td></tr>';}
+		chained_mining_chance.t=(chained_mining_chance.b + chained_mining_chance.a) * chained_mining_chance.i * chained_mining_chance.m;	
+		chained_mining_chance.t-=chained_mining_chance.b;
+		if((chained_mining_chance.t!==0)){ the_results+='<tr><td>Chained Mining Chance</td><td style="padding-left:10px;"> ' + signit(((chained_mining_chance.t)*100).toFixed(2)) + '%</td></tr>';} 
+		chained_mining_length.t=(chained_mining_length.b + chained_mining_length.a) * chained_mining_length.i * chained_mining_length.m;	
+		chained_mining_length.t-=chained_mining_length.b;
+		if((chained_mining_length.t!==0)){ the_results+='<tr><td>Chained Mining Length</td><td style="padding-left:10px;"> ' + signit((Math.floor(chained_mining_length.t).toFixed(2))) + '</td></tr>';} 
+ 		successive_chains.t=(successive_chains.b + successive_chains.a) * successive_chains.i * successive_chains.m;	
+		successive_chains.t-=successive_chains.b;
+		if((successive_chains.t!==0)){ the_results+='<tr><td>Successive Chains Chance</td><td style="padding-left:10px;"> ' + signit(((successive_chains.t)*100).toFixed(2)) + '%</td></tr>';} 
+
+		if(skill_cleansing==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td><tr><td>Cleansing</td></tr>';} 		
+		if(skill_consistent_luck==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Consistent Luck</td></tr>';} 	
+		if(skill_culling_strike==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Culling Strike</td></tr>';} 		
+		if(skill_cursed_touch==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Cursed Touch</td></tr>';} 
+		if(skill_diamond_skin==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Diamond Skin</td></tr>';} 		
+		if(skill_different_angles==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Different Angles</td></tr>';} 
+		if(skill_hiking_boots==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Hiking Boots</td></tr>';} 
+
+		
+		if(skill_lightning_arc==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Lightning Arc</td></tr>';} 			
+		lightning_arc_chains.t=(lightning_arc_chains.b + lightning_arc_chains.a) * lightning_arc_chains.i * lightning_arc_chains.m;
+		lightning_arc_chains.t-=lightning_arc_chains.b;
+		if(lightning_arc_chains.t!==0){ the_results+='<tr><td>Lightning Arc Chains</td><td style="padding-left:10px;"> ' + Math.floor((lightning_arc_chains.t)) + '</td></tr>'; }
+
+		if(skill_last_breath==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Last Breath</td></tr>';} 			
+		if(skill_long_shot==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Long Shot</td></tr>';} 		
+		if(skill_mending==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Mending</td></tr>';}
+		if(skill_miners_delight==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Miner\'s Delight</td></tr>';}  
+				if(skill_phoenix_blessing==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Phoenix Blessing</td></tr>';} 
+		if(skill_rampage==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Rampage</td></tr>';} 
+		if(skill_spatial_manipulation==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Spatial Manipulation</td></tr>';} 			
+		if(skill_spreading_growth==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Spreading Growth</td></tr>';} 	
+		if(skill_stone_enrichment==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Stone Enrichment</td></tr>';} 	
+		if(skill_trash_to_treasure==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Trash to Treasure</td></tr>';} 			
+		if(skill_unwavering==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Unwavering</td></tr>';} 	
 	
-
-
-
-		if(skill_cleansing==1){ the_results+='<p style="font-weight:bold; color: orange;">Cleansing</p>';} 	
-		if(skill_stone_enrichment==1){ the_results+='<p style="font-weight:bold; color: orange;">Stone Enrichment</p>';} 		
-		if(skill_spreading_growth==1){ the_results+='<p style="font-weight:bold; color: orange;">Spreading Growth</p>';} 	
-		if(skill_hiking_boots==1){ the_results+='<p style="font-weight:bold; color: orange;">Hiking Boots</p>';} 	
-		if(skill_spatial_manipulation==1){ the_results+='<p style="font-weight:bold; color: orange;">Spatial Manipulation</p>';} 	
-		if(skill_trash_to_treasure==1){ the_results+='<p style="font-weight:bold; color: orange;">Trash to Treasure</p>';} 	
-		if(skill_bigger_stomach==1){ the_results+='<p style="font-weight:bold; color: orange;">Bigger Stomach</p>';} 	
-		if(skill_miners_delight==1){ the_results+='<p style="font-weight:bold; color: orange;">Miner\'s Delight</p>';} 	
-		if(skill_diamond_skin==1){ the_results+='<p style="font-weight:bold; color: orange;">Diamond Skin</p>';} 	
-		if(skill_phoenix_blessing==1){ the_results+='<p style="font-weight:bold; color: orange;">Phoenix Blessing</p>';} 	
-		if(skill_body_blocking==1){ the_results+='<p style="font-weight:bold; color: orange;">Body Blocking</p>';} 	
-		if(skill_unwavering==1){ the_results+='<p style="font-weight:bold; color: orange;">Unwavering</p>';} 	
-		if(skill_culling_strike==1){ the_results+='<p style="font-weight:bold; color: orange;">Culling Strike</p>';} 	
-
+		if(skill_vis_inoculation==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Vis Inoculation</td></tr>';} 	
+		runic_shielding.t=(runic_shielding.b + runic_shielding.a) * runic_shielding.i * runic_shielding.m;	
+		//runic_shielding.t-=runic_shielding.b;
+		if(!(runic_shielding.a==0 && runic_shielding.i==1 && runic_shielding.m==1)){ the_results+='<tr><td>Runic Shielding</td><td style="padding-left:10px;"> +' + ((runic_shielding.t)).toFixed(2) + '</td></tr>';}  			
 	
-		
-		
+	
+			//the_results+='<hr/>'
+
+
 		/////////////////FOCUS////////////////////////////////
 		
-		if(focus_alcara==1){ the_results+='<p style="font-weight:bold; color: orange;">Focus: Alcara</p>';} 		
-		if(focus_gelu==1){ the_results+='<p style="font-weight:bold; color: orange;">Focus: Gelu</p>';} 	
-		if(focus_ulteria==1){ the_results+='<p style="font-weight:bold; color: orange;">Focus: Ulteria</p>';} 		
-		if(focus_vorux==1){ the_results+='<p style="font-weight:bold; color: orange;">Focus: Vorux</p>';} 	
+		if(focus_alcara==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Focus: Alcara</td></tr>';} 		
+		if(focus_gelu==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Focus: Gelu</td></tr>';} 	
+		if(focus_ulteria==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Focus: Ulteria</td></tr>';} 		
+		if(focus_vorux==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Focus: Vorux</td></tr>';} 	
 
-		
+		the_results+='</table>'
 		
   the_text_area.innerHTML = '<div style="padding: 15px;">' + the_results + '</div>';
   
@@ -5194,7 +5553,7 @@ function starfield()
  function search()
  {
  
-  
+    ctx_available.clearRect(0, 0, canvas.width, canvas.height);	  
     ctx_lines.clearRect(0, 0, canvas.width, canvas.height);
 	ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);
 	ctx_search.clearRect(0, 0, canvas.width, canvas.height);
