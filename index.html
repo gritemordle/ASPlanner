@@ -28,20 +28,21 @@
   <canvas id = "canvas_tooltip"  style="position: absolute; top: 0; left: 0;"></canvas>
   <canvas id = "ASListen"  style="position: absolute; top: 0; left: 0;"></canvas>
   
-  <label for="search_this">Search</label>
-  <input type="text" id="search_this"  maxlength="80" size="20" onkeyup="search()">  
+
 
  </div>
   
 
  
-  
+<div id="resultswrap">  
+  <label for="search_this" style="margin: 10px;">Search</label>
+  <input type="text" id="search_this"  style="margin: 10px;" maxlength="80" size="20" onkeyup="search()">  
 <div id="results" >
 
 
 
 </div>
-
+</div>
 
   
   
@@ -115,7 +116,7 @@
 function positionResults()
 {
 
-     var results_panel = document.getElementById('results');
+     var results_panel = document.getElementById('resultswrap');
 	 results_panel.style.position = "absolute";
 	 results_panel.style.top="20px";
 	 results_panel.style.height=(window.innerHeight-40).toString() + "px";
