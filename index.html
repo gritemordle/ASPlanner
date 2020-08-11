@@ -34,8 +34,8 @@
   <canvas id = "canvas_available"  style="position: absolute; top: 0; left: 0; margin: 0; padding:0;"></canvas>  
   <canvas id = "canvas_lines"  style="position: absolute; top: 0; left: 0; margin: 0; padding:0;"></canvas>
   <canvas id = "canvas_nodes"  style="position: absolute; top: 0; left: 0; margin: 0; padding:0;"></canvas>
-  <canvas id = "canvas_tooltip"  style="position: absolute; top: 0; left: 100;  z-index:100; margin: 0; padding:0;"></canvas>
-  <canvas id = "ASListen"  style="position: absolute; top: 0; left: 0; z-index:101; margin: 0; padding:0;"></canvas>
+  <canvas id = "canvas_tooltip"  style="position: absolute; top: 0; left: 0;  margin: 0; padding:0;"></canvas>
+  <canvas id = "ASListen"  style="position: absolute; top: 0; left: 0; z-index:98; margin: 0; padding:0;"></canvas>
   
 
 
@@ -43,29 +43,22 @@
   
 
 <div id="searchwrap" style=" font-family: Grayfel-Normal-Demi;">  
- <label for="search_this" style="margin: 10px;">Search</label>
-  <input type="text" id="search_this"  style="margin: 10px;" maxlength="80" size="20" onkeyup="search()">  
+  <input type="text" id="search_this"  placeholder="Search..." style="margin: 10px; "  onkeyup="search()" >
 </div>
 
 
  
 <div id="resultswrap" style="overflow-y:scroll; font-family: Grayfel-Normal-Demi;">  
-
-
-
-
-<div id="results" >
-
-
-
-</div>
-
-
-</div>
-
-  
-  
-
+<div style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray;"><a href="#" onclick="expand_stats();return false;">[+]</a>STATS</div>
+	<div id="results" >
+	</div>
+<div style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray;"><a href="#" onclick="expand_base();return false;">[+]</a>BASE</div>
+	<div id="base" >
+	</div>
+<div style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray;"><a href="#" onclick="expand_save();return false;">[+]</a>SAVE</div>
+	<div id="save" >
+	</div>
+ 
 
 
 
@@ -87,8 +80,56 @@
 	var root_nodes=0;
 	var	epiphanies=0;
 	var first_epiphany=0;
+	var first_root=0;
 	var focus_nodes=0;
 	var singularity_node=0;
+	
+	
+	var stats_expanded=1;
+	var base_expanded=0;
+	var save_expanded=0;	
+	
+	
+	function expand_stats()
+	{
+		if(stats_expanded==0)
+		{
+			stats_expanded=1;					
+		}
+		else
+		{
+		stats_expanded=0;		
+		}	
+		positionResults();	
+	}
+	function expand_base()
+	{
+		if(base_expanded==0)
+		{
+
+			base_expanded=1;
+				
+		}
+		else
+		{
+		base_expanded=0;		
+		}	
+		positionResults();	
+	}
+	function expand_save()
+	{
+		if(save_expanded==0)
+		{
+
+			save_expanded=1;
+				
+		}
+		else
+		{
+		save_expanded=0;		
+		}	
+		positionResults();	
+	}
 	
 	
      var canvas = document.getElementById('ASMain');
@@ -144,13 +185,40 @@
 	 for(p=0;p<256;p++)
 	 {perm[p]=Math.floor(Math.random() * 256);}
 	 
+	 
 function positionResults()
 {
 
+     var search_panel = document.getElementById('searchwrap');
+	 search_panel.style.position = "absolute";
+	 search_panel.style.top="10px";
+	 search_panel.style.height="50px";
+	 search_panel.style.width=((window.innerWidth/3) * .9).toString() + "px";	 
+	 search_panel.style.left=((window.innerWidth/3)*2).toString() + "px";
+	 search_panel.style.borderStyle = "solid";
+	  search_panel.style.overflowY='hidden'; search_panel.style.overflowX='hidden';	 
+	 search_panel.style.zIndex=99;
+	 search_panel.style.backgroundColor="white";	 
+
+	 
+     var rp_text = document.getElementById('search_this');
+	 rp_text.style.position = "absolute";
+	 rp_text.style.top="10px";
+	rp_text.style.left="10px";
+	 rp_text.style.width="50%";
+	 rp_text.style.margin="10px";
+
+
      var results_panel = document.getElementById('resultswrap');
 	 results_panel.style.position = "absolute";
-	 results_panel.style.top="100px";
+	 results_panel.style.top="70px";
+
 	 results_panel.style.height=(window.innerHeight-40-75-20).toString() + "px";
+	 results_panel.style.overflowY='scroll';
+
+
+	 results_panel.style.minWidth = "100px;"		   
+	 
 	 results_panel.style.width=((window.innerWidth/3) * .9).toString() + "px";	 
 	 results_panel.style.left=((window.innerWidth/3)*2).toString() + "px";
 	 results_panel.style.borderStyle = "solid";
@@ -158,19 +226,32 @@ function positionResults()
 	 results_panel.style.zIndex=99;
 	 results_panel.style.backgroundColor="white";
 	 
-     var results_panel = document.getElementById('searchwrap');
-	 results_panel.style.position = "absolute";
-	 results_panel.style.top="10px";
-	 results_panel.style.height="75px";
-	 results_panel.style.width=((window.innerWidth/3) * .9).toString() + "px";	 
-	 results_panel.style.left=((window.innerWidth/3)*2).toString() + "px";
-	 results_panel.style.borderStyle = "solid";
+/////////////////////////////////////////////////////	 
+	 
+	 var results_div = document.getElementById('results');
+	 	 if(stats_expanded==1)
+		 { results_div.style.display="inline"; }
+		 else
+		{ results_div.style.display="none"; }
+ 
+	 var results_div = document.getElementById('base');
+	 	 if(base_expanded==1)
+		 { results_div.style.display="inline"; }
+		 else
+		{ results_div.style.display="none"; }
 
-	 results_panel.style.zIndex=105;
-	 results_panel.style.backgroundColor="white";	 
-
-
-    
+	 var results_div = document.getElementById('save');
+	 	 if(save_expanded==1)
+		 { results_div.style.display="inline"; }
+		 else
+		{ results_div.style.display="none"; }		
+		
+	// var save_div = document.getElementById('save');
+	// 	 if(save_expanded==1)
+	//	 { results_div.style.display="inline"; }
+	//	 else
+	//	{ results_div.style.display="none"; }		
+	
 
 }	 
 	 
@@ -471,7 +552,7 @@ function starfield()
 			//if(value.s==1){rsize=10;}
 			//if(value.s==1){rsize=10;}
 			
-			ctx_available.arc((value.x+ttrans.x+trans.x)*scale,(value.y+ttrans.y+trans.y)*scale,value.r+10,0, 2 * Math.PI, false);
+			ctx_available.arc((value.x+ttrans.x+trans.x)*scale,(value.y+ttrans.y+trans.y)*scale,value.r+7,0, 2 * Math.PI, false);
 				ctx_available.globalAlpha=.8;
 			ctx_available.fillStyle = 'purple';
 				ctx_nodes.globalAlpha=1;
@@ -798,7 +879,7 @@ function starfield()
 			 }		 
 			 
 			 
-			 ctx_tooltip.fillText(nodes[i].tag.toString(),x+10+ts+flip,y-(th)+((ii+1)*th)+(th/2)+(ts/2));
+			 ctx_tooltip.fillText(nodes[i].tag,x+10+ts+flip,y-(th)+((ii+1)*th)+(th/2)+(ts/2));
 			 
 			 
 			 break;
@@ -857,7 +938,7 @@ function starfield()
 				if(first_epiphany==0){ first_epiphany=nodes[i];}
 			 }		
 			
-			
+		
 			
 			
 			 nodes[i].stat='on';
@@ -882,10 +963,13 @@ function starfield()
 			 
 			 
 			 
-			 if(nodes[i].tooltip[0].includes('Root:')) {  
+			 if(nodes[i].tooltip[0].includes('Root:')) {
+				
 			 root_nodes+=1;   
 				 if(root_nodes>1)
-					{perk_points-=1;}		 
+					{perk_points-=1;}
+				 else
+					{first_root=nodes[i];}
 			 }
 			 else if(nodes[i].tooltip[0].includes('Singularity')) { perk_points-=1; perk_points+=3;  singularity_node+=1; }
 			 else if(nodes[i].tooltip[0].includes('Chakra') &&  epiphanies>0) { perk_points=perk_points; }
@@ -924,7 +1008,7 @@ function starfield()
 			var paths=0;
 			
 			if(binding_count>1)
-			{  paths=findRoutes(nodes[i]);   }
+			{  paths=findRoutes(nodes[i]); console.log(paths);  }
 			
 			
 			
@@ -1093,6 +1177,7 @@ function starfield()
   {
   
 	var paths=0;
+	var hits=0;
   
 	//find active root nodes
 	var root_nodes=new Array();
@@ -1102,7 +1187,17 @@ function starfield()
 	
 		nodes[i].tag=0;
 	
-		if(nodes[i].stat=='on' && (nodes[i].tooltip[0].includes('Root:') || ( nodes[i].tooltip[0].includes('Epiphany') && epiphanies>1 && nodes[i]!==first_epiphany)) )
+		if(
+			nodes[i].stat=='on' && 
+			(
+				(nodes[i].tooltip[0].includes('Root:') && nodes[i]==first_root) || 
+				( nodes[i].tooltip[0].includes('Epiphany') && epiphanies>1 && nodes[i]!==first_epiphany) ||
+				(nodes[i].tooltip[0].includes('Root:') && singularity_node==1)
+			) 
+		)
+		
+		
+			
 		{
 			root_nodes.push(nodes[i]);
 		}
@@ -1122,7 +1217,7 @@ function starfield()
 		for(j=0;j<root_nodes[m].ncomplete.length;j++)
 		{
 			
-			paths+=trace(root_nodes[m].ncomplete[j],find_this);	
+			paths+=trace(root_nodes[m].ncomplete[j],find_this,hits);	
 		}
 	
 		
@@ -1150,18 +1245,18 @@ function starfield()
   }
   
   
-  function trace(n,f)
+  function trace(n,f,h)
   {
   
   
 	
   
-	var hits=0;
+	
   
 	if(n==f)
 	{
-		hits++;
-		//console.log('found ' + f.tooltip[0]);
+		h++;
+		console.log('found ' + f.tooltip[0]);
 	
 	}
 	else
@@ -1181,9 +1276,9 @@ function starfield()
 
 			//console.log(n.tooltip[0] + ' tracing ' + n.ncomplete[iii].tooltip[0] + ' ' + iii + ' / ' + n.ncomplete.length);
 			
-			var check=trace(n.ncomplete[iii],f);
+			h+=trace(n.ncomplete[iii],f,h);
 			
-			hits+=check;
+		
 	  		
 	  
 		}
@@ -1192,7 +1287,7 @@ function starfield()
 	  
 	  }
 	  
-	  return hits;
+	  return h;
   
   }
   
@@ -1200,7 +1295,33 @@ function starfield()
   
   function updateResults()
   {
-       var the_results='';	   
+  
+  
+		var the_base_results=''
+		var the_base_area = document.getElementById('base'); 
+		the_base_results+='<p style="font-size: larger;">Base Stats</p>';
+		the_base_area.innerHTML=the_base_results;
+  
+  		var the_save_results=''
+		var the_save_area = document.getElementById('save'); 
+		the_save_results+='<p style="font-size: larger;">Save</p>';
+		the_save_area.innerHTML=the_save_results;
+  
+  
+  		//var the_save_results=''
+		//var the_save_area = document.getElementById('saver'); 
+		//the_save_results+='<p style="font-size: larger;">Save</p>';
+		//the_save_area.innerHTML=the_save_results;
+  
+  
+  
+  
+  
+  
+       var the_results='';
+
+		//the_results='<p style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray;"><a href="#" onclick="expand_stats();return false;">[+]</a> STATS</p>';
+	   
 	   var the_text_area = document.getElementById('results');  
 	   the_results+='<table><tr style="font-size: larger;"><td>Available Points</td><td style="padding-left: 10px;">' + perk_points + '</td><tr>'; 
 	   
