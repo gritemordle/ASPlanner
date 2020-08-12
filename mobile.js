@@ -21,6 +21,7 @@ function pointerdown_handler(ev) {
  // The pointerdown event signals the start of a touch interaction.
  // This event is cached to support 2-finger gestures
  evCache.push(ev);
+ event.preventDefault();
  //log("pointerDown", ev);
 }
 
@@ -64,6 +65,9 @@ function pointermove_handler(ev) {
 
    // Cache the distance for the next move event 
    prevDiff = curDiff;
+   
+   event.preventDefault();
+   
  }
 }
 
@@ -79,7 +83,11 @@ function pointerup_handler(ev) {
   // If the number of pointers down is less than two then reset diff tracker
   if (evCache.length < 2) {
     prevDiff = -1;
+	
   }
+  
+  event.preventDefault();
+  
 }
 
 
