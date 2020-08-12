@@ -12,8 +12,8 @@
 <style>
 
   @font-face {
-  font-family: "Grayfel-Normal-Demi";
-  src: url("Grayfel-Normal-Demi.otf");
+  font-family: "ProFontWindows";
+  src: url("ProFontWindows.ttf");
   }
 
 </style>
@@ -22,6 +22,22 @@
 </head>
 
 <body>
+
+<script>
+
+	function menu_over(t)
+	{
+	
+		t.style.color='darkred';	
+	
+	}
+	function menu_leave(t)
+	{
+	
+		t.style.color='black';	
+	
+	}	
+</script>
 
 
 <div style="margin: 0; padding:0;">
@@ -37,16 +53,16 @@
  </div>
   
 
-<div id="searchwrap" style=" font-family: Grayfel-Normal-Demi;">  
-  <input type="text" id="search_this"  placeholder="Perk Search..." style="margin: 10px; "  onkeyup="search()" >
+<div id="searchwrap" style=" font-family: Arial;">  
+  <input type="text" id="search_this"  placeholder="Perk Search..." style="margin: 10px; font-family: Arial;"  onkeyup="search()" >
 </div>
 
 
-<div id="resultswrap" style="overflow-y:scroll; font-family: Grayfel-Normal-Demi;">  
-<div style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray;"><a href="#" onclick="expand('results');">[+]</a>STATS</div>
+<div id="resultswrap" style="overflow-y:scroll; font-family: Arial;">  
+<div onclick="expand('results')" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ STATS</b></div>
 	<div id="results" >
 	</div>
- <div style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray;"><a href="#" onclick="expand('gems');expand('gems_header');">[+]</a>GEMS</div>
+ <div onclick="expand('gems')" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ GEMS</b></div>
  	<div id="gems_header"  style="display:none;">
 	</div>	
 	<div id="gems"  style="display:none;">
@@ -141,9 +157,10 @@
 	</select></p>
 	
 	</div>	
-<div style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray;"><a href="#" onclick="expand('base');">[+]</a>BASE</div>
+<div onclick="expand('base')" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ BASE</b></div>
 	<div id="base" style="display:none;">
 		<table style="margin: 10px; width:100%;">
+	
 	
 			<tr><td><label for="base_armor">Armor</a></td><td><input type="text" name="base_armor" id="base_armor" value="0" size="5" onkeyup="updateResults()"></td></tr>
 			<tr><td><label for="base_armor_toughness">Armor Toughness</a></td><td><input type="text" id="base_armor_toughness" value="0" size="5" onkeyup="updateResults()"></td></tr>	
@@ -155,12 +172,25 @@
 			<tr><td><label for="base_reach">Reach</a></td><td><input type="text" id="base_reach" value="5" size="5" onkeyup="updateResults()"></td></tr>				
 			<tr><td><label for="base_runic_shielding">Runic Shielding</a></td><td><input type="text" id="base_runic_shielding" value="0" size="5" onkeyup="updateResults()"></td></tr>		
 			<tr><td><label for="base_swimming_speed">Swimming Speed</a></td><td><input type="text" id="base_swimming_speed" value="1" size="5" onkeyup="updateResults()"></td></tr>
+			<tr><td></td><tr>
+			<tr><td><button onclick="morepoints();">Give More Points</button></td></tr>			
+			
 		</table>
 			
 			
 	</div>
-<div style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray;"><a href="#" onclick="expand('save')">[+]</a>SAVE</div>
+<div onclick="expand('save')" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ SAVE / LOAD</b></div>
 	<div id="save"  style="display:none;">
+	<table style="margin: 10px; width:75%; max-width: 250px;">
+		<tr><td><button onclick="saveProfile(1);">Save Profile 1</button></td>
+		<td><button onclick="loadProfile(1);">Load Profile 1</button></td></tr>
+		<tr><td><button onclick="saveProfile(2);">Save Profile 2</button></td>
+		<td><button onclick="loadProfile(2);">Load Profile 2</button></td></tr>
+		<tr><td><button onclick="saveProfile(3);">Save Profile 3</button></td>
+		<td><button onclick="loadProfile(3);">Load Profile 3</button></td></tr>				
+		<tr><td colspan="2" style="text-align: center;"><button onclick="reset();">Reset Nodes</button></td>
+		</tr>			
+	</table>
 	</div>
 
 
@@ -175,6 +205,7 @@
 	var searchcolor='red';
 
 	var perk_points=30;
+	var perk_points_extra=0;	
 	var root_nodes=0;
 	var	epiphanies=0;
 	var first_epiphany=0;
@@ -192,6 +223,9 @@
 	nodes=defineNodes();
 	
 	
+	let thiss=document.getElementById('save');
+	thiss.style.display=="inline";
+	thiss.style.innerText='[-]';
 	
 	/////////////// SIDE PANEL//////////
 	
@@ -199,10 +233,16 @@
 	{
 	
 		 var results_div = document.getElementById(id);
-	 	 if(results_div.style.display=="inline")
-		 { results_div.style.display="none"; }      
+		 var results_div2 = document.getElementById(id + '_a');
+		 
+	 	 if(results_div.style.display=="none")
+		 { 
+			results_div.style.display="inline"; 
+			results_div2.innerText='[-]'; }      
 		 else
-		{ results_div.style.display="inline"; }
+		{ 
+			results_div.style.display="none"; 
+			results_div2.innerText='[+]'; }
 	
 	
 	}
@@ -246,6 +286,10 @@
 	 results_panel.style.zIndex=99;
 	 results_panel.style.backgroundColor="white";
 	 
+
+
+
+
 
 	}	
 	
@@ -297,7 +341,7 @@
 	 canvas_available.height=window.innerHeight;	 
 	
 	 var ts=10;	 
-	 ctx_tooltip.font = 'normal ' + ts.toString() + 'pt Grayfel-Normal-Demi';
+	 ctx_tooltip.font = 'normal ' + ts.toString() + 'pt Arial';
 	
 	 positionResults();
 	 
@@ -738,10 +782,10 @@
 			 for (ii=0;ii<nodes[i].tooltip.length; ii++) {	
 
 				if(ii===0)
-					{ctx_tooltip.font='bold ' + (ts+1).toString() + 'pt Grayfel-Normal-Demi';
+					{ctx_tooltip.font='bold ' + (ts+1).toString() + 'pt Arial';
 						 }
 				else
-					{ctx_tooltip.font='normal ' + ts.toString() + 'pt Grayfel-Normal-Demi';}
+					{ctx_tooltip.font='normal ' + ts.toString() + 'pt Arial';}
 			 
 				if(tsize.width<ctx_tooltip.measureText(nodes[i].tooltip[ii]).width)
 				{tsize=ctx_tooltip.measureText(nodes[i].tooltip[ii]);}			 
@@ -771,14 +815,14 @@
 			    
 				if(ii===0)
 				{
-				if(nodes[i].rarity==1){ctx_tooltip.fillStyle='orange';}
+				if(nodes[i].rarity==1){ctx_tooltip.fillStyle='darkorange';}
 				else{ ctx_tooltip.fillStyle='white';  }
-				ctx_tooltip.font='bold ' + (ts+1).toString() + 'pt Grayfel-Normal-Demi';
+				ctx_tooltip.font='bold ' + (ts+1).toString() + 'pt Arial';
 				
 				}
 				else
 				{
-				ctx_tooltip.font='normal ' + ts.toString() + 'pt Grayfel-Normal-Demi';
+				ctx_tooltip.font='normal ' + ts.toString() + 'pt Arial';
 				}
 				
 				
@@ -838,6 +882,8 @@
 						{ nodes[i].ncomplete[e].stat='on'; }					
 					}
 					
+					perk_points--;
+					
 				}		
 				else if(nodes[i].tooltip[0].includes('Root:')) {
 				
@@ -863,7 +909,7 @@
 			else if(nodes[i].stat=='on')
 			{
 			 
-		
+			 
 			var binding_count=0;
 			
 			
@@ -883,7 +929,7 @@
 			if(binding_count>1)
 			{  paths=findRoutes(nodes[i]);   }
 			
-			console.log('paths ' + paths);
+			
 			
 			if(binding_count<2 || (binding_count>1 && paths>1) || (nodes[i].tooltip[0].includes('Epiphany')  && epiphanies>1) ) {
 			 
@@ -923,7 +969,7 @@
 					}				
 				
 				
-					//console.log(chakra_paths + ' ' + target_node);  ==
+				
 					
 					
 				
@@ -962,13 +1008,7 @@
 						{ root_nodes-=1; perk_points+=1; nodes[i].stat='off'; }
 						
 						
-						
-						//console.log('paths: ' + findRoutes(nodes[i]));
-						//if(nodes[i]!==first_root)
-						//{console.log('first_root');}
-						
-						//else if(nodes[i]!==first_root && binding_count>0 && findRoutes(nodes[i])==0)
-						//{ root_nodes-=1; perk_points+=1; nodes[i].stat='off'; }
+				
 
 				}	
 				else if(nodes[i].tooltip[0].includes('Singularity') && root_nodes<2 ) { nodes[i].stat='off'; perk_points+=1; perk_points-=3; singularity_node-=1; }
@@ -1001,6 +1041,11 @@
 		 
 				}
 			 
+			 
+			 
+		
+
+			 
 			}
 		
 		
@@ -1018,6 +1063,30 @@
 	
 	}  
 	
+	
+
+	
+	
+
+		    //drawWeb();
+  
+
+    updateAvailable();
+  
+    updateResults();
+	
+  
+  
+  }, false);
+  
+
+  
+  function updateAvailable()
+  {
+  
+  				if(perk_points!==0)
+				{
+	
 				for (i=0;i<nodes.length; i++) {	
 				
 				
@@ -1029,8 +1098,6 @@
 									}
 				
 				}
-	
-	
 	
 				 //updateavailable
 				for (i=0;i<nodes.length; i++) {	
@@ -1114,21 +1181,18 @@
 				}					
 				
 				
-	
-	
-
-		    //drawWeb();
-  
-
-  
-  
-    updateResults();
-	
+			}
+			else
+			{
+			
+				for (i=0;i<nodes.length; i++) {	nodes[i].available=0;}
+			
+			
+			}
   
   
-  }, false);
+  }
   
-
   
   
   function findRoutes(find_this)
@@ -1223,14 +1287,14 @@
   {
   
   
-	console.log('tracing: inside ' + n.tooltip[0]);
+
   
 	
   
 	if(n==f)
 	{
 		h++;
-		console.log('found ' + f.tooltip[0]);
+		
 	
 	}
 	else
@@ -1270,10 +1334,7 @@
   
 		var gem_sockets=new Array();
   
-  		var the_save_results=''
-		var the_save_area = document.getElementById('save'); 
-		the_save_results+='<p style="font-size: larger;">Save</p>';
-		the_save_area.innerHTML=the_save_results;
+
   
   
 	var base_armor= parseFloat(document.getElementById('base_armor').value);
@@ -1297,7 +1358,12 @@
 
 	   
 	   var the_text_area = document.getElementById('results');  
-	   the_results+='<table><tr style="font-size: larger;"><td>Available Points</td><td style="padding-left: 10px;">' + perk_points + '</td><tr>'; 
+	   
+	   
+	   if(perk_points_extra==0)
+	   {the_results+='<table><tr style="font-size: larger;"><td>Available Points</td><td style="padding-left: 10px;">' + perk_points + '</td><tr>'; }
+	   else
+	   {the_results+='<table><tr style="font-size: larger;"><td>Available Points</td><td style="padding-left: 10px;">' + perk_points + ' (+' + perk_points_extra + ')</td><tr>'; }
 	  	  
 	   the_results+='<tr><td></td></tr>';
 	   
@@ -1310,6 +1376,8 @@
 		var mining_speed={a:0,i:1,m:1,t:0,b:base_mining_speed,fs:1};
 		var reach={a:0,i:1,m:1,t:0,b:base_reach,fs:1};
 		var swimming_speed={a:0,i:1,m:1,t:0,b:base_swimming_speed,fs:1};
+		
+		var reflection={a:0,i:1,m:1,t:0,b:1,fs:0};
 	
 	    var perk_effectiveness={a:0,i:1,m:1,t:0,b:1,fs:0};
 	    var perk_experience={a:0,i:1,m:1,t:0,b:1,fs:0};
@@ -1374,7 +1442,7 @@
 		var skill_body_blocking=0;
 		var skill_unwavering=0;
 		var skill_culling_strike=0;
-		
+		var skill_dislocated_reflection=0;
 		
 		
 		
@@ -1651,6 +1719,12 @@
 		
 			if(nodes[i].stat=='on')
 			{
+
+			reflection=nodeCheck(
+				nodes[i].reflection_add,
+				nodes[i].reflection,
+				nodes[i].reflection_more,
+				reflection,perk_effectiveness.t);	
 		
 			
 			melee_damage=nodeCheck(
@@ -1842,7 +1916,7 @@
 			skill_additional_fins=skillCheck(nodes[i].skill_additional_fins,skill_additional_fins);	
 			skill_bastion_of_flesh=skillCheck(nodes[i].skill_bastion_of_flesh,skill_bastion_of_flesh);	
 	
-	
+				skill_dislocated_reflection=skillCheck(nodes[i].skill_dislocated_reflection,skill_dislocated_reflection);	
 			
 			}
 		
@@ -2024,6 +2098,8 @@
 			return '<tr><td>' + name + '</td><td style="padding-left:10px;" ' + title + ' > ' + total + '</td></tr>';		
 		}
 		
+
+
 	
 		amulet_enchantments.t=(amulet_enchantments.b + amulet_enchantments.a) * amulet_enchantments.i * amulet_enchantments.m;
 		amulet_enchantments.t-=amulet_enchantments.b;
@@ -2052,6 +2128,10 @@
 		if(!(critical_hit_chance.a==0 && critical_hit_chance.i==1 && critical_hit_chance.m==1))
 		{ the_results+=printResults(critical_hit_chance,'Critical Hit Chance',1,0,100); } 
 
+		reflection.t=(reflection.b + reflection.a) * reflection.i * reflection.m;
+		reflection.t-=reflection.b;
+		if(reflection.t!==0){ the_results+=printResults(reflection,'Damage Reflected',1,0,100); }
+
 		dodge.t=(dodge.b + dodge.a) * dodge.i * dodge.m;
 		dodge.t-=dodge.b;
 		if(dodge.t!==0)
@@ -2078,7 +2158,7 @@
 			
 		maximum_life.t=(maximum_life.b + maximum_life.a) * maximum_life.i * maximum_life.m;	
 		if(skill_vis_inoculation==1){maximum_life.t=1; maximum_life.b=0;}		
-		if(!(maximum_life.a==0 && maximum_life.i==1 && maximum_life.m==1))
+		if(!(maximum_life.a==0 && maximum_life.i==1 && maximum_life.m==1) || skill_vis_inoculation==1)
 		{ the_results+=printResults(maximum_life,'Maximum Life',0,1,1); } 		
 		
 		melee_damage.t=(melee_damage.b + melee_damage.a) * melee_damage.i * melee_damage.m;
@@ -2138,20 +2218,20 @@
 		
 		///////////////////SKILLS/////////////////////////
 		
-		if(skill_area_of_effect==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Area of Effect</td></tr>';} 
-		if(skill_bigger_stomach==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Bigger Stomach</td></tr>';} 
+		if(skill_area_of_effect==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Area of Effect</td></tr>';} 
+		if(skill_bigger_stomach==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Bigger Stomach</td></tr>';} 
 		
-		if(skill_bleeding==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Bleeding</td></tr>';} 	
+		if(skill_bleeding==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Bleeding</td></tr>';} 	
 		bleed_duration.t=(bleed_duration.b + bleed_duration.a) * bleed_duration.i * bleed_duration.m;	
 		bleed_duration.t-=bleed_duration.b;
 		if((bleed_duration.t!==0))
 		{ the_results+=printResults(bleed_duration,'Bleed Duration',1,0,100); }		
 		
-		if(skill_blunt_bolts==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Blunt Bolts</td></tr>';} 	
-		if(skill_body_blocking==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Body Blocking</td></tr>';} 		
-		if(skill_breaking_aim==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Breaking Aim</td></tr>';} 
+		if(skill_blunt_bolts==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Blunt Bolts</td></tr>';} 	
+		if(skill_body_blocking==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Body Blocking</td></tr>';} 		
+		if(skill_breaking_aim==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Breaking Aim</td></tr>';} 
 
-		if(skill_chained_mining==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Chained Mining</td></tr>';}
+		if(skill_chained_mining==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Chained Mining</td></tr>';}
 		chained_mining_chance.t=(chained_mining_chance.b + chained_mining_chance.a) * chained_mining_chance.i * chained_mining_chance.m;	
 		chained_mining_chance.t-=chained_mining_chance.b;
 		if((chained_mining_chance.t!==0))
@@ -2167,33 +2247,34 @@
 		if((successive_chains.t!==0))
 		{ the_results+=printResults(successive_chains,'Successive Chains Chance',1,0,100); }			
 		
-		if(skill_cleansing==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td><tr><td>Cleansing</td></tr>';} 		
-		if(skill_consistent_luck==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Consistent Luck</td></tr>';} 	
-		if(skill_culling_strike==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Culling Strike</td></tr>';} 		
-		if(skill_cursed_touch==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Cursed Touch</td></tr>';} 
-		if(skill_diamond_skin==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Diamond Skin</td></tr>';} 		
-		if(skill_different_angles==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Different Angles</td></tr>';} 
-		if(skill_hiking_boots==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Hiking Boots</td></tr>';} 
+		if(skill_cleansing==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td><tr><td>Cleansing</td></tr>';} 		
+		if(skill_consistent_luck==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Consistent Luck</td></tr>';} 	
+		if(skill_culling_strike==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Culling Strike</td></tr>';} 		
+		if(skill_cursed_touch==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Cursed Touch</td></tr>';} 
+		if(skill_diamond_skin==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Diamond Skin</td></tr>';} 		
+		if(skill_different_angles==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Different Angles</td></tr>';}
+		if(skill_dislocated_reflection==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Dislocated Reflection</td></tr>';}		
+		if(skill_hiking_boots==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Hiking Boots</td></tr>';} 
 		
-		if(skill_lightning_arc==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Lightning Arc</td></tr>';} 			
+		if(skill_lightning_arc==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Lightning Arc</td></tr>';} 			
 		lightning_arc_chains.t=(lightning_arc_chains.b + lightning_arc_chains.a) * lightning_arc_chains.i * lightning_arc_chains.m;
 		lightning_arc_chains.t-=lightning_arc_chains.b;
 		if(lightning_arc_chains.t!==0)
 		{ the_results+=printResults(lightning_arc_chains,'Lightning Arc Chains',0,1,1); }		
 		
-		if(skill_last_breath==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Last Breath</td></tr>';} 			
-		if(skill_long_shot==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Long Shot</td></tr>';} 		
-		if(skill_mending==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Mending</td></tr>';}
-		if(skill_miners_delight==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Miner\'s Delight</td></tr>';}  
-		if(skill_phoenix_blessing==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Phoenix Blessing</td></tr>';} 
-		if(skill_rampage==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Rampage</td></tr>';} 
-		if(skill_spatial_manipulation==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Spatial Manipulation</td></tr>';} 			
-		if(skill_spreading_growth==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Spreading Growth</td></tr>';} 	
-		if(skill_stone_enrichment==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Stone Enrichment</td></tr>';} 	
-		if(skill_trash_to_treasure==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Trash to Treasure</td></tr>';} 			
-		if(skill_unwavering==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Unwavering</td></tr>';} 	
+		if(skill_last_breath==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Last Breath</td></tr>';} 			
+		if(skill_long_shot==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Long Shot</td></tr>';} 		
+		if(skill_mending==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Mending</td></tr>';}
+		if(skill_miners_delight==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Miner\'s Delight</td></tr>';}  
+		if(skill_phoenix_blessing==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Phoenix Blessing</td></tr>';} 
+		if(skill_rampage==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Rampage</td></tr>';} 
+		if(skill_spatial_manipulation==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Spatial Manipulation</td></tr>';} 			
+		if(skill_spreading_growth==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Spreading Growth</td></tr>';} 	
+		if(skill_stone_enrichment==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Stone Enrichment</td></tr>';} 	
+		if(skill_trash_to_treasure==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Trash to Treasure</td></tr>';} 			
+		if(skill_unwavering==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Unwavering</td></tr>';} 	
 	
-		if(skill_vis_inoculation==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Vis Inoculation</td></tr>';} 	
+		if(skill_vis_inoculation==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Vis Inoculation</td></tr>';} 	
 		runic_shielding.t=(runic_shielding.b + runic_shielding.a) * runic_shielding.i * runic_shielding.m;	
 		if(!(runic_shielding.a==0 && runic_shielding.i==1 && runic_shielding.m==1))
 		{ the_results+=printResults(runic_shielding,'Runic Shielding',1,0,1); }
@@ -2205,10 +2286,10 @@
 
 		/////////////////FOCUS////////////////////////////////
 		
-		if(focus_alcara==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Focus: Alcara</td></tr>';} 		
-		if(focus_gelu==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Focus: Gelu</td></tr>';} 	
-		if(focus_ulteria==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Focus: Ulteria</td></tr>';} 		
-		if(focus_vorux==1){ the_results+='<tr style="font-weigh:bold; color: orange;"><td>Focus: Vorux</td></tr>';} 	
+		if(focus_alcara==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Focus: Alcara</td></tr>';} 		
+		if(focus_gelu==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Focus: Gelu</td></tr>';} 	
+		if(focus_ulteria==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Focus: Ulteria</td></tr>';} 		
+		if(focus_vorux==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Focus: Vorux</td></tr>';} 	
 
 		the_results+='</table>'
 		
@@ -2305,6 +2386,9 @@
  }
   
 
+
+
+
 function drawWeb()
 {
 
@@ -2318,7 +2402,274 @@ function drawWeb()
 }
   
 
- 	    
+function reset()
+{
+
+		for(let i=0;i<nodes.length;i++)
+		{
+				nodes[i].stat='off';
+				nodes[i].available=0;
+		}
+
+		perk_points=30;
+		perk_points_extra=0;
+		root_nodes=0;
+		epiphanies=0;
+		first_root=0;
+		focus_nodes=0;
+		singularity_node=0;
+		first_epiphany=0;
+			
+		document.getElementById('base_armor').value=0;
+		document.getElementById('base_armor_toughness').value=0;
+		document.getElementById('base_attack_speed').value=4;
+		document.getElementById('base_maximum_life').value=20;
+		document.getElementById('base_melee_damage').value=1;
+		document.getElementById('base_movement_speed').value=0.1;
+		document.getElementById('base_mining_speed').value=1;
+		document.getElementById('base_reach').value=5;
+		document.getElementById('base_runic_shielding').value=0;
+		document.getElementById('base_swimming_speed').value=1;
+		
+		document.getElementById('gem1_increase1').value='5';		
+		document.getElementById('gem1_increase2').value='5';	
+		document.getElementById('gem1_increase3').value='5';	
+		document.getElementById('gem1_increase4').value='5';					
+		document.getElementById('gem2_increase1').value='5';		
+		document.getElementById('gem2_increase2').value='5';	
+		document.getElementById('gem2_increase3').value='5';	
+		document.getElementById('gem2_increase4').value='5';					
+		document.getElementById('gem3_increase1').value='5';		
+		document.getElementById('gem3_increase2').value='5';	
+		document.getElementById('gem3_increase3').value='5';	
+		document.getElementById('gem3_increase4').value='5';					
+		document.getElementById('gem4_increase1').value='5';		
+		document.getElementById('gem4_increase2').value='5';	
+		document.getElementById('gem4_increase3').value='5';	
+		document.getElementById('gem4_increase4').value='5';					
+		document.getElementById('gem1_stat1').value='';		
+		document.getElementById('gem1_stat2').value='';	
+		document.getElementById('gem1_stat3').value='';	
+		document.getElementById('gem1_stat4').value='';					
+		document.getElementById('gem2_stat1').value='';		
+		document.getElementById('gem2_stat2').value='';	
+		document.getElementById('gem2_stat3').value='';	
+		document.getElementById('gem2_stat4').value='';					
+		document.getElementById('gem3_stat1').value='';		
+		document.getElementById('gem3_stat2').value='';	
+		document.getElementById('gem3_stat3').value='';	
+		document.getElementById('gem3_stat4').value='';					
+		document.getElementById('gem4_stat1').value='';		
+		document.getElementById('gem4_stat2').value='';	
+		document.getElementById('gem4_stat3').value='';	
+		document.getElementById('gem4_stat4').value='';			
+		
+		
+		updateResults();
+updateAvailable();
+		updateResults();
+
+}
+
+
+
+
+
+ 	function saveProfile(num)
+	{
+	
+		for(let i=0;i<nodes.length;i++)
+		{
+				localStorage.setItem(num.toString() + '-' + i.toString(),nodes[i].stat);
+				localStorage.setItem(num.toString() + '-a' + i.toString(),nodes[i].available);
+		}
+	
+	
+		let first_root_name=''
+		let first_epiphany_name=''
+		
+		if(first_root!==0)
+		{ first_root_name=first_root.tooltip[0]; }
+		if(first_epiphany!==0)
+		{ first_epiphany_name=first_epiphany.tooltip[0]; }	
+	
+	
+		localStorage.setItem(num.toString() + '-perk_points',perk_points);
+		localStorage.setItem(num.toString() + '-perk_points_extra',perk_points_extra);		
+		localStorage.setItem(num.toString() + '-root_nodes',root_nodes);
+		localStorage.setItem(num.toString() + '-epiphanies',epiphanies);
+		localStorage.setItem(num.toString() + '-first_root',first_root_name);
+		localStorage.setItem(num.toString() + '-focus_nodes',focus_nodes);
+		localStorage.setItem(num.toString() + '-singularity_node',singularity_node);		
+		localStorage.setItem(num.toString() + '-first_epiphany',first_epiphany_name);
+		
+		
+		//save base stats
+		localStorage.setItem(num.toString() + '-base_armor',document.getElementById('base_armor').value);
+		localStorage.setItem(num.toString() + '-base_armor_toughness',document.getElementById('base_armor_toughness').value);
+		localStorage.setItem(num.toString() + '-base_attack_speed',document.getElementById('base_attack_speed').value);
+		localStorage.setItem(num.toString() + '-base_maximum_life',document.getElementById('base_maximum_life').value);
+		localStorage.setItem(num.toString() + '-base_melee_damage',document.getElementById('base_melee_damage').value);
+		localStorage.setItem(num.toString() + '-base_movement_speed',document.getElementById('base_movement_speed').value);
+		localStorage.setItem(num.toString() + '-base_mining_speed',document.getElementById('base_mining_speed').value);
+		localStorage.setItem(num.toString() + '-base_reach',document.getElementById('base_reach').value);
+		localStorage.setItem(num.toString() + '-base_runic_shielding',document.getElementById('base_runic_shielding').value);
+		localStorage.setItem(num.toString() + '-base_swimming_speed',document.getElementById('base_swimming_speed').value);		
+	
+		//save gems
+		localStorage.setItem(num.toString() + '-gem1_increase1',document.getElementById('gem1_increase1').value);		
+		localStorage.setItem(num.toString() + '-gem1_increase2',document.getElementById('gem1_increase2').value);	
+		localStorage.setItem(num.toString() + '-gem1_increase3',document.getElementById('gem1_increase3').value);	
+		localStorage.setItem(num.toString() + '-gem1_increase4',document.getElementById('gem1_increase4').value);					
+		localStorage.setItem(num.toString() + '-gem2_increase1',document.getElementById('gem2_increase1').value);		
+		localStorage.setItem(num.toString() + '-gem2_increase2',document.getElementById('gem2_increase2').value);	
+		localStorage.setItem(num.toString() + '-gem2_increase3',document.getElementById('gem2_increase3').value);	
+		localStorage.setItem(num.toString() + '-gem2_increase4',document.getElementById('gem2_increase4').value);					
+		localStorage.setItem(num.toString() + '-gem3_increase1',document.getElementById('gem3_increase1').value);		
+		localStorage.setItem(num.toString() + '-gem3_increase2',document.getElementById('gem3_increase2').value);	
+		localStorage.setItem(num.toString() + '-gem3_increase3',document.getElementById('gem3_increase3').value);	
+		localStorage.setItem(num.toString() + '-gem3_increase4',document.getElementById('gem3_increase4').value);					
+		localStorage.setItem(num.toString() + '-gem4_increase1',document.getElementById('gem4_increase1').value);		
+		localStorage.setItem(num.toString() + '-gem4_increase2',document.getElementById('gem4_increase2').value);	
+		localStorage.setItem(num.toString() + '-gem4_increase3',document.getElementById('gem4_increase3').value);	
+		localStorage.setItem(num.toString() + '-gem4_increase4',document.getElementById('gem4_increase4').value);					
+		localStorage.setItem(num.toString() + '-gem1_stat1',document.getElementById('gem1_stat1').value);		
+		localStorage.setItem(num.toString() + '-gem1_stat2',document.getElementById('gem1_stat2').value);	
+		localStorage.setItem(num.toString() + '-gem1_stat3',document.getElementById('gem1_stat3').value);	
+		localStorage.setItem(num.toString() + '-gem1_stat4',document.getElementById('gem1_stat4').value);					
+		localStorage.setItem(num.toString() + '-gem2_stat1',document.getElementById('gem2_stat1').value);		
+		localStorage.setItem(num.toString() + '-gem2_stat2',document.getElementById('gem2_stat2').value);	
+		localStorage.setItem(num.toString() + '-gem2_stat3',document.getElementById('gem2_stat3').value);	
+		localStorage.setItem(num.toString() + '-gem2_stat4',document.getElementById('gem2_stat4').value);					
+		localStorage.setItem(num.toString() + '-gem3_stat1',document.getElementById('gem3_stat1').value);		
+		localStorage.setItem(num.toString() + '-gem3_stat2',document.getElementById('gem3_stat2').value);	
+		localStorage.setItem(num.toString() + '-gem3_stat3',document.getElementById('gem3_stat3').value);	
+		localStorage.setItem(num.toString() + '-gem3_stat4',document.getElementById('gem3_stat4').value);					
+		localStorage.setItem(num.toString() + '-gem4_stat1',document.getElementById('gem4_stat1').value);		
+		localStorage.setItem(num.toString() + '-gem4_stat2',document.getElementById('gem4_stat2').value);	
+		localStorage.setItem(num.toString() + '-gem4_stat3',document.getElementById('gem4_stat3').value);	
+		localStorage.setItem(num.toString() + '-gem4_stat4',document.getElementById('gem4_stat4').value);	
+		
+	
+	
+	
+	}
+
+ 	function loadProfile(num)
+	{
+	
+
+		let first_root_name='';
+		let first_epiphany_name='';
+
+		
+		
+
+		
+		
+		
+		if(!!localStorage.getItem(num.toString() + '-perk_points'))
+		{
+		
+		
+				
+			for(let i=0;i<nodes.length;i++)
+			{
+				nodes[i].stat=localStorage.getItem(num.toString() + '-' + i.toString());
+				nodes[i].available=localStorage.getItem(num.toString() + '-a' + i.toString());
+			}
+		
+			perk_points=parseInt(localStorage.getItem(num.toString() + '-perk_points'));
+			perk_points_extra=parseInt(localStorage.getItem(num.toString() + '-perk_points_extra'));			
+			root_nodes=parseInt(localStorage.getItem(num.toString() + '-root_nodes'));
+			epiphanies=parseInt(localStorage.getItem(num.toString() + '-epiphanies'));
+			first_root_name=localStorage.getItem(num.toString() + '-first_root');
+			focus_nodes=parseInt(localStorage.getItem(num.toString() + '-focus_nodes'));
+			singularity_node=parseInt(localStorage.getItem(num.toString() + '-singularity_node',singularity_node));
+			first_epiphany_name=localStorage.getItem(num.toString() + '-first_epiphany');			
+
+
+		document.getElementById('base_armor').value=localStorage.getItem(num.toString() + '-base_armor');
+		document.getElementById('base_armor_toughness').value=localStorage.getItem(num.toString() + '-base_armor_toughness');
+		document.getElementById('base_attack_speed').value=localStorage.getItem(num.toString() + '-base_attack_speed');
+		document.getElementById('base_maximum_life').value=localStorage.getItem(num.toString() + '-base_maximum_life');
+		document.getElementById('base_melee_damage').value=localStorage.getItem(num.toString() + '-base_melee_damage');
+		document.getElementById('base_movement_speed').value=localStorage.getItem(num.toString() + '-base_movement_speed',);
+		document.getElementById('base_mining_speed').value=localStorage.getItem(num.toString() + '-base_mining_speed');
+		document.getElementById('base_reach').value=localStorage.getItem(num.toString() + '-base_reach');
+		document.getElementById('base_runic_shielding').value=localStorage.getItem(num.toString() + '-base_runic_shielding');
+		document.getElementById('base_swimming_speed').value=localStorage.getItem(num.toString() + '-base_swimming_speed');	
+
+		document.getElementById('gem1_increase1').value=localStorage.getItem(num.toString() + '-gem1_increase1');		
+		document.getElementById('gem1_increase2').value=localStorage.getItem(num.toString() + '-gem1_increase2');	
+		document.getElementById('gem1_increase3').value=localStorage.getItem(num.toString() + '-gem1_increase3');	
+		document.getElementById('gem1_increase4').value=localStorage.getItem(num.toString() + '-gem1_increase4');					
+		document.getElementById('gem2_increase1').value=localStorage.getItem(num.toString() + '-gem2_increase1');		
+		document.getElementById('gem2_increase2').value=localStorage.getItem(num.toString() + '-gem2_increase2');	
+		document.getElementById('gem2_increase3').value=localStorage.getItem(num.toString() + '-gem2_increase3');	
+		document.getElementById('gem2_increase4').value=localStorage.getItem(num.toString() + '-gem2_increase4');					
+		document.getElementById('gem3_increase1').value=localStorage.getItem(num.toString() + '-gem3_increase1');		
+		document.getElementById('gem3_increase2').value=localStorage.getItem(num.toString() + '-gem3_increase2');	
+		document.getElementById('gem3_increase3').value=localStorage.getItem(num.toString() + '-gem3_increase3');	
+		document.getElementById('gem3_increase4').value=localStorage.getItem(num.toString() + '-gem3_increase4');					
+		document.getElementById('gem4_increase1').value=localStorage.getItem(num.toString() + '-gem4_increase1');		
+		document.getElementById('gem4_increase2').value=localStorage.getItem(num.toString() + '-gem4_increase2');	
+		document.getElementById('gem4_increase3').value=localStorage.getItem(num.toString() + '-gem4_increase3');	
+		document.getElementById('gem4_increase4').value=localStorage.getItem(num.toString() + '-gem4_increase4');
+		document.getElementById('gem1_stat1').value=localStorage.getItem(num.toString() + '-gem1_stat1');		
+		document.getElementById('gem1_stat2').value=localStorage.getItem(num.toString() + '-gem1_stat2');	
+		document.getElementById('gem1_stat3').value=localStorage.getItem(num.toString() + '-gem1_stat3');	
+		document.getElementById('gem1_stat4').value=localStorage.getItem(num.toString() + '-gem1_stat4');					
+		document.getElementById('gem2_stat1').value=localStorage.getItem(num.toString() + '-gem2_stat1');		
+		document.getElementById('gem2_stat2').value=localStorage.getItem(num.toString() + '-gem2_stat2');	
+		document.getElementById('gem2_stat3').value=localStorage.getItem(num.toString() + '-gem2_stat3');	
+		document.getElementById('gem2_stat4').value=localStorage.getItem(num.toString() + '-gem2_stat4');					
+		document.getElementById('gem3_stat1').value=localStorage.getItem(num.toString() + '-gem3_stat1');		
+		document.getElementById('gem3_stat2').value=localStorage.getItem(num.toString() + '-gem3_stat2');	
+		document.getElementById('gem3_stat3').value=localStorage.getItem(num.toString() + '-gem3_stat3');	
+		document.getElementById('gem3_stat4').value=localStorage.getItem(num.toString() + '-gem3_stat4');					
+		document.getElementById('gem4_stat1').value=localStorage.getItem(num.toString() + '-gem4_stat1');		
+		document.getElementById('gem4_stat2').value=localStorage.getItem(num.toString() + '-gem4_stat2');	
+		document.getElementById('gem4_stat3').value=localStorage.getItem(num.toString() + '-gem4_stat3');	
+		document.getElementById('gem4_stat4').value=localStorage.getItem(num.toString() + '-gem4_stat4');
+
+		
+		
+		}
+	
+		if(first_epiphany_name!=='')
+		{
+			for(let i=0;i<nodes.length;i++)
+			{  if(first_epiphany_name==nodes[i].tooltip[0]){first_epiphany=nodes[i];}  }
+		}
+		else { first_epiphany=0; }
+		
+		if(first_root!=='')
+		{
+			for(let i=0;i<nodes.length;i++)
+			{  if(first_root_name==nodes[i].tooltip[0]){first_root=nodes[i];}  }
+		}
+		else { first_root=0;}
+	
+		updateAvailable();
+		updateResults();
+		
+	
+	
+	
+	
+	}
+
+function morepoints()
+{
+
+	perk_points++;
+	perk_points_extra++;
+	updateAvailable();
+	updateResults();
+	
+
+}
 
 
   
