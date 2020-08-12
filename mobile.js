@@ -5,7 +5,7 @@ var prevDiff = -1;
 
 
  // Install event handlers for the pointer target
- var el=document.getElementById("canvas_listen");
+ var el=document.getElementById("ASListen");
  el.onpointerdown = pointerdown_handler;
  el.onpointermove = pointermove_handler;
 
