@@ -1,0 +1,2693 @@
+
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Astral Sorcery Perk Planner</title>
+  <meta name="description" content="Astral Sorcery Perk Planner">
+  <meta name="author" content="gritemordle">
+
+<style>
+
+  @font-face {
+  font-family: "ProFontWindows";
+  src: url("ProFontWindows.ttf");
+  }
+
+</style>
+
+
+</head>
+
+<body>
+
+<script>
+
+	function menu_over(t)
+	{
+	
+		t.style.color='darkred';	
+	
+	}
+	function menu_leave(t)
+	{
+	
+		t.style.color='black';	
+	
+	}	
+</script>
+
+
+<div style="margin: 0; padding:0;">
+
+  <canvas id = "ASMain"  style="position: absolute; top: 0; left: 0; margin: 0; padding:0;"></canvas>
+  <canvas id = "canvas_search"  style="position: absolute; top: 0; left: 0; margin: 0; padding:0;"></canvas>
+  <canvas id = "canvas_available"  style="position: absolute; top: 0; left: 0; margin: 0; padding:0;"></canvas>  
+  <canvas id = "canvas_lines"  style="position: absolute; top: 0; left: 0; margin: 0; padding:0;"></canvas>
+  <canvas id = "canvas_nodes"  style="position: absolute; top: 0; left: 0; margin: 0; padding:0;"></canvas>
+  <canvas id = "canvas_tooltip"  style="position: absolute; top: 0; left: 0;  margin: 0; padding:0;"></canvas>
+  <canvas id = "ASListen"  style="position: absolute; top: 0; left: 0; z-index:98; margin: 0; padding:0;"></canvas>
+  
+ </div>
+  
+
+<div id="searchwrap" style=" font-family: Arial;">  
+  <input type="text" id="search_this"  placeholder="Perk Search..." style="margin: 10px; font-family: Arial;"  onkeyup="search()" >
+</div>
+
+
+<div id="resultswrap" style="overflow-y:scroll; font-family: Arial;">  
+<div onclick="expand('results')" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ STATS</b></div>
+	<div id="results" >
+	</div>
+ <div onclick="expand('gems')" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ GEMS</b></div>
+ 	<div id="gems_header"  style="display:none;">
+	</div>	
+	<div id="gems"  style="display:none;">
+	
+	<p style="margin-left:15px;">Gem 1</p>
+	<p style="margin-left:20px;">	
+	<select onchange="updateResults()" id="gem1_increase1">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem1_stat1"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem1_increase2">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem1_stat2"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem1_increase3">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem1_stat3"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem1_increase4">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem1_stat4"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	<hr/>
+	<p style="margin-left:15px;">Gem 2</p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem2_increase1">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem2_stat1"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem2_increase2">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem2_stat2"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem2_increase3">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem2_stat3"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem2_increase4">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem2_stat4"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	<hr/>
+	<p style="margin-left:15px;">Gem 3</p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem3_increase1">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem3_stat1"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem3_increase2">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem3_stat2"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem3_increase3">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem3_stat3"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem3_increase4">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem3_stat4"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>	
+	<hr/>
+	<p style="margin-left:15px;">Gem 4</p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem4_increase1">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem4_stat1"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem4_increase2">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem4_stat2"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem4_increase3">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem4_stat3"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	<p style="margin-left:20px;"><select onchange="updateResults()" id="gem4_increase4">
+	<option value="5">5%</option><option value="6">6%</option><option value="7">7%</option><option value="8">8%</option>	
+	</select> increased 
+	<select onchange="updateResults()" id="gem4_stat4"><option value=""></option><option value="armor">Armor</option><option value="attack_speed">Attack Speed</option><option value="dodge">Dodge Chance</option><option value="critical_damage_multiplier">Critical Damage Multiplier</option><option value="critical_hit_chance">Critical Hit Chance</option><option value="elemental_resistances">Elemental Resistances</option><option value="life_recovery">Life Recovery</option><option value="maximum_life">Maximum Life</option><option value="melee_damage">Melee Damage</option><option value="movement_speed">Movement Speed</option><option value="perk_experience">Perk Experience</option><option value="projectile_damage">Projectile Damage</option><option value="reach">Reach</option><option value="runic_shielding">Runic Shielding</option>
+	</select></p>
+	
+	</div>	
+<div onclick="expand('base')" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ BASE</b></div>
+	<div id="base" style="display:none;">
+		<table style="margin: 10px; width:100%;">
+	
+	
+			<tr><td><label for="base_armor">Armor</a></td><td><input type="text" name="base_armor" id="base_armor" value="0" size="5" onkeyup="updateResults()"></td></tr>
+			<tr><td><label for="base_armor_toughness">Armor Toughness</a></td><td><input type="text" id="base_armor_toughness" value="0" size="5" onkeyup="updateResults()"></td></tr>	
+			<tr><td><label for="base_attack_speed">Attack Speed</a></td><td><input type="text" id="base_attack_speed" value="4" size="5" onkeyup="updateResults()"></td></tr>
+			<tr><td><label for="base_maximum_life">Maximum Life</a></td><td><input type="text" id="base_maximum_life" value="20" size="5" onkeyup="updateResults()"></td></tr>
+			<tr><td><label for="base_melee_damage">Melee Damage</a></td><td><input type="text" id="base_melee_damage" value="1" size="5" onkeyup="updateResults()"></td></tr>	
+			<tr><td><label for="base_movement_speed">Movement Speed</a></td><td><input type="text" id="base_movement_speed" value="0.1" size="5" onkeyup="updateResults()"></td></tr>	
+			<tr><td><label for="base_mining_speed">Mining Speed</a></td><td><input type="text" id="base_mining_speed" value="1" size="5" onkeyup="updateResults()"></td></tr>
+			<tr><td><label for="base_reach">Reach</a></td><td><input type="text" id="base_reach" value="5" size="5" onkeyup="updateResults()"></td></tr>				
+			<tr><td><label for="base_runic_shielding">Runic Shielding</a></td><td><input type="text" id="base_runic_shielding" value="0" size="5" onkeyup="updateResults()"></td></tr>		
+			<tr><td><label for="base_swimming_speed">Swimming Speed</a></td><td><input type="text" id="base_swimming_speed" value="1" size="5" onkeyup="updateResults()"></td></tr>
+			<tr><td></td><tr>
+			<tr><td><button onclick="morepoints();">Give More Points</button></td></tr>			
+			
+		</table>
+			
+			
+	</div>
+<div onclick="expand('save')" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ SAVE / LOAD</b></div>
+	<div id="save"  style="display:none;">
+	<table style="margin: 10px; width:75%; max-width: 250px;">
+		<tr><td><button onclick="saveProfile(1);">Save Profile 1</button></td>
+		<td><button onclick="loadProfile(1);">Load Profile 1</button></td></tr>
+		<tr><td><button onclick="saveProfile(2);">Save Profile 2</button></td>
+		<td><button onclick="loadProfile(2);">Load Profile 2</button></td></tr>
+		<tr><td><button onclick="saveProfile(3);">Save Profile 3</button></td>
+		<td><button onclick="loadProfile(3);">Load Profile 3</button></td></tr>				
+		<tr><td colspan="2" style="text-align: center;"><button onclick="reset();">Reset Nodes</button></td>
+		</tr>			
+	</table>
+	</div>
+
+
+
+  <script src="perks.js"></script>
+  <script src="starfield.js"></script>
+  <script src="mobile.js"></script>
+  <script>
+  
+
+	var nodecolor='white'; 
+	var linecolor='white';
+	var searchcolor='red';
+
+	var perk_points=30;
+	var perk_points_extra=0;	
+	var root_nodes=0;
+	var	epiphanies=0;
+	var first_epiphany=0;
+	var first_root=0;
+	var focus_nodes=0;
+	var singularity_node=0;
+
+	var nodes = new Array();
+   
+	var mouse={x:0,y:0};
+	var trans={x:0,y:0};
+	var md=0;
+	var start={x:0,y:0};
+	
+	nodes=defineNodes();
+	
+	
+	let thiss=document.getElementById('save');
+	thiss.style.display=="inline";
+	thiss.style.innerText='[-]';
+	
+	/////////////// SIDE PANEL//////////
+	
+	function expand(id)
+	{
+	
+		 var results_div = document.getElementById(id);
+		 var results_div2 = document.getElementById(id + '_a');
+		 
+	 	 if(results_div.style.display=="none")
+		 { 
+			results_div.style.display="inline"; 
+			results_div2.innerText='[-]'; }      
+		 else
+		{ 
+			results_div.style.display="none"; 
+			results_div2.innerText='[+]'; }
+	
+	
+	}
+	
+	function positionResults()
+	{
+
+     let search_panel = document.getElementById('searchwrap');
+	 search_panel.style.position = "absolute";
+	 search_panel.style.top="10px";
+	 search_panel.style.height="50px";
+	 search_panel.style.width=((window.innerWidth/3) * .9).toString() + "px";	 
+	 search_panel.style.left=((window.innerWidth/3)*2).toString() + "px";
+	 search_panel.style.borderStyle = "solid";
+	  search_panel.style.overflowY='hidden'; search_panel.style.overflowX='hidden';	 
+	 search_panel.style.zIndex=99;
+	 search_panel.style.backgroundColor="white";	 
+
+     let rp_text = document.getElementById('search_this');  
+	 rp_text.style.position = "absolute";
+	 rp_text.style.top="5px";
+	 rp_text.style.left="5px";
+	 rp_text.style.width="80%";
+	 rp_text.style.margin="10px";
+	 rp_text.style.height="20px";
+	 
+     let results_panel = document.getElementById('resultswrap');
+	 results_panel.style.position = "absolute";
+	 results_panel.style.top="70px";
+
+	 results_panel.style.height=(window.innerHeight-40-75-20).toString() + "px";
+	 results_panel.style.overflowY='scroll';
+
+
+	 results_panel.style.minWidth = "100px;"		   
+	 
+	 results_panel.style.width=((window.innerWidth/3) * .9).toString() + "px";	 
+	 results_panel.style.left=((window.innerWidth/3)*2).toString() + "px";
+	 results_panel.style.borderStyle = "solid";
+
+	 results_panel.style.zIndex=99;
+	 results_panel.style.backgroundColor="white";
+	 
+
+
+
+
+
+	}	
+	
+	//////////////////////////////////////////////////////////////////////////////
+	
+
+	
+     var canvas = document.getElementById('ASMain');
+     var context =  canvas.getContext('2d');  
+
+     var canvas_lines = document.getElementById('canvas_lines');
+	 var ctx_lines = canvas_lines.getContext('2d');
+	 
+     var canvas_search = document.getElementById('canvas_search');
+	 var ctx_search = canvas_search.getContext('2d');
+
+	 var canvas_available = document.getElementById('canvas_available');
+     var ctx_available = canvas_available.getContext('2d');  
+	 
+     var canvas_nodes = document.getElementById('canvas_nodes');
+	 var ctx_nodes = canvas_nodes.getContext('2d');
+	 
+     var canvas_tooltip = document.getElementById('canvas_tooltip');
+	 var ctx_tooltip = canvas_tooltip.getContext('2d');
+	 
+	 var canvas_listen = document.getElementById('ASListen');
+     var context_listen = canvas_listen.getContext('2d');  
+	 
+	 	 
+	 canvas.width=window.innerWidth;
+	 canvas.height=window.innerHeight;
+	 
+	 canvas_lines.width=window.innerWidth;
+	 canvas_lines.height=window.innerHeight;
+
+	 canvas_search.width=window.innerWidth;
+	 canvas_search.height=window.innerHeight;
+
+	 canvas_nodes.width=window.innerWidth;
+	 canvas_nodes.height=window.innerHeight;
+
+	 canvas_tooltip.width=window.innerWidth;
+	 canvas_tooltip.height=window.innerHeight;
+
+	 canvas_listen.width=window.innerWidth;
+	 canvas_listen.height=window.innerHeight;
+	 
+	 canvas_available.width=window.innerWidth;
+	 canvas_available.height=window.innerHeight;	 
+	
+	 var ts=10;	 
+	 ctx_tooltip.font = 'normal ' + ts.toString() + 'pt Arial';
+	
+	 positionResults();
+	 
+////////////////BACKGROUND///////////////////////////////////////	
+
+  	
+	starfield2(context,canvas);
+/////////////////////////////////////////////////////////////////////////////////////	 
+
+ 
+
+
+  for(var i=0;i<nodes.length;i++)
+  {
+	
+		nodes[i].can_deactivate=0;
+	
+	if(nodes[i].tooltip[0].includes('Root:'))
+	{
+		nodes[i].available=1;}
+	else
+		{nodes[i].available=0;		
+	}
+
+  
+  }
+  
+  
+  //complete node bindings
+  
+  for(var ii=0;ii<nodes.length;ii++)
+  {
+	
+		nodes[ii].ncomplete = new Array();
+	
+	if(!!nodes[ii].n)
+	{
+		for(var jj=0;jj<nodes[ii].n.length;jj++)
+		{
+			nodes[ii].ncomplete.push(nodes[ii].n[jj]);
+			
+			if(!(!!nodes[ii].n[jj].ncomplete))
+			{
+				nodes[ii].n[jj].ncomplete = new Array();
+			}
+			
+			nodes[ii].n[jj].ncomplete.push(nodes[ii]);		
+		}
+	
+	}
+
+  
+  }
+  
+  
+ 
+ 
+	 canvas_nodes.width=window.innerWidth;
+	 canvas_nodes.height=window.innerHeight;
+	 
+	 var middlex=window.innerWidth/3;
+	 var middley=window.innerHeight/1.91; 
+ 
+		var mtx=500-middlex;
+		var mty=500-middley;
+		
+		
+  for(var i=0;i<nodes.length;i++)
+  {
+		nodes[i].x-=mtx;
+		nodes[i].y-=mty;
+  
+  }
+
+ 
+ 				var leftmost=0;
+				var rightmost=0;	
+				var baseradius=5;
+				
+			for(var ii=0;ii<nodes.length;ii++)
+			{
+				if(nodes[ii].x<leftmost)
+				{leftmost=nodes[ii].x;}
+				if(nodes[ii].x>rightmost)
+				{rightmost=nodes[ii].x;}
+			}	
+
+			baseradius=((rightmost-leftmost)/200);
+			
+			for(var ii=0;ii<nodes.length;ii++)
+			{
+				if(nodes[ii].s==1){nodes[ii].r=baseradius*1.05;}
+				if(nodes[ii].s==2){nodes[ii].r=baseradius*1.75;}
+				if(nodes[ii].s==3){nodes[ii].r=baseradius*3.75;}
+			}					
+ 
+ 
+  
+  drawWeb();
+  
+
+  
+
+  
+  function drawEverything(value) {
+  
+
+    
+    var color='yellow';
+	
+	if(value.stat=='off')
+	{
+		color=nodecolor;
+	}
+	else
+	{
+		color='yellow';
+	}
+  
+  
+	//ctx_search.clearRect(0,0,canvas.width,canvas.height);
+  
+	var search_what=document.getElementById("search_this").value;
+  
+	if(search_what!=='')
+	{
+		
+		var j;
+		for(j=0;j<value.tooltip.length;j++)
+		{
+			if(value.tooltip[j].toLowerCase().includes(search_what.toLowerCase()))
+			{
+			
+			ctx_search.beginPath();
+			ctx_search.arc((value.x+trans.x),(value.y+trans.y),value.r*1.5,0, 2 * Math.PI, false);
+			ctx_search.fillStyle = searchcolor;
+			ctx_search.fill();
+			//ctx_search.lineWidth = 2;
+			//ctx_search.strokeStyle = searchcolor;
+			//ctx_search.stroke();
+	
+			}
+	
+		}
+		
+		
+		
+	
+	}
+	
+	
+		
+			if(value.available==1)
+			{
+			
+			ctx_available.beginPath();
+			
+			var rsize=0;
+			
+			//if(value.s==1){rsize=10;}
+			//if(value.s==1){rsize=10;}
+			
+			ctx_available.arc((value.x+trans.x),(value.y+trans.y),value.r+7,0, 2 * Math.PI, false);
+				ctx_available.globalAlpha=.8;
+			ctx_available.fillStyle = 'purple';
+				ctx_nodes.globalAlpha=1;
+			ctx_available.fill();
+	
+			}
+	
+	
+
+  
+	ctx_nodes.beginPath();
+	ctx_nodes.arc((value.x+trans.x),(value.y+trans.y),value.r,0, 2 * Math.PI, false);
+	ctx_nodes.fillStyle = color;
+	ctx_nodes.fill();
+	ctx_nodes.lineWidth = 4;
+	ctx_nodes.strokeStyle = '#FFFFFF';
+	ctx_nodes.globalAlpha=.2;
+	ctx_nodes.stroke();
+	ctx_nodes.globalAlpha=1;
+    
+	
+	if(!!value.has_gem)
+	{
+		if(value.has_gem==1)
+		{
+		
+	ctx_nodes.beginPath();
+	ctx_nodes.arc((value.x+trans.x),(value.y+trans.y),value.r*.8,0, 2 * Math.PI, false);
+	ctx_nodes.fillStyle = 'blue';
+	ctx_nodes.fill();		
+		
+		}
+	
+	}
+	
+	
+	
+	if(value.n!==undefined)
+	{
+		var i;
+		for (i=0;i<value.n.length; i++) {
+		
+		ctx_lines.beginPath();
+		ctx_lines.moveTo((value.x+trans.x),(value.y+trans.y));
+		ctx_lines.lineTo((value.n[i].x+trans.x),(value.n[i].y+trans.y));
+		ctx_lines.lineWidth=2;
+		
+		if(value.stat=='on' && value.n[i].stat=='on')
+		{
+		  ctx_lines.strokeStyle='yellow';
+		}
+		else{ ctx_lines.strokeStyle=linecolor; }
+	
+	
+	
+	
+		ctx_lines.lineWidth=6;	
+		ctx_lines.globalAlpha=.2;
+		ctx_lines.stroke();
+		ctx_lines.globalAlpha=1;		
+		ctx_lines.lineWidth=2;
+		ctx_lines.stroke();
+		
+		}
+		
+		
+	}
+	
+  
+  
+  }
+  
+  
+  
+  updateResults();
+  
+    canvas_listen.onmousedown = function(event) {
+
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+		md=1;
+		start.x=x;
+		start.y=y;
+	
+	}
+ 
+    canvas_listen.onmouseup = function(event) {
+	
+		md=0;
+		
+		for(var i=0;i<nodes.length;i++)
+		{
+			nodes[i].x+=trans.x;
+			nodes[i].y+=trans.y;
+		}
+				
+		trans.x=0;
+		trans.y=0;
+			
+			
+	}
+	
+	
+
+ 
+ 
+     canvas_listen.onwheel = function(event) {
+	
+				var leftmost=0;
+				var rightmost=0;	
+				var baseradius=5;
+				
+	
+		if(event.deltaY>0)
+		
+		{ 		
+		
+			
+				
+			for(var i=0;i<nodes.length;i++)
+			{		
+
+				nodes[i].x-=canvas.width/3;
+				nodes[i].y-=canvas.height/2	
+				
+				nodes[i].x*=.9;
+				nodes[i].y*=.9;	
+				
+				
+			
+				nodes[i].x+=canvas.width/3;
+				nodes[i].y+=canvas.height/2;
+				
+	
+										
+			}	
+	
+		
+		}
+		
+		
+		else{
+		
+
+			for(var i=0;i<nodes.length;i++)
+			{ 
+
+				nodes[i].x-=canvas.width/3;
+				nodes[i].y-=canvas.height/2;
+	
+				nodes[i].x*=1.1;
+				nodes[i].y*=1.1;
+
+				nodes[i].x+=canvas.width/3;
+				nodes[i].y+=canvas.height/2;			
+					
+			}
+
+			
+			}
+		
+		
+			for(var ii=0;ii<nodes.length;ii++)
+			{
+				if(nodes[ii].x<leftmost)
+				{leftmost=nodes[ii].x;}
+				if(nodes[ii].x>rightmost)
+				{rightmost=nodes[ii].x;}
+			}	
+
+			baseradius=((rightmost-leftmost)/200);
+			
+			for(var ii=0;ii<nodes.length;ii++)
+			{
+				if(nodes[ii].s==1){nodes[ii].r=baseradius*1.05;}
+				if(nodes[ii].s==2){nodes[ii].r=baseradius*1.75;}
+				if(nodes[ii].s==3){nodes[ii].r=baseradius*3.75;}
+			}			
+		
+		
+		
+		    drawWeb();		
+	
+			event.preventDefault();
+			
+	}
+  
+  
+
+  window.onresize = function(event) {
+  
+  
+  	 canvas.width=window.innerWidth;
+	 canvas.height=window.innerHeight;
+	 
+	 canvas_lines.width=window.innerWidth;
+	 canvas_lines.height=window.innerHeight;
+
+	 canvas_search.width=window.innerWidth;
+	 canvas_search.height=window.innerHeight;
+
+	 canvas_nodes.width=window.innerWidth;
+	 canvas_nodes.height=window.innerHeight;
+
+	 canvas_tooltip.width=window.innerWidth;
+	 canvas_tooltip.height=window.innerHeight;
+
+	 canvas_listen.width=window.innerWidth;
+	 canvas_listen.height=window.innerHeight;
+	 
+	 canvas_available.width=window.innerWidth;
+	 canvas_available.height=window.innerHeight;
+	 	 
+	 starfield2(context,canvas);
+
+		    drawWeb();	
+  
+  positionResults();
+  
+  
+  }
+  
+  
+  
+  canvas_listen.
+  
+  
+  
+  
+  
+  canvas_listen.onmousemove = function(event) {
+  
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+  
+  
+	mouse.x=x;
+	mouse.y=y;
+  
+  
+	if(md==1)
+	{
+	
+		trans.x=x-start.x;
+		trans.y=y-start.y;
+
+		    drawWeb();		
+	
+	}
+  
+  
+    var i;
+	
+  	for (i=0;i<nodes.length; i++) {
+	
+
+	
+		var a=((nodes[i].x+trans.x)) - x;
+		var b=((nodes[i].y+trans.y)) - y;
+		
+		var distance=Math.sqrt(a*a + b*b); 
+		
+
+			 ctx_tooltip.clearRect(0, 0, canvas.width, canvas.height);
+		
+		
+		if(distance<=nodes[i].r)
+		{
+			
+
+			
+			
+			 var ii;
+			 var tsize=ctx_tooltip.measureText('');
+			 var th=ts+(ts/1.5);
+			 
+			 var flip=0;
+			 
+			 for (ii=0;ii<nodes[i].tooltip.length; ii++) {	
+
+				if(ii===0)
+					{ctx_tooltip.font='bold ' + (ts+1).toString() + 'pt Arial';
+						 }
+				else
+					{ctx_tooltip.font='normal ' + ts.toString() + 'pt Arial';}
+			 
+				if(tsize.width<ctx_tooltip.measureText(nodes[i].tooltip[ii]).width)
+				{tsize=ctx_tooltip.measureText(nodes[i].tooltip[ii]);}			 
+			 }
+	
+	          if(x+10+tsize.width+(ts*2)>=(canvas.width/3)*2 && x+10-(tsize.width+(ts*2)+20)>0)
+			  {
+				flip=-(tsize.width+(ts*2)+20);
+			  }
+	
+			 for (ii=0;ii<nodes[i].tooltip.length; ii++) {			 
+				
+	
+				ctx_tooltip.fillStyle = 'midnightblue';
+				ctx_tooltip.fillRect(x+10+flip, y-(th*1.5)+(ii*th), tsize.width+(ts*2), th+(ts/2)+(th));
+			
+				
+	
+		
+			 }	
+			 
+			for (ii=0;ii<nodes[i].tooltip.length; ii++) {			 
+				
+	
+
+			    ctx_tooltip.fillStyle='white';
+			    
+				if(ii===0)
+				{
+				if(nodes[i].rarity==1){ctx_tooltip.fillStyle='darkorange';}
+				else{ ctx_tooltip.fillStyle='white';  }
+				ctx_tooltip.font='bold ' + (ts+1).toString() + 'pt Arial';
+				
+				}
+				else
+				{
+				ctx_tooltip.font='normal ' + ts.toString() + 'pt Arial';
+				}
+				
+				
+				
+				
+			    ctx_tooltip.fillText(nodes[i].tooltip[ii],x+10+ts+flip,y-(th)+(ii*th)+(th/2)+(ts/2));		
+
+		
+			 }		 
+			 
+
+			 break;
+		
+		}
+
+	} 
+
+  };
+  
+  
+  
+  canvas_listen.addEventListener('click', function(event){
+   
+  	let rect = canvas.getBoundingClientRect();
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
+   
+	for (let i=0;i<nodes.length; i++) {
+	
+		let a=((nodes[i].x+trans.x)) - x;
+		let b=((nodes[i].y+trans.y)) - y;
+		
+		var distance=Math.sqrt(a*a + b*b); 
+
+		if(distance<=nodes[i].r+7)
+		{
+			//////////////////////trying to activate node////////////////////////
+			if(nodes[i].stat=='off' && nodes[i].available==1)
+			{
+			
+			 nodes[i].stat='on';
+		     nodes[i].available='off';			
+			
+			
+				
+			
+				//////EPIPHANIES//////
+				if(nodes[i].tooltip[0].includes('Epiphany'))
+				{
+					epiphanies+=1;
+					if(first_epiphany==0){ first_epiphany=nodes[i];}
+					
+					//if epiphany already selected, select chakras around this one for free
+					if(epiphanies>1)
+					{
+						for(var e=0;e<nodes[i].ncomplete.length;e++)
+						{ nodes[i].ncomplete[e].stat='on'; }					
+					}
+					
+					perk_points--;
+					
+				}		
+				else if(nodes[i].tooltip[0].includes('Root:')) {
+				
+					root_nodes+=1;   
+					if(root_nodes>1)
+						{perk_points-=1;}
+					else
+						{first_root=nodes[i];}
+				}
+				else if(nodes[i].tooltip[0].includes('Singularity')) { perk_points-=1; perk_points+=3;  singularity_node+=1; }
+				else if(nodes[i].tooltip[0].includes('Chakra') &&  epiphanies>0) { perk_points=perk_points; }
+				else if(nodes[i].tooltip[0].includes('Focus:')) { 					
+					if(focus_nodes==0)
+						{perk_points-=1; focus_nodes+=1;}
+					else
+						{nodes[i].stat='off';  nodes[i].available='on';}  } 	
+				else { perk_points-=1; }
+			 
+
+	
+			}
+			//////////////////////trying to deactivate node////////////////////////
+			else if(nodes[i].stat=='on')
+			{
+			 
+			 
+			var binding_count=0;
+			
+			
+			if(!!nodes[i].ncomplete)
+			{
+			 for(j=0;j<nodes[i].ncomplete.length;j++)
+			 {
+				if(nodes[i].ncomplete[j].stat=='on')
+				{ binding_count++;  }
+			 
+			 }
+			 
+			}
+			
+			var paths=0;
+			
+			if(binding_count>1)
+			{  paths=findRoutes(nodes[i]);   }
+			
+			
+			
+			if(binding_count<2 || (binding_count>1 && paths>1) || (nodes[i].tooltip[0].includes('Epiphany')  && epiphanies>1) ) {
+			 
+
+			 
+			 if(nodes[i].tooltip[0].includes('Focus:'))
+			 {
+				focus_nodes-=1; perk_points+=1; nodes[i].stat='off';
+			 }			 
+			 else if(nodes[i].tooltip[0].includes('Epiphany'))
+			 {
+			 
+				if(nodes[i]==first_epiphany && epiphanies>1)
+				{  nodes[i].stat='on';        }
+				else 
+				{ 
+				
+				
+					let chakra_paths=0;
+					var target_node=0;
+				
+					//if epiphany isn't main node for something else
+					
+					  for(let ch=0;ch<nodes[i].ncomplete.length;ch++)
+					{
+						for(let ch2=0;ch2<nodes[i].ncomplete[ch].ncomplete.length;ch2++)
+						{
+							if(!nodes[i].ncomplete[ch].ncomplete[ch2].tooltip[0].includes('Chakra') && !nodes[i].ncomplete[ch].ncomplete[ch2].tooltip[0].includes('Epiphany') && nodes[i].ncomplete[ch].ncomplete[ch2].stat=='on')
+							{
+								target_node=nodes[i].ncomplete[ch].ncomplete[ch2];
+							}
+						}
+						
+						if(target_node!==0)
+						{ chakra_paths=findRoutes(target_node); }
+				  
+					}				
+				
+				
+				
+					
+					
+				
+					if(chakra_paths>1 || target_node==0)
+					{
+				  epiphanies-=1; perk_points+=1; nodes[i].stat='off';
+				  
+				  if(nodes[i]==first_epiphany) { first_epiphany=0; } 
+				  else{
+				  
+				  for(let ch=0;ch<nodes[i].ncomplete.length;ch++)
+					{
+						nodes[i].ncomplete[ch].stat='off';
+				  
+					}
+				  
+					}
+					}
+				  
+				  
+				  
+				  
+				  
+				  
+				  }
+			 }			 
+			 else if(nodes[i].tooltip[0].includes('Root:')) {  
+			 						
+			 			if(nodes[i]==first_root && binding_count>0)
+						{ nodes[i].stat='on'; }
+						else if(nodes[i]==first_root && binding_count==0)
+						{ nodes[i].stat='off'; root_nodes-=1;  }
+						else if(nodes[i]!==first_root && binding_count>0 && findRoutes(nodes[i])>0)
+						{ root_nodes-=1; perk_points+=1; nodes[i].stat='off'; }
+						else if(nodes[i]!==first_root && binding_count==0)
+						{ root_nodes-=1; perk_points+=1; nodes[i].stat='off'; }
+						
+						
+				
+
+				}	
+				else if(nodes[i].tooltip[0].includes('Singularity') && root_nodes<2 ) { nodes[i].stat='off'; perk_points+=1; perk_points-=3; singularity_node-=1; }
+				else if(nodes[i].tooltip[0].includes('Singularity') && root_nodes>1 ) { nodes[i].stat='on';  }
+			    else if(nodes[i].tooltip[0].includes('Chakra') &&  epiphanies>0) { 
+				
+						var get_epi=0;
+						
+						for(var ge=0;ge<nodes[i].ncomplete.length;ge++)
+						{
+							if(nodes[i].ncomplete[ge].tooltip[0].includes('Epiphany') && nodes[i].ncomplete[ge].stat=='on')
+							{
+								get_epi=1;
+							
+							}
+						
+						}
+						
+						if(get_epi==0)
+						{ perk_points=perk_points; nodes[i].stat='off'; }
+						
+						
+						
+						
+						}			
+				else{perk_points+=1; nodes[i].stat='off';}
+				
+				
+				
+		 
+				}
+			 
+			 
+			 
+		
+
+			 
+			}
+		
+		
+		  
+		   			 
+
+		   
+		   
+		   
+		   
+		   break;
+		
+		}
+	
+	
+	}  
+	
+	
+
+	
+	
+
+		    //drawWeb();
+  
+
+    updateAvailable();
+  
+    updateResults();
+	
+  
+  
+  }, false);
+  
+
+  
+  function updateAvailable()
+  {
+  
+  				if(perk_points!==0)
+				{
+	
+				for (i=0;i<nodes.length; i++) {	
+				
+				
+				if(nodes[i].tooltip[0].includes('Root:') && nodes[i].stat=='off' && ( root_nodes==0 || singularity_node==1 ))
+				{
+					nodes[i].available=1;}
+				else
+					{nodes[i].available=0;		
+									}
+				
+				}
+	
+				 //updateavailable
+				for (i=0;i<nodes.length; i++) {	
+				
+					if(nodes[i].stat=='on')
+					{
+					
+						if(!!nodes[i].n)
+						{
+						for (j=0;j<nodes[i].n.length; j++)
+						{
+							
+							if(nodes[i].n[j].available==0 && nodes[i].n[j].stat=='off')
+								{
+									nodes[i].n[j].available=1;
+								}
+						
+						}
+						}
+					
+					}
+					else if(!!nodes[i].n)
+						{
+						for (var j=0;j<nodes[i].n.length; j++)
+						{
+							
+							if(nodes[i].n[j].stat=='on')
+								{
+									nodes[i].available=1;
+								}
+						
+						}
+						}				
+				
+			
+				
+
+							
+				}
+				
+
+				
+				//do epiphanies and focus separate
+				for (i=0;i<nodes.length; i++)
+				{
+				
+					if(nodes[i].tooltip[0].includes('Focus:') && nodes[i].available==1 && focus_nodes==1)
+				    {	nodes[i].available=0;	}
+				
+				
+				
+				
+				
+				
+					var cnt=0;
+
+					if(nodes[i].tooltip[0].includes('Epiphany') && nodes[i].available==1)
+					{
+						for(var ch=0;ch<nodes[i].ncomplete.length;ch++)
+						{
+						
+							if(nodes[i].ncomplete[ch].stat=='on'){ cnt++; }
+						
+						}
+					
+						if(cnt<3){ nodes[i].available=0; };
+					
+					}
+				
+				}					
+				
+				//do epiphanies separate
+				for (i=0;i<nodes.length; i++)
+				{
+				
+				if(nodes[i].tooltip[0].includes('Epiphany') && nodes[i].stat=='off' && epiphanies>0)
+				{
+						nodes[i].available=1;
+				}
+				
+				}					
+				
+				
+			}
+			else
+			{
+			
+				for (i=0;i<nodes.length; i++) {	nodes[i].available=0;}
+			
+			
+			}
+  
+  
+  }
+  
+  
+  
+  function findRoutes(find_this)
+  {
+  
+	var paths=0;
+	var hits=0;
+  
+	//find active root nodes
+	var root_trace_nodes=new Array();
+	
+	for(let i=0;i<nodes.length;i++)
+	{
+	
+		nodes[i].tag=0;
+	
+		if(
+			nodes[i].stat=='on' && 
+			(
+				((nodes[i].tooltip[0].includes('Root:') && nodes[i]==first_root) || 
+				( nodes[i].tooltip[0].includes('Epiphany') && epiphanies>1 && nodes[i]!==first_epiphany) ||
+				(nodes[i].tooltip[0].includes('Root:') && singularity_node==1)) 
+			)  //&& nodes[i]!==find_this
+		)
+		
+		
+			
+		{
+			root_trace_nodes.push(nodes[i]);
+		}
+	
+	}
+	
+
+		
+
+	
+	for(m=0;m<root_trace_nodes.length;m++)
+	{
+	
+			
+		paths+=trace(root_trace_nodes[m],find_this,0);
+	
+	
+		//root_trace_nodes[m].tag=1;
+	
+		//for(j=0;j<root_trace_nodes[m].ncomplete.length;j++)
+		//{
+		//	if(root_trace_nodes[m].ncomplete[j].tag==0 && root_trace_nodes[m].ncomplete[j].stat=='on')
+		//	{paths+=trace(root_trace_nodes[m].ncomplete[j],find_this,0);}	
+		//
+		//	
+		//}
+	
+		
+		
+		//for(let jj=0;jj<nodes.length;jj++)
+			//{
+			//	nodes[jj].tag=0;
+				
+			//}
+		
+		
+
+	
+		
+	
+	}
+	
+	
+			if(paths>1)
+		{
+		
+			for(j=0;j<find_this.ncomplete.length;j++)
+			{
+				if(find_this.ncomplete[j].stat=='on' && find_this.ncomplete[j].tag==0)
+				{	paths=0;	}
+						
+			
+			}
+		
+		}
+	
+	
+	return paths;
+	
+	  
+  }
+  
+  
+  function trace(n,f,h)
+  {
+  
+  
+
+  
+	
+  
+	if(n==f)
+	{
+		h++;
+		
+	
+	}
+	else
+	{
+  
+		n.tag=1;
+  
+	  for(var iii=0, count=n.ncomplete.length; iii<count;iii++)
+	  {
+	  
+	
+		if(n.ncomplete[iii].stat=='on' && n.ncomplete[iii].tag==0)
+		{
+	  
+
+
+			h=trace(n.ncomplete[iii],f,h);
+			
+		
+	  		
+	  
+		}
+	  
+	  }
+	  
+	  }
+	  
+	  return h;
+  
+  }
+  
+  
+  
+  function updateResults()
+  {
+  
+  
+		var gem_sockets=new Array();
+  
+
+  
+  
+	var base_armor= parseFloat(document.getElementById('base_armor').value);
+	var base_armor_toughness= parseFloat(document.getElementById('base_armor_toughness').value);	
+	var base_attack_speed= parseFloat(document.getElementById('base_attack_speed').value);
+	var base_maximum_life= parseFloat(document.getElementById('base_maximum_life').value);
+	var base_melee_damage= parseFloat(document.getElementById('base_melee_damage').value);
+	var base_movement_speed= parseFloat(document.getElementById('base_movement_speed').value);
+	var base_mining_speed= parseFloat(document.getElementById('base_mining_speed').value);
+	var base_reach= parseFloat(document.getElementById('base_reach').value);		
+	var base_runic_shielding= parseFloat(document.getElementById('base_runic_shielding').value);
+	var base_swimming_speed= parseFloat(document.getElementById('base_swimming_speed').value);	
+  
+  
+  
+  
+  
+  
+       var the_results='';
+
+
+	   
+	   var the_text_area = document.getElementById('results');  
+	   
+	   
+	   if(perk_points_extra==0)
+	   {the_results+='<table><tr style="font-size: larger;"><td>Available Points</td><td style="padding-left: 10px;">' + perk_points + '</td><tr>'; }
+	   else
+	   {the_results+='<table><tr style="font-size: larger;"><td>Available Points</td><td style="padding-left: 10px;">' + perk_points + ' (+' + perk_points_extra + ')</td><tr>'; }
+	  	  
+	   the_results+='<tr><td></td></tr>';
+	   
+	   	var armor={a:0,i:1,m:1,t:0,b:base_armor,fs:1};
+		var armor_toughness={a:0,i:1,m:1,t:0,b:base_armor_toughness,fs:1};
+	    var attack_speed={a:0,i:1,m:1,t:0,b:base_attack_speed,fs:1};
+	    var maximum_life={a:0,i:1,m:1,t:0,b:base_maximum_life,fs:1};
+	    var melee_damage={a:0,i:1,m:1,t:0,b:base_melee_damage,fs:1};
+		var movement_speed={a:0,i:1,m:1,t:0,b:base_movement_speed,fs:1};	
+		var mining_speed={a:0,i:1,m:1,t:0,b:base_mining_speed,fs:1};
+		var reach={a:0,i:1,m:1,t:0,b:base_reach,fs:1};
+		var swimming_speed={a:0,i:1,m:1,t:0,b:base_swimming_speed,fs:1};
+		
+		var reflection={a:0,i:1,m:1,t:0,b:1,fs:0};
+	
+	    var perk_effectiveness={a:0,i:1,m:1,t:0,b:1,fs:0};
+	    var perk_experience={a:0,i:1,m:1,t:0,b:1,fs:0};
+		
+		var projectile_damage={a:0,i:1,m:1,t:0,b:1,fs:0};
+		
+		var critical_hit_chance={a:0,i:1,m:1,t:0,b:0,fs:0};		
+		var critical_damage_multiplier={a:0,i:1,m:1,t:0,b:1,fs:0};	
+		var projectile_speed={a:0,i:1,m:1,t:0,b:1,fs:0};	
+	
+		var gem_socket={a:0,i:1,m:1,t:0,b:0,fs:1};	
+		var lightning_arc_chains={a:0,i:1,m:1,t:0,b:0,fs:1};
+		var life_leech={a:0,i:1,m:1,t:0,b:0,fs:0};	
+				
+		var potion_effect_duration={a:0,i:1,m:1,t:0,b:1,fs:0};		
+		var dodge={a:0,i:1,m:1,t:0,b:0,fs:0};				
+
+		var life_recovery={a:0,i:1,m:1,t:0,b:1,fs:0};
+
+		var elemental_resistances={a:0,i:1,m:1,t:0,b:1,fs:0};
+
+		
+		var chained_mining_chance={a:0,i:1,m:1,t:0,b:0,fs:0};
+		var successive_chains={a:0,i:1,m:1,t:0,b:0,fs:0};		
+		var chained_mining_length={a:0,i:1,m:1,t:0,b:0,fs:1};
+		
+		var amulet_enchantments={a:0,i:1,m:1,t:0,b:1,fs:0};
+				
+		var skill_blunt_bolts=0;
+		var skill_long_shot=0;
+		var skill_cursed_touch=0;
+		
+		var skill_lightning_arc=0;
+		
+		
+		var skill_last_breath=0;
+		var skill_rampage=0;
+		var skill_area_of_effect=0;
+		
+		var skill_breaking_aim=0;
+		var skill_different_angles=0;
+		var skill_chained_mining=0;
+		var skill_mending=0;
+		var skill_consistent_luck=0;
+		
+		var skill_vis_inoculation=0;
+		var runic_shielding={a:0,i:1,m:1,t:0,b:base_runic_shielding,fs:1};		
+		
+		var skill_bleeding=0;
+		var bleed_duration={a:0,i:1,m:1,t:0,b:1,fs:0};
+		
+		var skill_cleansing=0;
+		var skill_stone_enrichment=0;		
+		var skill_spreading_growth=0;
+		var skill_hiking_boots=0;	
+		var skill_spatial_manipulation=0;
+		var skill_trash_to_treasure=0;	
+		var skill_bigger_stomach=0;
+		var skill_miners_delight=0;
+		var skill_diamond_skin=0;
+		var skill_phoenix_blessing=0;
+		var skill_body_blocking=0;
+		var skill_unwavering=0;
+		var skill_culling_strike=0;
+		var skill_dislocated_reflection=0;
+		
+		
+		
+		
+		//////////special cases
+		var skill_additional_fins=0;
+		var skill_bastion_of_flesh=0;		
+		///////////////////////////
+		
+		
+		var focus_alcara=0;
+		var focus_gelu=0;
+		var focus_ulteria=0
+		var focus_vorux=0;
+	
+		
+		var i;
+		
+		var on_count=0;
+		
+		//find active focus and get allocated count
+		for(i=0;i<nodes.length;i++)
+		{
+		
+			if(nodes[i].stat=='on')
+			{
+						on_count++;
+						
+		
+			focus_alcara=skillCheck(nodes[i].focus_alcara,focus_alcara);
+			focus_gelu=skillCheck(nodes[i].focus_gelu,focus_gelu);	
+			focus_ulteria=skillCheck(nodes[i].focus_ulteria,focus_ulteria);
+			focus_vorux=skillCheck(nodes[i].focus_vorux,focus_vorux);		
+		
+			}
+			
+					
+		
+		}
+		
+		/////////GEMCOUNTS
+		
+		
+	var gem_nodes=new Array()
+		
+		for(var g=1;g<=4;g++)
+		{
+			
+			var gem_stat1='';
+			var gem_stat2='';
+			var gem_stat3='';
+			var gem_stat4='';
+			
+			var gem_stat1a='';
+			var gem_stat2a='';
+			var gem_stat3a='';
+			var gem_stat4a='';
+			
+			var gem_increase1='';
+			var gem_increase2='';
+			var gem_increase3='';
+			var gem_increase4='';			
+			
+			for(var gs=1;gs<=4;gs++)
+			{		
+			 var the_stat = document.getElementById('gem' + g + '_stat' + gs); 
+			 var the_increase= document.getElementById('gem' + g + '_increase' + gs); 		 
+
+			if(gs==1)
+				{gem_stat1=the_stat.options[the_stat.selectedIndex].value; gem_stat1a=the_stat.options[the_stat.selectedIndex].text;
+				gem_increase1=the_increase.options[the_increase.selectedIndex].value;}
+			 if(gs==2)
+				{gem_stat2=the_stat.options[the_stat.selectedIndex].value; gem_stat2a=the_stat.options[the_stat.selectedIndex].text;
+				gem_increase2=the_increase.options[the_increase.selectedIndex].value;}			
+			 if(gs==3)
+				{gem_stat3=the_stat.options[the_stat.selectedIndex].value; gem_stat3a=the_stat.options[the_stat.selectedIndex].text;
+				gem_increase3=the_increase.options[the_increase.selectedIndex].value;}
+			 if(gs==4)
+				{gem_stat4=the_stat.options[the_stat.selectedIndex].value; gem_stat4a=the_stat.options[the_stat.selectedIndex].text;
+				gem_increase4=the_increase.options[the_increase.selectedIndex].value;}				
+			 		
+			}
+					
+										
+			if(gem_stat1!=='' || gem_stat2!=='' || gem_stat3!=='' || gem_stat4!=='')
+			{
+						
+					gem_nodes[gem_nodes.length] = {  tooltip: ['Gem Socket']  }
+					
+
+
+				if(gem_stat1!=='')
+				{ gem_nodes[gem_nodes.length-1][gem_stat1]=parseFloat(gem_increase1); gem_nodes[gem_nodes.length-1].tooltip.push(gem_increase1 +'% increased ' + gem_stat1a); }
+				if(gem_stat2!=='')
+				{ gem_nodes[gem_nodes.length-1][gem_stat2]=parseFloat(gem_increase2); gem_nodes[gem_nodes.length-1].tooltip.push(gem_increase2 +'% increased ' + gem_stat2a);}
+				if(gem_stat3!=='')
+				{ gem_nodes[gem_nodes.length-1][gem_stat3]=parseFloat(gem_increase3); gem_nodes[gem_nodes.length-1].tooltip.push(gem_increase3 +'% increased ' + gem_stat3a);}
+				if(gem_stat4!=='')
+				{ gem_nodes[gem_nodes.length-1][gem_stat4]=parseFloat(gem_increase4); gem_nodes[gem_nodes.length-1].tooltip.push(gem_increase4 +'% increased ' + gem_stat4a);}				
+			 		
+			}
+					
+		}			
+		
+		
+		//if(gem_nodes.length>0 && gem_socket.t>0)
+		//{
+			//gem_count
+		
+		
+		//}
+		
+		
+		
+		
+		/////////////////
+		
+		
+		//First calculate all effectiveness nodes
+		for(i=0;i<nodes.length;i++)
+		{
+		
+			if(!!nodes[i].gem_socket_add)
+			{nodes[i].has_gem=0;
+			 nodes[i].tooltip=['Gem Socket','Empty Gem Socket'];	
+			 }
+		
+			if(nodes[i].stat=='on')
+			{
+										
+			if(!!nodes[i].gem_socket_add){gem_socket.a+=nodes[i].gem_socket_add; gem_sockets.push(nodes[i])}											
+						
+			perk_effectiveness=nodeCheckPE(
+				nodes[i].perk_effectiveness_add,
+				nodes[i].perk_effectiveness,
+				nodes[i].perk_effectiveness_more,
+				perk_effectiveness);
+		
+			if(focus_alcara==1)
+				{
+			
+				perk_effectiveness=nodeCheckPE(
+					nodes[i].perk_experience_add/2,
+					nodes[i].perk_experience/2,
+					nodes[i].perk_experience_more/2,
+					perk_effectiveness);				
+			
+				}	
+		
+	
+		
+			}
+			
+					
+		
+		}
+		
+
+			gem_socket.t=gem_socket.a;
+			var whichgem=0;
+			
+			for(var gs=0;gs<gem_sockets.length;gs++)
+			{
+			
+				if(gs<gem_nodes.length)
+				{ gem_sockets[gs].has_gem=1; 
+				  gem_sockets[gs].tooltip=gem_nodes[whichgem].tooltip;
+				  whichgem++;
+				
+				}
+				else
+				{ gem_sockets[gs].has_gem=0; 
+				  gem_sockets[gs].tooltip=['Gem Socket','Empty Gem Socket'];	}			
+			
+			}
+				
+	
+		if(focus_gelu==1)
+		{
+			perk_effectiveness.i=1+(on_count*.03);
+			perk_effectiveness.m=1; 
+			perk_effectiveness.a=0; 
+		}
+	
+	
+		perk_effectiveness.t=(perk_effectiveness.b + perk_effectiveness.a) * perk_effectiveness.i * perk_effectiveness.m;				
+		//perk_effectiveness.t-=perk_effectiveness.b;
+		
+		
+		
+	/////////////////////////////////////////////////////////	
+		
+		
+	
+	
+
+
+
+////////////////////////////////////////
+	
+		
+		
+		
+		//calculate all perk experience nodes
+		
+
+					
+		for(i=0;i<nodes.length;i++)
+		{
+		
+			if(nodes[i].stat=='on')
+			{
+			
+			perk_experience=nodeCheck(
+				nodes[i].perk_experience_add,
+				nodes[i].perk_experience,
+				nodes[i].perk_experience_more,
+				perk_experience,perk_effectiveness.t);
+		
+			}
+		
+		}		
+		
+		
+		if(focus_ulteria==1)
+		{		
+					perk_experience.m*=1+(0.05*perk_effectiveness.t*perk_points);   		
+		}			
+		
+		perk_experience.t=(perk_experience.b + perk_experience.a) * perk_experience.i * perk_experience.m;
+		perk_experience.t-=perk_experience.b;				
+			
+		if(focus_vorux==1){ perk_effectiveness.i+=(on_count/100); perk_experience.t=0; perk_experience.a=0; perk_experience.i=0; perk_experience.m=0; }
+	
+		if(focus_alcara==1)
+			{ 	
+			perk_experience.t=0; perk_experience.a=0; perk_experience.i=1; perk_experience.m=1;
+			}		
+
+
+
+	  for(var g=0;g<gem_nodes.length;g++)
+		{
+		
+		    if(gem_socket.t>g)
+			{
+			
+			
+		
+			perk_experience=nodeCheck(
+				gem_nodes[g].perk_experience_add,
+				gem_nodes[g].perk_experience,
+				gem_nodes[g].melee_damage_more,
+				perk_experience,perk_effectiveness.t);	
+			}
+		}	
+		
+		
+		
+		perk_experience.t=(perk_experience.b + perk_experience.a) * perk_experience.i * perk_experience.m;
+		perk_experience.t-=perk_experience.b;		
+				
+		perk_effectiveness.t=(perk_effectiveness.b + perk_effectiveness.a) * perk_effectiveness.i * perk_effectiveness.m;				
+				
+		
+
+		
+		
+	///////////////////////////////////////////////////	
+		
+		//Now calculate the other nodes		
+		for(i=0;i<nodes.length;i++)
+		{
+		
+			if(nodes[i].stat=='on')
+			{
+
+			reflection=nodeCheck(
+				nodes[i].reflection_add,
+				nodes[i].reflection,
+				nodes[i].reflection_more,
+				reflection,perk_effectiveness.t);	
+		
+			
+			melee_damage=nodeCheck(
+				nodes[i].melee_damage_add,
+				nodes[i].melee_damage,
+				nodes[i].melee_damage_more,
+				melee_damage,perk_effectiveness.t);		
+				
+			projectile_damage=nodeCheck(
+				nodes[i].projectile_damage_add,
+				nodes[i].projectile_damage,
+				nodes[i].projectile_damage_more,
+				projectile_damage,perk_effectiveness.t);		
+				
+			attack_speed=nodeCheck(
+				nodes[i].attack_speed_add,
+				nodes[i].attack_speed,
+				nodes[i].attack_speed_more,
+				attack_speed,perk_effectiveness.t);	
+
+			critical_hit_chance=nodeCheck(
+				nodes[i].critical_hit_chance_add,
+				nodes[i].critical_hit_chance,
+				nodes[i].critical_hit_chance_more,
+				critical_hit_chance,perk_effectiveness.t);					
+			
+			critical_damage_multiplier=nodeCheck(
+				nodes[i].critical_damage_multiplier_add,
+				nodes[i].critical_damage_multiplier,
+				nodes[i].critical_damage_multiplier_more,
+				critical_damage_multiplier,perk_effectiveness.t);	
+				
+			projectile_speed=nodeCheck(
+				nodes[i].projectile_speed_add,
+				nodes[i].projectile_speed,
+				nodes[i].projectile_speed_more,
+				projectile_speed,perk_effectiveness.t);	
+				
+			reach=nodeCheck(
+				nodes[i].reach_add,
+				nodes[i].reach,
+				nodes[i].reach_more,
+				reach,perk_effectiveness.t);	
+		
+			mining_speed=nodeCheck(
+				nodes[i].mining_speed_add,
+				nodes[i].mining_speed,
+				nodes[i].mining_speed_more,
+				mining_speed,perk_effectiveness.t);
+				
+			life_leech=nodeCheck(
+				nodes[i].life_leech_add,
+				nodes[i].life_leech,
+				nodes[i].life_leech_more,
+				life_leech,perk_effectiveness.t);
+				
+			maximum_life=nodeCheck(
+				nodes[i].maximum_life_add,
+				nodes[i].maximum_life,
+				nodes[i].maximum_life_more,
+				maximum_life,perk_effectiveness.t);
+				
+			potion_effect_duration=nodeCheck(
+				nodes[i].potion_effect_duration_add,
+				nodes[i].potion_effect_duration,
+				nodes[i].potion_effect_duration_more,
+				potion_effect_duration,perk_effectiveness.t);
+				
+			dodge=nodeCheck(
+				nodes[i].dodge_add,
+				nodes[i].dodge,
+				nodes[i].dodge_more,
+				dodge,perk_effectiveness.t);
+
+			life_recovery=nodeCheck(
+				nodes[i].life_recovery_add,
+				nodes[i].life_recovery,
+				nodes[i].life_recovery_more,
+				life_recovery,perk_effectiveness.t);	
+
+			armor=nodeCheck(
+				nodes[i].armor_add,
+				nodes[i].armor,
+				nodes[i].armor_more,
+				armor,perk_effectiveness.t);		
+
+			armor_toughness=nodeCheck(
+				nodes[i].armor_toughness_add,
+				nodes[i].armor_toughness,
+				nodes[i].armor_toughness_more,
+				armor_toughness,perk_effectiveness.t);		
+
+			elemental_resistances=nodeCheck(
+				nodes[i].elemental_resistances_add,
+				nodes[i].elemental_resistances,
+				nodes[i].elemental_resistances_more,
+				elemental_resistances,perk_effectiveness.t);	
+
+			movement_speed=nodeCheck(
+				nodes[i].movement_speed_add,
+				nodes[i].movement_speed,
+				nodes[i].movement_speed_more,
+				movement_speed,perk_effectiveness.t);		
+
+			swimming_speed=nodeCheck(
+				nodes[i].swimming_speed_add,
+				nodes[i].swimming_speed,
+				nodes[i].swimming_speed_more,
+				swimming_speed,perk_effectiveness.t);		
+
+			chained_mining_chance=nodeCheck(
+				nodes[i].chained_mining_chance_add,
+				nodes[i].chained_mining_chance,
+				nodes[i].chained_mining_chance_more,
+				chained_mining_chance,perk_effectiveness.t);	
+
+			chained_mining_length=nodeCheck(
+				nodes[i].chained_mining_length_add,
+				nodes[i].chained_mining_length,
+				nodes[i].chained_mining_length_more,
+				chained_mining_length,perk_effectiveness.t);	
+
+			successive_chains=nodeCheck(
+				nodes[i].successive_chains_add,
+				nodes[i].successive_chains,
+				nodes[i].successive_chains_more,
+				successive_chains,perk_effectiveness.t);	
+
+			amulet_enchantments=nodeCheck(
+				nodes[i].amulet_enchantments_add,
+				nodes[i].amulet_enchantments,
+				nodes[i].amulet_enchantments_more,
+				amulet_enchantments,perk_effectiveness.t);					
+			
+	
+			
+			skill_blunt_bolts=skillCheck(nodes[i].skill_blunt_bolts,skill_blunt_bolts);
+			skill_long_shot=skillCheck(nodes[i].skill_long_shot,skill_long_shot);
+
+			skill_cursed_touch=skillCheck(nodes[i].skill_cursed_touch,skill_cursed_touch);
+			skill_lightning_arc=skillCheck(nodes[i].skill_lightning_arc,skill_lightning_arc);
+			
+			lightning_arc_chains=nodeCheck(
+				nodes[i].lightning_arc_chains_add,
+				nodes[i].lightning_arc_chains,
+				nodes[i].lightning_arc_chains_more,
+				lightning_arc_chains,perk_effectiveness.t);	
+			
+			
+			skill_last_breath=skillCheck(nodes[i].skill_last_breath,skill_last_breath);
+			skill_rampage=skillCheck(nodes[i].skill_rampage,skill_rampage);			
+			skill_area_of_effect=skillCheck(nodes[i].skill_area_of_effect,skill_area_of_effect);		
+	
+			skill_different_angles=skillCheck(nodes[i].skill_different_angles,skill_different_angles);	
+			skill_breaking_aim=skillCheck(nodes[i].skill_breaking_aim,skill_breaking_aim);	
+			skill_chained_mining=skillCheck(nodes[i].skill_chained_mining,skill_chained_mining);				
+			skill_mending=skillCheck(nodes[i].skill_mending,skill_mending);	
+			skill_consistent_luck=skillCheck(nodes[i].skill_consistent_luck,skill_consistent_luck);				
+	
+			skill_vis_inoculation=skillCheck(nodes[i].skill_vis_inoculation,skill_vis_inoculation);
+			runic_shielding=nodeCheck(
+				nodes[i].runic_shielding_add,
+				nodes[i].runic_shielding,
+				nodes[i].runic_shielding_more,
+				runic_shielding,perk_effectiveness.t);	
+	
+			skill_bleeding=skillCheck(nodes[i].skill_bleeding,skill_bleeding);	
+			bleed_duration=nodeCheck(
+				nodes[i].bleed_duration_add,
+				nodes[i].bleed_duration,
+				nodes[i].bleed_duration_more,
+				bleed_duration,perk_effectiveness.t);		
+	
+	
+			skill_cleansing=skillCheck(nodes[i].skill_cleansing,skill_cleansing);
+			skill_stone_enrichment=skillCheck(nodes[i].skill_stone_enrichment,skill_stone_enrichment);
+			skill_spreading_growth=skillCheck(nodes[i].skill_spreading_growth,skill_spreading_growth);
+			skill_hiking_boots=skillCheck(nodes[i].skill_hiking_boots,skill_hiking_boots);
+			skill_spatial_manipulation=skillCheck(nodes[i].skill_spatial_manipulation,skill_spatial_manipulation);
+			skill_trash_to_treasure=skillCheck(nodes[i].skill_trash_to_treasure,skill_trash_to_treasure);
+			skill_bigger_stomach=skillCheck(nodes[i].skill_bigger_stomach,skill_bigger_stomach);
+			skill_miners_delight=skillCheck(nodes[i].skill_miners_delight,skill_miners_delight);
+			skill_diamond_skin=skillCheck(nodes[i].skill_diamond_skin,skill_diamond_skin);
+			skill_phoenix_blessing=skillCheck(nodes[i].skill_phoenix_blessing,skill_phoenix_blessing);
+			skill_body_blocking=skillCheck(nodes[i].skill_body_blocking,skill_body_blocking);
+			skill_unwavering=skillCheck(nodes[i].skill_unwavering,skill_unwavering);
+			skill_culling_strike=skillCheck(nodes[i].skill_culling_strike,skill_culling_strike);
+			
+			skill_additional_fins=skillCheck(nodes[i].skill_additional_fins,skill_additional_fins);	
+			skill_bastion_of_flesh=skillCheck(nodes[i].skill_bastion_of_flesh,skill_bastion_of_flesh);	
+	
+				skill_dislocated_reflection=skillCheck(nodes[i].skill_dislocated_reflection,skill_dislocated_reflection);	
+			
+			}
+		
+		
+		
+		}
+		
+		
+
+		
+		
+		
+
+	
+	
+		gem_socket.t=gem_socket.a					
+		
+	   var the_gems_text_area = document.getElementById('gems_header');  
+	   the_gems_text_area.innerHTML='<table style=" margin: 15px;"><tr style="font-size: larger;"><td>Available Gem Sockets</td><td style="padding-left: 10px;">' + gem_socket.t + '</td><tr></table>'; 		
+		
+		
+
+		
+		for(var g=0;g<gem_nodes.length;g++)
+		{
+			
+		    if(gem_socket.t>g)
+			{
+		
+			melee_damage=nodeCheck(
+				gem_nodes[g].melee_damage_add,
+				gem_nodes[g].melee_damage,
+				gem_nodes[g].melee_damage_more,
+				melee_damage,perk_effectiveness.t);		
+				
+			projectile_damage=nodeCheck(
+				gem_nodes[g].projectile_damage_add,
+				gem_nodes[g].projectile_damage,
+				gem_nodes[g].projectile_damage_more,
+				projectile_damage,perk_effectiveness.t);		
+				
+			attack_speed=nodeCheck(
+				gem_nodes[g].attack_speed_add,
+				gem_nodes[g].attack_speed,
+				gem_nodes[g].attack_speed_more,
+				attack_speed,perk_effectiveness.t);	
+
+			critical_hit_chance=nodeCheck(
+				gem_nodes[g].critical_hit_chance_add,
+				gem_nodes[g].critical_hit_chance,
+				gem_nodes[g].critical_hit_chance_more,
+				critical_hit_chance,perk_effectiveness.t);					
+			
+			critical_damage_multiplier=nodeCheck(
+				gem_nodes[g].critical_damage_multiplier_add,
+				gem_nodes[g].critical_damage_multiplier,
+				gem_nodes[g].critical_damage_multiplier_more,	
+				critical_damage_multiplier,perk_effectiveness.t);	
+								
+			reach=nodeCheck(
+				gem_nodes[g].reach_add,
+				gem_nodes[g].reach,
+				gem_nodes[g].reach_more,
+				reach,perk_effectiveness.t);	
+				
+			maximum_life=nodeCheck(
+				gem_nodes[g].maximum_life_add,
+				gem_nodes[g].maximum_life,
+				gem_nodes[g].maximum_life_more,
+				maximum_life,perk_effectiveness.t);				
+				
+			dodge=nodeCheck(
+				gem_nodes[g].dodge_add,
+				gem_nodes[g].dodge,
+				gem_nodes[g].dodge_more,
+				dodge,perk_effectiveness.t);
+
+			life_recovery=nodeCheck(
+				gem_nodes[g].life_recovery_add,
+				gem_nodes[g].life_recovery,
+				gem_nodes[g].life_recovery_more,
+				life_recovery,perk_effectiveness.t);	
+
+			armor=nodeCheck(
+				gem_nodes[g].armor_add,
+				gem_nodes[g].armor,
+				gem_nodes[g].armor_more,
+				armor,perk_effectiveness.t);		
+	
+			elemental_resistances=nodeCheck(
+				gem_nodes[g].elemental_resistances_add,
+				gem_nodes[g].elemental_resistances,
+				gem_nodes[g].elemental_resistances_more,
+				elemental_resistances,perk_effectiveness.t);	
+
+			movement_speed=nodeCheck(
+				gem_nodes[g].movement_speed_add,
+				gem_nodes[g].movement_speed,
+				gem_nodes[g].movement_speed_more,
+				movement_speed,perk_effectiveness.t);		
+
+			runic_shielding=nodeCheck(
+				gem_nodes[g].runic_shielding_add,
+				gem_nodes[g].runic_shielding,
+				gem_nodes[g].runic_shielding_more,
+				runic_shielding,perk_effectiveness.t);	
+		
+
+			}
+		
+		
+		
+		}		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+		
+		if(skill_additional_fins==1)
+		{ 
+			swimming_speed.i+=((movement_speed.i-1)/2); 
+			swimming_speed.a+=((movement_speed.a)/2); 
+			swimming_speed.m*=(((movement_speed.m-1)/2)+1); 
+			
+			}
+		
+		if(skill_bastion_of_flesh==1)
+		{ 	
+		
+			maximum_life.i+=(armor.i-1); 
+			maximum_life.a+=(armor.a);
+			maximum_life.m*=(armor.m);
+			
+			armor.t=0; 
+			armor.b=0; 
+			armor.i=0; 
+			armor.a=0; 
+			armor.m=0;
+			armor_toughness.t=0; 
+			armor_toughness.b=0; 
+			armor_toughness.i=0; 
+			armor_toughness.a=0; 
+			armor_toughness.m=0;
+
+			}
+
+
+		//the_results+='<table>'
+
+		
+		function printResults(stat,name,sign,floor,mult)
+		{			
+			if(sign==1)
+			{	var total=signit(((stat.t)*mult).toFixed(2)); }	
+			else if(floor==1)
+			{ total=Math.floor(((stat.t))); }
+			else if(floor==1 && sign==1)
+			{ signit(total=Math.floor(((stat.t)))); }
+			else
+			{ total=((stat.t)).toFixed(2); }
+			
+			if(mult==100)
+			{	total+='%'			  }		
+			
+			var title='title="B: ' + stat.b.toFixed(2) + ' + A: ' + stat.a.toFixed(2) + ' * I: ' + stat.i.toFixed(2) + ' * M: ' + stat.m.toFixed(2) + '"'
+			
+			return '<tr><td>' + name + '</td><td style="padding-left:10px;" ' + title + ' > ' + total + '</td></tr>';		
+		}
+		
+
+
+	
+		amulet_enchantments.t=(amulet_enchantments.b + amulet_enchantments.a) * amulet_enchantments.i * amulet_enchantments.m;
+		amulet_enchantments.t-=amulet_enchantments.b;
+		if(amulet_enchantments.t!==0){ the_results+=printResults(amulet_enchantments,'Amulet Enchantments',1,0,100); }
+				
+		armor.t=(armor.b + armor.a) * armor.i * armor.m;
+		if(!(armor.a==0 && armor.i==1 && armor.m==1))
+		{ the_results+=printResults(armor,'Armor',0,1,1); }    
+
+		armor_toughness.t=(armor_toughness.b + armor_toughness.a) * armor_toughness.i * armor_toughness.m;
+		if(!(armor_toughness.a==0 && armor_toughness.i==1 && armor_toughness.m==1))
+		{ the_results+=printResults(armor_toughness,'Armor Toughness',0,1,1); }
+
+		attack_speed.t=(attack_speed.b + attack_speed.a) * attack_speed.i * attack_speed.m;
+		if(!(attack_speed.a==0 && attack_speed.i==1 && attack_speed.m==1))
+		{ the_results+=printResults(attack_speed,'Attack Speed',0,0,1); }    
+
+		critical_damage_multiplier.t=(critical_damage_multiplier.b + critical_damage_multiplier.a) * critical_damage_multiplier.i * critical_damage_multiplier.m;	
+		critical_damage_multiplier.t-=critical_damage_multiplier.b;
+		if((critical_damage_multiplier.t!==0))
+		{ the_results+=printResults(critical_damage_multiplier,'Critical Damage Multiplier',1,0,100); }  
+		
+			   	
+		critical_hit_chance.t=(critical_hit_chance.b + critical_hit_chance.a) * critical_hit_chance.i * critical_hit_chance.m;	
+		critical_hit_chance.t-=critical_hit_chance.b;
+		if(!(critical_hit_chance.a==0 && critical_hit_chance.i==1 && critical_hit_chance.m==1))
+		{ the_results+=printResults(critical_hit_chance,'Critical Hit Chance',1,0,100); } 
+
+		reflection.t=(reflection.b + reflection.a) * reflection.i * reflection.m;
+		reflection.t-=reflection.b;
+		if(reflection.t!==0){ the_results+=printResults(reflection,'Damage Reflected',1,0,100); }
+
+		dodge.t=(dodge.b + dodge.a) * dodge.i * dodge.m;
+		dodge.t-=dodge.b;
+		if(dodge.t!==0)
+		{ the_results+=printResults(dodge,'Dodge Chance <br/>&nbsp;&nbsp;&nbsp;&nbsp;(Limited to 75%)',1,0,100); } 
+		
+		perk_effectiveness.t-=perk_effectiveness.b;
+		if(perk_effectiveness.t!==0)
+		{ the_results+=printResults(perk_effectiveness,'Effectiveness of Perks',1,0,100); } 		
+			
+		elemental_resistances.t=(elemental_resistances.b + elemental_resistances.a) * elemental_resistances.i * elemental_resistances.m;
+		elemental_resistances.t-=elemental_resistances.b;
+		if(elemental_resistances.t!==0)
+		{ the_results+=printResults(elemental_resistances,'Elemental Resistances',1,0,100); } 
+			
+		life_leech.t=(life_leech.b + life_leech.a) * life_leech.i * life_leech.m;
+		life_leech.t-=life_leech.b;
+		if(life_leech.t!==0)
+		{ the_results+=printResults(life_leech,'Life Leech',1,0,100); } 		
+			
+		life_recovery.t=(life_recovery.b + life_recovery.a) * life_recovery.i * life_recovery.m;
+		life_recovery.t-=life_recovery.b;
+		if(life_recovery.t!==0)
+		{ the_results+=printResults(life_recovery,'Life Recovery',1,0,100); } 
+			
+		maximum_life.t=(maximum_life.b + maximum_life.a) * maximum_life.i * maximum_life.m;	
+		if(skill_vis_inoculation==1){maximum_life.t=1; maximum_life.b=0;}		
+		if(!(maximum_life.a==0 && maximum_life.i==1 && maximum_life.m==1) || skill_vis_inoculation==1)
+		{ the_results+=printResults(maximum_life,'Maximum Life',0,1,1); } 		
+		
+		melee_damage.t=(melee_damage.b + melee_damage.a) * melee_damage.i * melee_damage.m;
+		if(!(melee_damage.a==0 && melee_damage.i==1 && melee_damage.m==1))
+		{ the_results+=printResults(melee_damage,'Melee Damage',0,0,1); } 		
+		
+		mining_speed.t=(mining_speed.b + mining_speed.a) * mining_speed.i * mining_speed.m;
+		//mining_speed.t-=mining_speed.b;
+		if(!(mining_speed.a==0 && mining_speed.i==1 && mining_speed.m==1))
+		{ the_results+=printResults(mining_speed,'Mining Speed',1,0,1); } 		
+				
+		movement_speed.t=(movement_speed.b + movement_speed.a) * movement_speed.i * movement_speed.m;
+		//movement_speed.t-=movement_speed.b;
+		if(!(movement_speed.a==0 && movement_speed.i==1 && movement_speed.m==1))
+		{ the_results+=printResults(movement_speed,'Movement Speed',0,0,1); }
+						
+		if(perk_experience.t!==0)
+		{ the_results+=printResults(perk_experience,'Perk Experience',1,0,100); }		
+			
+		potion_effect_duration.t=(potion_effect_duration.b + potion_effect_duration.a) * potion_effect_duration.i * potion_effect_duration.m;
+		potion_effect_duration.t-=potion_effect_duration.b;
+		if(potion_effect_duration.t!==0)
+		{ the_results+=printResults(potion_effect_duration,'PotionEffect Duration',1,0,100); }		
+				
+		projectile_damage.t=(projectile_damage.b + projectile_damage.a) * projectile_damage.i*projectile_damage.m;	
+		projectile_damage.t-=projectile_damage.b;
+		if(projectile_damage.t!==0)
+		{ the_results+=printResults(projectile_damage,'Projectile Damage',1,0,100); }			
+		
+		projectile_speed.t=(projectile_speed.b + projectile_speed.a) * projectile_speed.i * projectile_speed.m;	
+		projectile_speed.t-=projectile_speed.b;
+		if((projectile_speed.t!==0))
+		{ the_results+=printResults(projectile_speed,'Projectile Speed',1,0,100); }		
+		
+		reach.t=(reach.b + reach.a) * reach.i * reach.m;	
+		if(!(reach.a==0 && reach.i==1 && reach.m==1))
+		{ the_results+=printResults(reach,'Reach',0,0,1); }			
+		
+		swimming_speed.t=(swimming_speed.b + swimming_speed.a) * swimming_speed.i * swimming_speed.m;
+		//swimming_speed.t-=swimming_speed.b;
+		if(!(swimming_speed.a==0 && swimming_speed.i==1 && swimming_speed.m==1))
+		{ the_results+=printResults(swimming_speed,'Swimming Speed',0,0,1); }			
+		
+
+		
+		
+	
+		//the_results+='<hr/>'
+
+		
+
+		
+	
+		
+
+		//the_results+='<hr/>'		
+		
+		///////////////////SKILLS/////////////////////////
+		
+		if(skill_area_of_effect==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Area of Effect</td></tr>';} 
+		if(skill_bigger_stomach==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Bigger Stomach</td></tr>';} 
+		
+		if(skill_bleeding==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Bleeding</td></tr>';} 	
+		bleed_duration.t=(bleed_duration.b + bleed_duration.a) * bleed_duration.i * bleed_duration.m;	
+		bleed_duration.t-=bleed_duration.b;
+		if((bleed_duration.t!==0))
+		{ the_results+=printResults(bleed_duration,'Bleed Duration',1,0,100); }		
+		
+		if(skill_blunt_bolts==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Blunt Bolts</td></tr>';} 	
+		if(skill_body_blocking==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Body Blocking</td></tr>';} 		
+		if(skill_breaking_aim==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Breaking Aim</td></tr>';} 
+
+		if(skill_chained_mining==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Chained Mining</td></tr>';}
+		chained_mining_chance.t=(chained_mining_chance.b + chained_mining_chance.a) * chained_mining_chance.i * chained_mining_chance.m;	
+		chained_mining_chance.t-=chained_mining_chance.b;
+		if((chained_mining_chance.t!==0))
+		{ the_results+=printResults(chained_mining_chance,'Chained Mining Chance',1,0,100); }			
+		 
+		chained_mining_length.t=(chained_mining_length.b + chained_mining_length.a) * chained_mining_length.i * chained_mining_length.m;	
+		chained_mining_length.t-=chained_mining_length.b;
+		if((chained_mining_length.t!==0))
+		{ the_results+=printResults(chained_mining_length,'Chained Mining Length',1,1,1); }			
+		
+ 		successive_chains.t=(successive_chains.b + successive_chains.a) * successive_chains.i * successive_chains.m;	
+		successive_chains.t-=successive_chains.b;
+		if((successive_chains.t!==0))
+		{ the_results+=printResults(successive_chains,'Successive Chains Chance',1,0,100); }			
+		
+		if(skill_cleansing==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td><tr><td>Cleansing</td></tr>';} 		
+		if(skill_consistent_luck==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Consistent Luck</td></tr>';} 	
+		if(skill_culling_strike==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Culling Strike</td></tr>';} 		
+		if(skill_cursed_touch==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Cursed Touch</td></tr>';} 
+		if(skill_diamond_skin==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Diamond Skin</td></tr>';} 		
+		if(skill_different_angles==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Different Angles</td></tr>';}
+		if(skill_dislocated_reflection==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Dislocated Reflection</td></tr>';}		
+		if(skill_hiking_boots==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Hiking Boots</td></tr>';} 
+		
+		if(skill_lightning_arc==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Lightning Arc</td></tr>';} 			
+		lightning_arc_chains.t=(lightning_arc_chains.b + lightning_arc_chains.a) * lightning_arc_chains.i * lightning_arc_chains.m;
+		lightning_arc_chains.t-=lightning_arc_chains.b;
+		if(lightning_arc_chains.t!==0)
+		{ the_results+=printResults(lightning_arc_chains,'Lightning Arc Chains',0,1,1); }		
+		
+		if(skill_last_breath==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Last Breath</td></tr>';} 			
+		if(skill_long_shot==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Long Shot</td></tr>';} 		
+		if(skill_mending==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Mending</td></tr>';}
+		if(skill_miners_delight==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Miner\'s Delight</td></tr>';}  
+		if(skill_phoenix_blessing==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Phoenix Blessing</td></tr>';} 
+		if(skill_rampage==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Rampage</td></tr>';} 
+		if(skill_spatial_manipulation==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Spatial Manipulation</td></tr>';} 			
+		if(skill_spreading_growth==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Spreading Growth</td></tr>';} 	
+		if(skill_stone_enrichment==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Stone Enrichment</td></tr>';} 	
+		if(skill_trash_to_treasure==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Trash to Treasure</td></tr>';} 			
+		if(skill_unwavering==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Unwavering</td></tr>';} 	
+	
+		if(skill_vis_inoculation==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Vis Inoculation</td></tr>';} 	
+		runic_shielding.t=(runic_shielding.b + runic_shielding.a) * runic_shielding.i * runic_shielding.m;	
+		if(!(runic_shielding.a==0 && runic_shielding.i==1 && runic_shielding.m==1))
+		{ the_results+=printResults(runic_shielding,'Runic Shielding',1,0,1); }
+		
+					
+	
+			//the_results+='<hr/>'
+
+
+		/////////////////FOCUS////////////////////////////////
+		
+		if(focus_alcara==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Focus: Alcara</td></tr>';} 		
+		if(focus_gelu==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Focus: Gelu</td></tr>';} 	
+		if(focus_ulteria==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Focus: Ulteria</td></tr>';} 		
+		if(focus_vorux==1){ the_results+='<tr style="font-weigh:bold; color: darkorange;"><td>Focus: Vorux</td></tr>';} 	
+
+		the_results+='</table>'
+		
+  the_text_area.innerHTML = '<div style="padding: 15px;">' + the_results + '</div>';
+  
+	drawWeb();
+  
+  }
+  
+  
+  function signit(n)
+  {
+  
+	return (n<0?'-':'+') + Math.abs(n);
+  
+  }
+  
+
+ 
+  function nodeCheckPE(na,ni,nm,s)
+  {
+  
+  			if(!!na)
+			{
+				if(s.fs==0){s.a+=((na/100) );}
+				else {s.a+=((na) );}
+			}
+		
+			if(!!ni)
+			{
+				s.i+=((ni/100) );
+			}
+			
+			if(!!nm)
+			{
+				if(nm>0)
+				{s.m*=1+((nm/100) );}
+				else
+				{s.m*=1-((Math.abs(nm)/100) );}
+			}
+			
+			return s;
+   
+  } 
+  
+  function skillCheck(skill, s)
+  {
+	if(!!skill){ s+=skill; }
+	
+	return s;
+	
+  }
+  
+   function nodeCheck(na,ni,nm,s,e)
+  {
+  
+  			if(!!na)
+			{
+				if(s.fs==0){s.a+=((na/100) * e);}
+				else {s.a+=((na) * e);}
+			}
+		
+			if(!!ni)
+			{
+				s.i+=((ni/100) * e);
+			}
+			
+			if(!!nm)
+			{
+				if(nm>0)
+				{s.m*=1+((nm/100) * e);}
+				else
+				{s.m*=1-((Math.abs(nm)/100) * e);}
+			}
+			
+			return s;
+   
+  } 
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+ function search()
+ {
+ 
+	drawWeb()
+ 
+ }
+  
+
+
+
+
+function drawWeb()
+{
+
+    ctx_available.clearRect(0, 0, canvas.width, canvas.height);	  
+    ctx_lines.clearRect(0, 0, canvas.width, canvas.height);
+	ctx_nodes.clearRect(0, 0, canvas.width, canvas.height);
+	ctx_search.clearRect(0, 0, canvas.width, canvas.height);
+	ctx_tooltip.clearRect(0, 0, canvas.width, canvas.height);	 
+    nodes.forEach(drawEverything);
+
+}
+  
+
+function reset()
+{
+
+		for(let i=0;i<nodes.length;i++)
+		{
+				nodes[i].stat='off';
+				nodes[i].available=0;
+		}
+
+		perk_points=30;
+		perk_points_extra=0;
+		root_nodes=0;
+		epiphanies=0;
+		first_root=0;
+		focus_nodes=0;
+		singularity_node=0;
+		first_epiphany=0;
+			
+		document.getElementById('base_armor').value=0;
+		document.getElementById('base_armor_toughness').value=0;
+		document.getElementById('base_attack_speed').value=4;
+		document.getElementById('base_maximum_life').value=20;
+		document.getElementById('base_melee_damage').value=1;
+		document.getElementById('base_movement_speed').value=0.1;
+		document.getElementById('base_mining_speed').value=1;
+		document.getElementById('base_reach').value=5;
+		document.getElementById('base_runic_shielding').value=0;
+		document.getElementById('base_swimming_speed').value=1;
+		
+		document.getElementById('gem1_increase1').value='5';		
+		document.getElementById('gem1_increase2').value='5';	
+		document.getElementById('gem1_increase3').value='5';	
+		document.getElementById('gem1_increase4').value='5';					
+		document.getElementById('gem2_increase1').value='5';		
+		document.getElementById('gem2_increase2').value='5';	
+		document.getElementById('gem2_increase3').value='5';	
+		document.getElementById('gem2_increase4').value='5';					
+		document.getElementById('gem3_increase1').value='5';		
+		document.getElementById('gem3_increase2').value='5';	
+		document.getElementById('gem3_increase3').value='5';	
+		document.getElementById('gem3_increase4').value='5';					
+		document.getElementById('gem4_increase1').value='5';		
+		document.getElementById('gem4_increase2').value='5';	
+		document.getElementById('gem4_increase3').value='5';	
+		document.getElementById('gem4_increase4').value='5';					
+		document.getElementById('gem1_stat1').value='';		
+		document.getElementById('gem1_stat2').value='';	
+		document.getElementById('gem1_stat3').value='';	
+		document.getElementById('gem1_stat4').value='';					
+		document.getElementById('gem2_stat1').value='';		
+		document.getElementById('gem2_stat2').value='';	
+		document.getElementById('gem2_stat3').value='';	
+		document.getElementById('gem2_stat4').value='';					
+		document.getElementById('gem3_stat1').value='';		
+		document.getElementById('gem3_stat2').value='';	
+		document.getElementById('gem3_stat3').value='';	
+		document.getElementById('gem3_stat4').value='';					
+		document.getElementById('gem4_stat1').value='';		
+		document.getElementById('gem4_stat2').value='';	
+		document.getElementById('gem4_stat3').value='';	
+		document.getElementById('gem4_stat4').value='';			
+		
+		
+		updateResults();
+updateAvailable();
+		updateResults();
+
+}
+
+
+
+
+
+ 	function saveProfile(num)
+	{
+	
+		for(let i=0;i<nodes.length;i++)
+		{
+				localStorage.setItem(num.toString() + '-' + i.toString(),nodes[i].stat);
+				localStorage.setItem(num.toString() + '-a' + i.toString(),nodes[i].available);
+		}
+	
+	
+		let first_root_name=''
+		let first_epiphany_name=''
+		
+		if(first_root!==0)
+		{ first_root_name=first_root.tooltip[0]; }
+		if(first_epiphany!==0)
+		{ first_epiphany_name=first_epiphany.tooltip[0]; }	
+	
+	
+		localStorage.setItem(num.toString() + '-perk_points',perk_points);
+		localStorage.setItem(num.toString() + '-perk_points_extra',perk_points_extra);		
+		localStorage.setItem(num.toString() + '-root_nodes',root_nodes);
+		localStorage.setItem(num.toString() + '-epiphanies',epiphanies);
+		localStorage.setItem(num.toString() + '-first_root',first_root_name);
+		localStorage.setItem(num.toString() + '-focus_nodes',focus_nodes);
+		localStorage.setItem(num.toString() + '-singularity_node',singularity_node);		
+		localStorage.setItem(num.toString() + '-first_epiphany',first_epiphany_name);
+		
+		
+		//save base stats
+		localStorage.setItem(num.toString() + '-base_armor',document.getElementById('base_armor').value);
+		localStorage.setItem(num.toString() + '-base_armor_toughness',document.getElementById('base_armor_toughness').value);
+		localStorage.setItem(num.toString() + '-base_attack_speed',document.getElementById('base_attack_speed').value);
+		localStorage.setItem(num.toString() + '-base_maximum_life',document.getElementById('base_maximum_life').value);
+		localStorage.setItem(num.toString() + '-base_melee_damage',document.getElementById('base_melee_damage').value);
+		localStorage.setItem(num.toString() + '-base_movement_speed',document.getElementById('base_movement_speed').value);
+		localStorage.setItem(num.toString() + '-base_mining_speed',document.getElementById('base_mining_speed').value);
+		localStorage.setItem(num.toString() + '-base_reach',document.getElementById('base_reach').value);
+		localStorage.setItem(num.toString() + '-base_runic_shielding',document.getElementById('base_runic_shielding').value);
+		localStorage.setItem(num.toString() + '-base_swimming_speed',document.getElementById('base_swimming_speed').value);		
+	
+		//save gems
+		localStorage.setItem(num.toString() + '-gem1_increase1',document.getElementById('gem1_increase1').value);		
+		localStorage.setItem(num.toString() + '-gem1_increase2',document.getElementById('gem1_increase2').value);	
+		localStorage.setItem(num.toString() + '-gem1_increase3',document.getElementById('gem1_increase3').value);	
+		localStorage.setItem(num.toString() + '-gem1_increase4',document.getElementById('gem1_increase4').value);					
+		localStorage.setItem(num.toString() + '-gem2_increase1',document.getElementById('gem2_increase1').value);		
+		localStorage.setItem(num.toString() + '-gem2_increase2',document.getElementById('gem2_increase2').value);	
+		localStorage.setItem(num.toString() + '-gem2_increase3',document.getElementById('gem2_increase3').value);	
+		localStorage.setItem(num.toString() + '-gem2_increase4',document.getElementById('gem2_increase4').value);					
+		localStorage.setItem(num.toString() + '-gem3_increase1',document.getElementById('gem3_increase1').value);		
+		localStorage.setItem(num.toString() + '-gem3_increase2',document.getElementById('gem3_increase2').value);	
+		localStorage.setItem(num.toString() + '-gem3_increase3',document.getElementById('gem3_increase3').value);	
+		localStorage.setItem(num.toString() + '-gem3_increase4',document.getElementById('gem3_increase4').value);					
+		localStorage.setItem(num.toString() + '-gem4_increase1',document.getElementById('gem4_increase1').value);		
+		localStorage.setItem(num.toString() + '-gem4_increase2',document.getElementById('gem4_increase2').value);	
+		localStorage.setItem(num.toString() + '-gem4_increase3',document.getElementById('gem4_increase3').value);	
+		localStorage.setItem(num.toString() + '-gem4_increase4',document.getElementById('gem4_increase4').value);					
+		localStorage.setItem(num.toString() + '-gem1_stat1',document.getElementById('gem1_stat1').value);		
+		localStorage.setItem(num.toString() + '-gem1_stat2',document.getElementById('gem1_stat2').value);	
+		localStorage.setItem(num.toString() + '-gem1_stat3',document.getElementById('gem1_stat3').value);	
+		localStorage.setItem(num.toString() + '-gem1_stat4',document.getElementById('gem1_stat4').value);					
+		localStorage.setItem(num.toString() + '-gem2_stat1',document.getElementById('gem2_stat1').value);		
+		localStorage.setItem(num.toString() + '-gem2_stat2',document.getElementById('gem2_stat2').value);	
+		localStorage.setItem(num.toString() + '-gem2_stat3',document.getElementById('gem2_stat3').value);	
+		localStorage.setItem(num.toString() + '-gem2_stat4',document.getElementById('gem2_stat4').value);					
+		localStorage.setItem(num.toString() + '-gem3_stat1',document.getElementById('gem3_stat1').value);		
+		localStorage.setItem(num.toString() + '-gem3_stat2',document.getElementById('gem3_stat2').value);	
+		localStorage.setItem(num.toString() + '-gem3_stat3',document.getElementById('gem3_stat3').value);	
+		localStorage.setItem(num.toString() + '-gem3_stat4',document.getElementById('gem3_stat4').value);					
+		localStorage.setItem(num.toString() + '-gem4_stat1',document.getElementById('gem4_stat1').value);		
+		localStorage.setItem(num.toString() + '-gem4_stat2',document.getElementById('gem4_stat2').value);	
+		localStorage.setItem(num.toString() + '-gem4_stat3',document.getElementById('gem4_stat3').value);	
+		localStorage.setItem(num.toString() + '-gem4_stat4',document.getElementById('gem4_stat4').value);	
+		
+	
+	
+	
+	}
+
+ 	function loadProfile(num)
+	{
+	
+
+		let first_root_name='';
+		let first_epiphany_name='';
+
+		
+		
+
+		
+		
+		
+		if(!!localStorage.getItem(num.toString() + '-perk_points'))
+		{
+		
+		
+				
+			for(let i=0;i<nodes.length;i++)
+			{
+				nodes[i].stat=localStorage.getItem(num.toString() + '-' + i.toString());
+				nodes[i].available=localStorage.getItem(num.toString() + '-a' + i.toString());
+			}
+		
+			perk_points=parseInt(localStorage.getItem(num.toString() + '-perk_points'));
+			perk_points_extra=parseInt(localStorage.getItem(num.toString() + '-perk_points_extra'));			
+			root_nodes=parseInt(localStorage.getItem(num.toString() + '-root_nodes'));
+			epiphanies=parseInt(localStorage.getItem(num.toString() + '-epiphanies'));
+			first_root_name=localStorage.getItem(num.toString() + '-first_root');
+			focus_nodes=parseInt(localStorage.getItem(num.toString() + '-focus_nodes'));
+			singularity_node=parseInt(localStorage.getItem(num.toString() + '-singularity_node',singularity_node));
+			first_epiphany_name=localStorage.getItem(num.toString() + '-first_epiphany');			
+
+
+		document.getElementById('base_armor').value=localStorage.getItem(num.toString() + '-base_armor');
+		document.getElementById('base_armor_toughness').value=localStorage.getItem(num.toString() + '-base_armor_toughness');
+		document.getElementById('base_attack_speed').value=localStorage.getItem(num.toString() + '-base_attack_speed');
+		document.getElementById('base_maximum_life').value=localStorage.getItem(num.toString() + '-base_maximum_life');
+		document.getElementById('base_melee_damage').value=localStorage.getItem(num.toString() + '-base_melee_damage');
+		document.getElementById('base_movement_speed').value=localStorage.getItem(num.toString() + '-base_movement_speed',);
+		document.getElementById('base_mining_speed').value=localStorage.getItem(num.toString() + '-base_mining_speed');
+		document.getElementById('base_reach').value=localStorage.getItem(num.toString() + '-base_reach');
+		document.getElementById('base_runic_shielding').value=localStorage.getItem(num.toString() + '-base_runic_shielding');
+		document.getElementById('base_swimming_speed').value=localStorage.getItem(num.toString() + '-base_swimming_speed');	
+
+		document.getElementById('gem1_increase1').value=localStorage.getItem(num.toString() + '-gem1_increase1');		
+		document.getElementById('gem1_increase2').value=localStorage.getItem(num.toString() + '-gem1_increase2');	
+		document.getElementById('gem1_increase3').value=localStorage.getItem(num.toString() + '-gem1_increase3');	
+		document.getElementById('gem1_increase4').value=localStorage.getItem(num.toString() + '-gem1_increase4');					
+		document.getElementById('gem2_increase1').value=localStorage.getItem(num.toString() + '-gem2_increase1');		
+		document.getElementById('gem2_increase2').value=localStorage.getItem(num.toString() + '-gem2_increase2');	
+		document.getElementById('gem2_increase3').value=localStorage.getItem(num.toString() + '-gem2_increase3');	
+		document.getElementById('gem2_increase4').value=localStorage.getItem(num.toString() + '-gem2_increase4');					
+		document.getElementById('gem3_increase1').value=localStorage.getItem(num.toString() + '-gem3_increase1');		
+		document.getElementById('gem3_increase2').value=localStorage.getItem(num.toString() + '-gem3_increase2');	
+		document.getElementById('gem3_increase3').value=localStorage.getItem(num.toString() + '-gem3_increase3');	
+		document.getElementById('gem3_increase4').value=localStorage.getItem(num.toString() + '-gem3_increase4');					
+		document.getElementById('gem4_increase1').value=localStorage.getItem(num.toString() + '-gem4_increase1');		
+		document.getElementById('gem4_increase2').value=localStorage.getItem(num.toString() + '-gem4_increase2');	
+		document.getElementById('gem4_increase3').value=localStorage.getItem(num.toString() + '-gem4_increase3');	
+		document.getElementById('gem4_increase4').value=localStorage.getItem(num.toString() + '-gem4_increase4');
+		document.getElementById('gem1_stat1').value=localStorage.getItem(num.toString() + '-gem1_stat1');		
+		document.getElementById('gem1_stat2').value=localStorage.getItem(num.toString() + '-gem1_stat2');	
+		document.getElementById('gem1_stat3').value=localStorage.getItem(num.toString() + '-gem1_stat3');	
+		document.getElementById('gem1_stat4').value=localStorage.getItem(num.toString() + '-gem1_stat4');					
+		document.getElementById('gem2_stat1').value=localStorage.getItem(num.toString() + '-gem2_stat1');		
+		document.getElementById('gem2_stat2').value=localStorage.getItem(num.toString() + '-gem2_stat2');	
+		document.getElementById('gem2_stat3').value=localStorage.getItem(num.toString() + '-gem2_stat3');	
+		document.getElementById('gem2_stat4').value=localStorage.getItem(num.toString() + '-gem2_stat4');					
+		document.getElementById('gem3_stat1').value=localStorage.getItem(num.toString() + '-gem3_stat1');		
+		document.getElementById('gem3_stat2').value=localStorage.getItem(num.toString() + '-gem3_stat2');	
+		document.getElementById('gem3_stat3').value=localStorage.getItem(num.toString() + '-gem3_stat3');	
+		document.getElementById('gem3_stat4').value=localStorage.getItem(num.toString() + '-gem3_stat4');					
+		document.getElementById('gem4_stat1').value=localStorage.getItem(num.toString() + '-gem4_stat1');		
+		document.getElementById('gem4_stat2').value=localStorage.getItem(num.toString() + '-gem4_stat2');	
+		document.getElementById('gem4_stat3').value=localStorage.getItem(num.toString() + '-gem4_stat3');	
+		document.getElementById('gem4_stat4').value=localStorage.getItem(num.toString() + '-gem4_stat4');
+
+		
+		
+		}
+	
+		if(first_epiphany_name!=='')
+		{
+			for(let i=0;i<nodes.length;i++)
+			{  if(first_epiphany_name==nodes[i].tooltip[0]){first_epiphany=nodes[i];}  }
+		}
+		else { first_epiphany=0; }
+		
+		if(first_root!=='')
+		{
+			for(let i=0;i<nodes.length;i++)
+			{  if(first_root_name==nodes[i].tooltip[0]){first_root=nodes[i];}  }
+		}
+		else { first_root=0;}
+	
+		updateAvailable();
+		updateResults();
+		
+	
+	
+	
+	
+	}
+
+function morepoints()
+{
+
+	perk_points++;
+	perk_points_extra++;
+	updateAvailable();
+	updateResults();
+	
+
+}
+
+
+  
+  </script>
+  
+  
+  
+  
+ 
+</body>
+</html>
+
+
