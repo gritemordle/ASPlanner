@@ -33,7 +33,7 @@ function pointermove_handler(ev) {
  //
  // This function sets the target element's border to "dashed" to visually
  // indicate the pointer's target received a move event.
- log("pointerMove", ev);
+// log("pointerMove", ev);
  ev.target.style.border = "dashed";
 
  // Find this event in the cache and update its record with this event
