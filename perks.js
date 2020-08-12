@@ -89,7 +89,7 @@
 				stat:'off', 
 				tooltip: ['Increased Perk Effect','5% increased Effectiveness of Perks'],
 				rarity: 0,
-				n:[nodes[6]],
+				n:[nodes[6],nodes[2]],
 				perk_effectiveness: 5
 					}; 
 
