@@ -3270,6 +3270,7 @@ function morepoints()
 				if(mod.mode=='ADDED_MULTIPLY'){ nodes[cnt].mining_speed=Math.floor(mod.value*100);}
 				if(mod.mode=='STACKING_MULTIPLY'){ nodes[cnt].mining_speed_more=Math.floor((mod.value*100)-100);}
 			}	
+			
 			if(mod.type=='astralsorcery:dynenchantmenteffect')
 			{ 	if(mod.mode=='ADDITION'){ nodes[cnt].amulet_enchantments_add=mod.value;}
 				if(mod.mode=='ADDED_MULTIPLY'){ nodes[cnt].amulet_enchantments=Math.floor(mod.value*100);}
