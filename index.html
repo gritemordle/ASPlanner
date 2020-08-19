@@ -680,8 +680,8 @@ function resetAndReload()
 			
 			for(var ii=0;ii<nodes.length;ii++)
 			{
-				if(nodes[ii].s==1){nodes[ii].r=baseradius*1.05;}
-				if(nodes[ii].s==2){nodes[ii].r=baseradius*1.75;}
+				if(nodes[ii].s==1){nodes[ii].r=baseradius*1;}
+				if(nodes[ii].s==2){nodes[ii].r=baseradius*1.8;}
 				if(nodes[ii].s==3){nodes[ii].r=baseradius*3.75;}
 			}					
  
@@ -748,8 +748,7 @@ function resetAndReload()
 			
 			var rsize=0;
 			
-			//if(value.s==1){rsize=10;}
-			//if(value.s==1){rsize=10;}
+	
 			
 			ctx_available.arc((value.x+trans.x),(value.y+trans.y),value.r+7,0, 2 * Math.PI, false);
 				ctx_available.globalAlpha=.8;
@@ -808,11 +807,11 @@ function resetAndReload()
 	
 	
 	
-		ctx_lines.lineWidth=6;	
+		ctx_lines.lineWidth=4;	
 		ctx_lines.globalAlpha=.2;
 		ctx_lines.stroke();
 		ctx_lines.globalAlpha=1;		
-		ctx_lines.lineWidth=2;
+		ctx_lines.lineWidth=1;
 		ctx_lines.stroke();
 		
 		}
@@ -928,8 +927,8 @@ function resetAndReload()
 			
 			for(var ii=0;ii<nodes.length;ii++)
 			{
-				if(nodes[ii].s==1){nodes[ii].r=baseradius*1.05;}
-				if(nodes[ii].s==2){nodes[ii].r=baseradius*1.75;}
+				if(nodes[ii].s==1){nodes[ii].r=baseradius*1;}
+				if(nodes[ii].s==2){nodes[ii].r=baseradius*1.8;}
 				if(nodes[ii].s==3){nodes[ii].r=baseradius*3.75;}
 			}			
 		
