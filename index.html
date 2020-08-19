@@ -3120,7 +3120,7 @@ function linkProfile(num)
 		
 		
 		var client = new HttpClient();
-		client.get('http://tinyurl.com/api-create.php?url=' + 'https://gritemordle.github.io/ASPlanner/?a=' + the_whole_thing, function(response) {
+		client.get('https://tinyurl.com/api-create.php?url=' + 'https://gritemordle.github.io/ASPlanner/?a=' + the_whole_thing, function(response) {
 			document.getElementById('prof_1_txt').value=response;
 			copy();
 		});
