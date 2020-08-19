@@ -3102,11 +3102,35 @@ function linkProfile(num)
 		
 			the_whole_thing=LZString.compressToEncodedURIComponent(the_whole_thing);
 		
-			
 		
-			document.getElementById('prof_1_txt').value='https://gritemordle.github.io/ASPlanner/?a=' + the_whole_thing;
+
+
+		var HttpClient = function() {
+		this.get = function(aUrl, aCallback) {
+			var anHttpRequest = new XMLHttpRequest();
+			anHttpRequest.onreadystatechange = function() { 
+				if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+					aCallback(anHttpRequest.responseText);
+			}
 	
-copy();
+			anHttpRequest.open( "GET", aUrl, true );            
+			anHttpRequest.send( null );
+			}
+		}		
+		
+		
+		var client = new HttpClient();
+		client.get('http://tinyurl.com/api-create.php?url=' + 'https://gritemordle.github.io/ASPlanner/?a=' + the_whole_thing, function(response) {
+			document.getElementById('prof_1_txt').value=response;
+			copy();
+		});
+		
+		
+		
+		
+			//document.getElementById('prof_1_txt').value='https://gritemordle.github.io/ASPlanner/?a=' + the_whole_thing;
+	
+		
 	
 
 }
