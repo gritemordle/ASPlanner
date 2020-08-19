@@ -6,9 +6,13 @@
   <meta charset="utf-8">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 
+
   <title>Astral Sorcery Perk Planner</title>
   <meta name="description" content="Astral Sorcery Perk Planner">
   <meta name="author" content="gritemordle">
+
+<link rel="icon" href="favicon.png">
+
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118329861-2"></script>
@@ -21,11 +25,13 @@
 </script>
 
 
+<script language="javascript" src="lzstring/lz-string.js"></script>
+
+
 </head>
 
 <body>
 <script>
-
 
 	function expand(id)
 	{
@@ -64,6 +70,8 @@ function resetAndReload()
 
 		location.reload();
 
+		//window.location = window.location.pathname;
+		
 }	
 	
 	
@@ -133,17 +141,26 @@ function resetAndReload()
 	</div>
 <div id="menu_save"  onclick="expand('save')" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ SAVE / LOAD</b></div>
 	<div id="save"  style="display:none;">
-	<table style="margin: 10px; width:75%; max-width: 250px;">
-		<tr><td><button id="save_prof_1">Save Profile 1</button></td>
-		<td><button id="load_prof_1">Load Profile 1</button></td></tr>
-		<tr><td><button id="save_prof_2">Save Profile 2</button></td>
-		<td><button id="load_prof_2">Load Profile 2</button></td></tr>
-		<tr><td><button id="save_prof_3">Save Profile 3</button></td>
-		<td><button id="load_prof_3">Load Profile 3</button></td></tr>				
-		<tr><td colspan="2" style="text-align: center;"><button id="reset_button" >Reset Nodes</button></td>
-		</tr>			
-	</table>
+		<div style="margin: 10px;">
+	<br>
+		<button id="save_prof_1">Save Profile 1</button>
+		<button id="load_prof_1">Load Profile 1</button><br>
+		<button id="save_prof_2">Save Profile 2</button>
+		<button id="load_prof_2">Load Profile 2</button><br>
+		<button id="save_prof_3">Save Profile 3</button>
+		<button id="load_prof_3">Load Profile 3</button><br>
+		<br>		
+		<button id="reset_button" >Reset Nodes</button><br>		
+		<br><button id="prof_1_link" style="margin-bottom: 5px;">Create/Copy URL</button><br>
+		
+		<input type="text" id="prof_1_txt" style="width:90%;">
+		
+		<br>
+		<br>
+		</div>
 	</div>
+
+	
 
 
 
@@ -151,8 +168,83 @@ function resetAndReload()
   <script src="starfield.js"></script>
   <script>
   
+ function copy() {
+  var copyText = document.querySelector("#prof_1_txt");
+  copyText.select();
+  document.execCommand("copy");
+}
+
+//document.querySelector("#copy").addEventListener("click", copy); 
   
-	if(!!localStorage.getItem('version'))
+  
+  
+ urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results == null){
+       return null;
+    }
+    else {
+       return decodeURI(results[1]) || 0;
+    }
+}
+  
+  
+ //let queryString = window.location.search;
+// let urlParams = new $.urlParam(queryString);
+ //let compressed = urlParams.get('a') 
+  
+  let compressed = urlParam('a');
+  
+  var load_this=0;
+  
+  if(compressed!==null)
+  {
+  
+	let decompressed=LZString.decompressFromEncodedURIComponent(compressed);
+	
+	load_this=decompressed.split(";");
+	
+	if(load_this.length>0)	
+	{		
+	
+		console.log(load_this.length);
+	
+	
+		let v=load_this[0];
+		
+		
+		
+	
+		if(v==0 &&  localStorage.getItem('version')!=='1.12')
+			{   
+	
+				localStorage.setItem('version','1.12');
+				document.getElementById('version_select').value='1.12';
+
+					}
+					
+		if(v==1 && localStorage.getItem('version')!=='1.15')
+			{   
+			
+			
+			
+			    localStorage.setItem('version','1.15');
+				localStorage.setItem('version',document.getElementById('version_select').value);
+				
+					}					
+
+			
+		
+	}
+	
+	
+	}
+	
+
+  
+  
+
+ 	if(!!localStorage.getItem('version'))
 	{		
 		document.getElementById('version_select').value=localStorage.getItem('version');
 	}
@@ -160,9 +252,17 @@ function resetAndReload()
 	document.getElementById('version_select').addEventListener("change", function(){
 	
 		localStorage.setItem('version',document.getElementById('version_select').value);
-		resetAndReload();
+		window.location = window.location.pathname;
 	
-	});
+	}); 
+  
+  
+  
+  
+  
+  
+  
+
 	
 		
 	
@@ -466,6 +566,8 @@ function resetAndReload()
 	document.getElementById('load_prof_2').addEventListener("click", function(){loadProfile(2); });
 	document.getElementById('load_prof_3').addEventListener("click", function(){loadProfile(3); });	
 
+	document.getElementById('prof_1_link').addEventListener("click", function(){linkProfile(1); });
+
 	document.getElementById('reset_button').addEventListener("click", function(){ reset(); });	
 	
 
@@ -625,9 +727,6 @@ function resetAndReload()
 		for(let ii=0;ii<nodes[i].ncomplete.length;ii++)
 		{
 		
-		
-		
-		
 			if( !nodes[i].ncomplete[ii].ncomplete.includes(nodes[i])) { nodes[i].ncomplete[ii].ncomplete.push(nodes[i]);}
 		}
   }  
@@ -693,11 +792,17 @@ function resetAndReload()
 			}					
  
  
- 
+ 	if(load_this.length>0)
+	{  
+	console.log('outside ' + nodes[0].tooltip[0]);
+	loadLink();  }
 
  
   drawWeb();
   
+
+
+
 
   
 
@@ -797,6 +902,10 @@ function resetAndReload()
 	
 	
 	
+	var lw=1;
+	var lwb=4;
+	
+	
 	if(value.n!==undefined)
 	{
 		var i;
@@ -814,11 +923,11 @@ function resetAndReload()
 		else{ ctx_lines.strokeStyle=linecolor; }
 	
 	
-		ctx_lines.lineWidth=4;	
+		ctx_lines.lineWidth=lwb;	
 		ctx_lines.globalAlpha=.2;
 		ctx_lines.stroke();
 		ctx_lines.globalAlpha=1;		
-		ctx_lines.lineWidth=1;
+		ctx_lines.lineWidth=lw;
 		ctx_lines.stroke();
 		
 		}
@@ -1591,6 +1700,8 @@ function resetAndReload()
   function updateResults()
   {
   
+  
+		document.getElementById('prof_1_txt').value='';
   
 		var gem_sockets=new Array();
   
@@ -2822,6 +2933,9 @@ function drawWeb()
 	ctx_tooltip.clearRect(0, 0, canvas.width, canvas.height);	 
     nodes.forEach(drawEverything);
 
+
+
+
 }
   
   
@@ -2830,6 +2944,9 @@ function drawWeb()
 
 function reset()
 {
+
+		document.getElementById('prof_1_txt').value='';
+	
 
 		for(let i=0;i<nodes.length;i++)
 		{
@@ -2887,7 +3004,109 @@ function reset()
 
 }
 
+function linkProfile(num)
+{
 
+		let tmpversion='0';
+		if(version=='1.12'){ tmpversion='0'; }
+		if(version=='1.15'){ tmpversion='1'; }
+
+
+		let the_whole_thing='';
+
+		//version 1.12 - 0
+		//version 1.15 - 1
+		// on 1
+		// off 0
+		//available 1
+		//not available 0
+		
+		// (node)-(version)(on/off)(av/un);
+
+			
+		the_whole_thing+=tmpversion + ';';
+
+		for(let i=0;i<nodes.length;i++)
+		{
+				let oof='0';
+				if(nodes[i].stat=='on'){oof='1';}
+				
+				let av='0';
+				if(nodes[i].available==1){av='1';}
+				
+		
+				the_whole_thing+=i.toString() + ':' + oof + av + ';';
+		
+						
+		}
+		
+		
+		the_whole_thing+='P;';
+		
+			
+		
+		let first_root_name=''
+		let first_epiphany_name=''
+		
+		if(first_root!==0)
+		{ first_root_name=first_root.tooltip[0]; }
+		if(first_epiphany!==0)
+		{ first_epiphany_name=first_epiphany.tooltip[0]; }	
+	
+	
+		the_whole_thing+=perk_points + ';';
+		the_whole_thing+=perk_points_extra + ';';	
+		the_whole_thing+=root_nodes + ';';
+		the_whole_thing+=epiphanies + ';';
+		the_whole_thing+=first_root_name + ';';
+		the_whole_thing+=focus_nodes + ';';
+		the_whole_thing+=singularity_node + ';';	
+		the_whole_thing+=first_epiphany_name + ';';	
+		
+	
+	
+		the_whole_thing+='B;';	
+
+		the_whole_thing+=document.getElementById('base_armor').value + ';';
+		the_whole_thing+=document.getElementById('base_armor_toughness').value + ';';
+		the_whole_thing+=document.getElementById('base_attack_speed').value + ';';
+		the_whole_thing+=document.getElementById('base_maximum_life').value + ';';
+		the_whole_thing+=document.getElementById('base_melee_damage').value + ';';
+		the_whole_thing+=document.getElementById('base_movement_speed').value + ';';
+		the_whole_thing+=document.getElementById('base_mining_speed').value + ';';
+		the_whole_thing+=document.getElementById('base_reach').value + ';';
+		the_whole_thing+=document.getElementById('base_runic_shielding').value + ';';
+		the_whole_thing+=document.getElementById('base_swimming_speed').value + ';';
+			
+
+		the_whole_thing+='G;';
+
+		
+		for(let g=1;g<=max_gems;g++)
+		{	
+		
+		
+			for(let gs=1;gs<=4;gs++)
+			{			
+				the_whole_thing+=document.getElementById('gem' + g + '_increase' + gs).value + ':';
+				the_whole_thing+=document.getElementById('gem' + g + '_stat' + gs).value + ';';				
+			}
+		}
+
+
+		
+			the_whole_thing=LZString.compressToEncodedURIComponent(the_whole_thing);
+		
+			
+		
+			document.getElementById('prof_1_txt').value='http://beckman/asplanner/?a=' + the_whole_thing;
+	
+
+
+			copy();
+	
+
+}
 
 
 
@@ -2954,9 +3173,146 @@ function reset()
 	
 	}
 
+
+	function loadLink()
+	{
+	
+	
+		let mode='N';
+	
+	
+		if(load_this.length>1)
+		{
+	
+			for(let i=1;i<load_this.length;i++)
+			{
+			
+				//console.log(nodes[0]);
+		
+				if(load_this[i]=='P'){ mode='P'; i++; }
+				if(load_this[i]=='B'){ mode='B'; i++; }
+				if(load_this[i]=='G'){ mode='G'; i++; }				
+
+				if(mode=='N')
+				{
+				
+					
+				
+					let nodeval=load_this[i].split(':');
+					if(nodeval.length>1)
+					{
+
+
+						
+						if(nodeval[1].substring(0,1)=='1')
+						{nodes[parseInt(nodeval[0])].stat='on'}
+						else
+						{nodes[parseInt(nodeval[0])].stat='off'}
+					
+						nodes[parseInt(nodeval[0])].available=parseInt(nodeval[1].substring(1,2));
+						
+					    
+					}
+
+				}
+				if(mode=='P')
+				{				
+				
+				
+				
+			perk_points=parseInt(load_this[i]); i++;
+			perk_points_extra=parseInt(load_this[i]); i++;
+			root_nodes=parseInt(load_this[i]); i++;
+			epiphanies=parseInt(load_this[i]); i++;
+			first_root_name=load_this[i]; i++;
+			focus_nodes=parseInt(load_this[i]); i++;
+			singularity_node=parseInt(load_this[i]); i++;
+			first_epiphany_name=load_this[i]; i++;			
+
+
+				if(load_this[i]=='P'){ mode='P'; i++; }
+				if(load_this[i]=='B'){ mode='B'; i++; }
+				if(load_this[i]=='G'){ mode='G'; i++; }	
+
+
+				}
+				
+				if(mode=='B')
+				{				
+
+		document.getElementById('base_armor').value=load_this[i]; i++;
+		document.getElementById('base_armor_toughness').value=load_this[i]; i++;
+		document.getElementById('base_attack_speed').value=load_this[i]; i++;
+		document.getElementById('base_maximum_life').value=load_this[i]; i++;
+		document.getElementById('base_melee_damage').value=load_this[i]; i++;
+		document.getElementById('base_movement_speed').value=load_this[i]; i++;
+		document.getElementById('base_mining_speed').value=load_this[i]; i++;
+		document.getElementById('base_reach').value=load_this[i]; i++;
+		document.getElementById('base_runic_shielding').value=load_this[i]; i++;
+		document.getElementById('base_swimming_speed').value=load_this[i]; i++;
+				
+				if(load_this[i]=='P'){ mode='P'; i++; }
+				if(load_this[i]=='B'){ mode='B'; i++; }
+				if(load_this[i]=='G'){ mode='G'; i++; }					
+				
+				
+				}
+				
+				if(mode=='G')
+				{				
+
+				for(let g=1;g<=max_gems;g++)
+				{	
+					for(let gs=1;gs<=4;gs++)
+					{			
+			
+						let gemstats=load_this[i].split(':'); i++;
+											
+						document.getElementById('gem' + g + '_increase' + gs).value=gemstats[0]; 
+						document.getElementById('gem' + g + '_stat' + gs).value=gemstats[1];
+				
+					}
+				}
+
+				}				
+
+			}
+			
+			
+		
+			
+		if(first_epiphany_name!=='')
+		{
+			for(let i=0;i<nodes.length;i++)
+			{  
+			
+			
+			if(first_epiphany_name==nodes[i].tooltip[0]){first_epiphany=nodes[i];}  }
+		}
+		else { first_epiphany=0; }
+		
+		if(first_root!=='')
+		{		
+			for(let i=0;i<nodes.length;i++)
+			{  if(first_root_name==nodes[i].tooltip[0]){first_root=nodes[i];}  }
+		}
+		else { first_root=0;}
+	
+		//updateAvailable();
+		//updateResults();
+	    //drawWeb();
+	
+	
+		}
+	
+	}
+
+
+
  	function loadProfile(num)
 	{
 	
+		document.getElementById('prof_1_txt').value='';
 
 		let first_root_name='';
 		let first_epiphany_name='';
@@ -2971,7 +3327,7 @@ function reset()
 		if(!!localStorage.getItem(num.toString() + '-perk_points'+tmpversion))
 		{
 		
-		
+			
 				
 			for(let i=0;i<nodes.length;i++)
 			{
