@@ -3491,7 +3491,8 @@ function morepoints()
 				//if(jnodes[p].tooltip.length>1)
 				//{ jnodes[p].tooltip.push(''); }
 
-				 jnodes[p].tooltip.push(txt);
+				if(!!names[jnodes[p].data.modifiers[m].type.replace('astralsorcery:','perk.attribute.astralsorcery.') + '.name'])
+				 {jnodes[p].tooltip.push(txt);}
 
 			}
 			if(jnodes[p].data.modifiers[m].mode=='ADDED_MULTIPLY')
@@ -3504,8 +3505,8 @@ function morepoints()
 
 				//if(jnodes[p].tooltip.length>1)
 				//{ jnodes[p].tooltip.push(''); }
-
-				 jnodes[p].tooltip.push(txt);
+                if(!!names[jnodes[p].data.modifiers[m].type.replace('astralsorcery:','perk.attribute.astralsorcery.') + '.name'])
+				 {jnodes[p].tooltip.push(txt);}
 
 			}
 
@@ -3520,8 +3521,8 @@ function morepoints()
 
 				//if(jnodes[p].tooltip.length>1)
 				//{ jnodes[p].tooltip.push(''); }
-
-				 jnodes[p].tooltip.push(txt);
+				if(!!names[jnodes[p].data.modifiers[m].type.replace('astralsorcery:','perk.attribute.astralsorcery.') + '.name'])
+				 {jnodes[p].tooltip.push(txt);}
 
 			}
 
