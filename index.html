@@ -164,6 +164,7 @@ function resetAndReload()
 		<br><button id="prof_1_link" style="margin-bottom: 5px;">Create/Copy URL</button><br>
 
 		<input type="text" id="prof_1_txt" style="width:90%;">
+		<input type="text" id="prof_hidden_txt" style="width:90%; visibility:hidden; ">		
 
 		<br>
 		<br>
@@ -1805,7 +1806,7 @@ function resetAndReload()
 
 		var skill_lightning_arc=0;
 
-
+		var skill_honed_influence=0;
 		var skill_last_breath=0;
 		var skill_rampage=0;
 		var rampage_duration={a:0,i:1,m:1,t:0,b:1,fs:0};
@@ -2336,6 +2337,9 @@ function resetAndReload()
 				lightning_arc_chains,perk_effectiveness.t);
 
 
+			skill_honed_influence=skillCheck(nodes[i].skill_honed_influence,skill_honed_influence);
+
+
 			skill_last_breath=skillCheck(nodes[i].skill_last_breath,skill_last_breath);
 			skill_rampage=skillCheck(nodes[i].skill_rampage,skill_rampage);
 		rampage_duration.t=(rampage_duration.b + rampage_duration.a) * rampage_duration.i * rampage_duration.m;
@@ -2811,6 +2815,8 @@ function resetAndReload()
 
 
 		if(skill_hiking_boots==1){ the_results+='<tr style="font-weight:bold; color: darkorange;"><td>Hiking Boots</td></tr>';}
+		
+		if(skill_honed_influence==1){ the_results+='<tr style="font-weight:bold; color: darkorange;"><td>Honed Influence</td></tr>';}		
 
 		if(skill_lightning_arc==1){ the_results+='<tr style="font-weight:bold; color: darkorange;"><td>Lightning Arc</td></tr>';}
 		lightning_arc_chains.t=(lightning_arc_chains.b + lightning_arc_chains.a) * lightning_arc_chains.i * lightning_arc_chains.m;
@@ -3376,6 +3382,18 @@ function linkProfile(num)
 			{
 				nodes[i].stat=localStorage.getItem(num.toString() + '-' + i.toString()+tmpversion);
 				nodes[i].available=localStorage.getItem(num.toString() + '-a' + i.toString()+tmpversion);
+				
+				if(localStorage.getItem(num.toString() + '-' + i.toString()+tmpversion)===null)
+				{
+					nodes[i].stat='off';				
+				}
+
+				if(localStorage.getItem(num.toString() + '-a' + i.toString()+tmpversion)===null)
+				{
+					nodes[i].available=0;				
+				}
+				
+				
 			}
 
 			perk_points=parseInt(localStorage.getItem(num.toString() + '-perk_points' + tmpversion));
@@ -3456,6 +3474,45 @@ function morepoints()
 
 		let jnodes=JSON.parse(r[0].response);
 		let names=JSON.parse(r[1].response);
+		let registry_index=JSON.parse(r[2].response);
+		
+////////////////////////////////////////////////////////////////////		
+
+		//let inodes=JSON.parse(r[3].response);			
+		//let newnodes=new Array();
+		
+		
+		
+		//for(let p in inodes)
+		//{		
+		//	if(!(p in jnodes))
+		//	{			
+		//		newnodes.push(inodes[p].registry_name);			
+				//alert("missing new node " + inodes[p].registry_name);			
+		//	}		
+		//}
+		
+		//for(let p in jnodes)
+		//{		
+		//	if(!(p in inodes))
+		//	{		
+				//alert("old node deleted " + jnodes[p].registry_name);		
+		//	}	
+		//}
+
+
+		//for(let i=0;i<newnodes.length;i++)
+		//{		
+		//	registry_index.push(newnodes[i]);	
+		//}
+
+		//var el=document.getElementById("prof_hidden_txt");		
+		//el.style.visibility="visible";		
+		//el.value=JSON.stringify(registry_index);
+
+
+//////////////////////////////////////////////////////////
+
 
 		let cnt=0;
 
@@ -3469,9 +3526,11 @@ function morepoints()
 			else if(jnodes[p].perk_class.includes('gem_slot_perk')){ jnodes[p].s=2;}
 			else{ jnodes[p].s=1 ;}
 
+			cnt=registry_index.indexOf(jnodes[p].registry_name);
 
-			nodes[cnt]={ x:jnodes[p].x, y:jnodes[p].y, r:5, s: jnodes[p].s, rarity: 0 }
 
+			nodes[cnt]={ x:jnodes[p].x, y:jnodes[p].y, r:5, s: jnodes[p].s, rarity: 0, registry_name: jnodes[p].registry_name };
+		
 
 			jnodes[p].tooltip=[names[jnodes[p].name+'.name']];
 
@@ -3806,8 +3865,12 @@ function morepoints()
 			{ 	nodes[cnt].skill_lightning_arc=1;  }
 			if(jnodes[p].name=='perk.astralsorcery.key.low_life')
 			{ 	nodes[cnt].skill_last_breath=1;  }
+			
 			if(jnodes[p].name=='perk.astralsorcery.key.luck')
-			{ 	nodes[cnt].skill_consistent_luck=1;  }
+			{ 	nodes[cnt].skill_consistent_luck=1; }
+			
+			if(jnodes[p].name=='perk.astralsorcery.key.entity_reach')
+			{ 	nodes[cnt].skill_honed_influence=1;   }			
 
 
 			if(jnodes[p].name=='perk.astralsorcery.special.focus.alcara')
@@ -3830,7 +3893,7 @@ function morepoints()
 			indexpairs[jnodes[p].registry_name]=cnt;
 
 
-			cnt++;
+			//cnt++;
 
 
 		}
@@ -3851,6 +3914,23 @@ function morepoints()
 
 		}
 
+
+
+
+	//let registry_index=new Array();
+	
+	//for(let i=0; i<nodes.length;i++)
+	//{	
+	//	registry_index[i]=nodes[i].registry_name;		
+	//}
+		
+
+		//var el=document.getElementById("prof_hidden_txt");		
+		//el.style.visibility="visible";		
+		//el.value=JSON.stringify(registry_index);
+		
+	
+	
 
 
 
@@ -3880,7 +3960,8 @@ function morepoints()
 
 ////////////////////////////////////////////////////////////
 
- var urls=[ '1.15_perktree.json', 'en_us.json' ]
+ var urls=[ '1.15_perktree.json', 'en_us.json', 'pregindex.json' ]
+ //var urls=[ '1.15_perktree.json', 'en_us.json', 'pregindex.json','incoming_perks.json' ]
  var xhr=new Array();
 
 function load(urls, callback, finalcallback) {

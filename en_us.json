@@ -1,5 +1,5 @@
- {
-  
+ { 
+ 
   "perk.info.astralsorcery.locked": "Locked",
   "perk.info.astralsorcery.available": "Available",
   "perk.info.astralsorcery.active": "Active",
@@ -297,6 +297,8 @@
   "perk.astralsorcery.key.low_life.desc.2": "the more health you're missing.",
   "perk.astralsorcery.key.luck.name": "Consistent Luck",
   "perk.astralsorcery.key.luck.desc": "+1 level of Fortune.",
+  "perk.astralsorcery.key.entity_reach.name": "Honed Influence",
+  "perk.astralsorcery.key.entity_reach.desc": "Bonuses to Block Reach apply to Entity Reach.",
 
   "perk.astralsorcery.special.focus.gelu.name": "Focus: Gelu",
   "perk.astralsorcery.special.focus.gelu.desc.1": "Gain +2%% increased Perk Effectiveness per allocated Perk.",
@@ -343,4 +345,5 @@
   "perk.astralsorcery.special.arc_chain_1.desc": "Lightning Arc bolts chain 1 additional time",
   "perk.astralsorcery.special.arc_chain_2.name": "Arc Chaining",
   "perk.astralsorcery.special.arc_chain_2.desc": "Lightning Arc bolts chain 2 additional times"
-}
+  
+  }
