@@ -3648,6 +3648,19 @@ function morepoints()
 			if(jnodes[p].data.modifiers[m].mode=='STACKING_MULTIPLY')
 			{
 				let txt=''
+				if(jnodes[p].data.modifiers[m].value<1)
+				{
+				
+				txt=Math.abs((jnodes[p].data.modifiers[m].value-1)*100).toFixed(0) + '% less ' + names[jnodes[p].data.modifiers[m].type.replace('astralsorcery:','perk.attribute.astralsorcery.') + '.name'];}
+				
+				}
+				else
+				{
+				txt=Math.abs((jnodes[p].data.modifiers[m].value-1)*100).toFixed(0) + '% more ' + names[jnodes[p].data.modifiers[m].type.replace('astralsorcery:','perk.attribute.astralsorcery.') + '.name'];}
+				
+				}
+				
+
 
 				if(jnodes[p].data.modifiers[m].value>0)
 				{txt=((jnodes[p].data.modifiers[m].value-1)*100).toFixed(0) + '% more ' + names[jnodes[p].data.modifiers[m].type.replace('astralsorcery:','perk.attribute.astralsorcery.') + '.name'];}
