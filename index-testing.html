@@ -2869,7 +2869,10 @@ function resetAndReload()
 		if(focus_ulteria==1){ the_results+='<tr style="font-weight:bold; color: darkorange;"><td>Focus: Ulteria</td></tr>';}
 		if(focus_vorux==1){ the_results+='<tr style="font-weight:bold; color: darkorange;"><td>Focus: Vorux</td></tr>';}
 
-		the_results+='</table>'
+
+		the_results.replace('%%','%');
+
+		the_results+='</table>';
 
   the_text_area.innerHTML = '<div style="padding: 15px;">' + the_results + '</div>';
 
@@ -3496,54 +3499,68 @@ function morepoints()
 			
 
 		if(ver=='1.15')
-		{let jnodes=JSON.parse(r[0].response);}
+		{
+		let jnodes=JSON.parse(r[0].response);
+		let names=JSON.parse(r[1].response);		
+		let registry_index=JSON.parse(r[2].response);			
+		}
 		else
 		if(ver=='1.16')
-		{let jnodes=JSON.parse(r[3].response);}
+		{
+		let jnodes=JSON.parse(r[3].response);
+		let names=JSON.parse(r[4].response);		
+		let registry_index=JSON.parse(r[5].response);				
+		}
 		else
-		{let jnodes=JSON.parse(r[0].response);}
+		{
+		let jnodes=JSON.parse(r[0].response);
+		let names=JSON.parse(r[1].response);		
+		let registry_index=JSON.parse(r[2].response);	
+		}
 		
-		let names=JSON.parse(r[1].response);
-		let registry_index=JSON.parse(r[2].response);
+		//let names=JSON.parse(r[1].response);
+		//let registry_index=JSON.parse(r[2].response);
 			
 		
-		let jnodes=JSON.parse(r[0].response);
+	//	let jnodes=JSON.parse(r[0].response);
 				
 ////////////////////////////////////////////////////////////////////		
 
-		let inodes=JSON.parse(r[3].response);			
-		let newnodes=new Array();
+	//	let inodes=JSON.parse(r[3].response);			
+	//	let newnodes=new Array();
 		
-		let jj=0;
-		let kk=0
+	//	let jj=0;
+	//	let kk=0
 		
 				
-		for(let p in inodes)
-		{		
-			kk++;
+		//for(let p in inodes)
+	//	{		
+//			kk++;
 		
-			if(!(p in jnodes))
-			{			
-				newnodes.push(inodes[p].registry_name);			
-				alert("missing new node " + inodes[p].registry_name);			
-			}		
-		}
+			//if(!(p in jnodes))
+			//{			
+				//newnodes.push(inodes[p].registry_name);			
+				//alert("missing new node " + inodes[p].registry_name);			
+			//}		
+		//}
 		
-		for(let p in jnodes)
-		{		
+		//for(let p in jnodes)
+		//{		
 		
-			jj++;
+	//		jj++;
 		
-			if(!(p in inodes))
-			{		
-				alert("old node deleted " + jnodes[p].registry_name);		
-			}	
-		}
+			//if(!(p in inodes))
+			//{		
+		//		alert("old node deleted " + jnodes[p].registry_name);		
+			//}	
+		//}
 
 
-		alert("115 count: " + jj);
-		alert("116 count: " + kk);
-		alert("index count: " + registry_index.length);	
+		//alert("115 count: " + jj);
+		//alert("116 count: " + kk);
+		//alert("index count: " + registry_index.length);	
+
+
 
 
 		//for(let i=0;i<newnodes.length;i++)
@@ -4006,7 +4023,7 @@ function morepoints()
 
 ////////////////////////////////////////////////////////////
 
- var urls=[ '1.15_perktree.json', 'en_us.json', 'pregindex.json', '1.16_perktree.json'];
+ var urls=[ '1.15_perktree.json', 'en_us1.16.json', 'pregindex1.15.json', '1.16_perktree.json', 'en_us1.16.json','pregindex1.16.json'];
  //var urls=[ '1.15_perktree.json', 'en_us.json', 'pregindex.json','incoming_perks.json' ]
  var xhr=new Array();
 
