@@ -357,17 +357,17 @@ function resetAndReload()
 		{nodes=defineNodes();}
 
 	if(version=='1.15')
-		{nodes=defineNodes_115(r);}
+		{nodes=defineNodes_115(r,'1.15');}
 
 	if(version=='1.16')
-		{nodes=defineNodes_116(r);}
+		{nodes=defineNodes_115(r,'1.16');}
 
 
     }
 
 
 
-		if(version=='1.15')
+		if(version=='1.15' || version=='1.16')
 		{document.getElementById('base_mining_speed').value=1;}
 		else
 		{document.getElementById('base_mining_speed').value=1;}
@@ -449,7 +449,7 @@ function resetAndReload()
 
 
 				let os16=document.createElement("option");
-				if(version=='1.15'){
+				if(version=='1.15' || version=='1.16'){
 				os16.value="charge_cap";
 				os16.innerText="Maximum Starlight Charge";
 				}
@@ -474,7 +474,7 @@ function resetAndReload()
 				os14.innerText="Runic Shielding";
 
 				let os15=document.createElement("option");
-				if(version=='1.15'){
+				if(version=='1.15' || version=='1.16'){
 				os15.value="charge_regeneration";
 				os15.innerText="Starlight Charge Regeneration";
 				}
@@ -482,12 +482,12 @@ function resetAndReload()
 
 				s2.appendChild(os0);s2.appendChild(os1);s2.appendChild(os2);s2.appendChild(os3);s2.appendChild(os4);s2.appendChild(os5);s2.appendChild(os6);s2.appendChild(os7);s2.appendChild(os8);
 
-				if(version=='1.15'){s2.appendChild(os16);}
+				if(version=='1.15' || version=='1.16'){s2.appendChild(os16);}
 
 				s2.appendChild(os9);s2.appendChild(os10);s2.appendChild(os11);
 				s2.appendChild(os12);s2.appendChild(os13);s2.appendChild(os14);
 
-				if(version=='1.15'){s2.appendChild(os15);}
+				if(version=='1.15' || version=='1.16'){s2.appendChild(os15);}
 
 				p1.appendChild(s2);
 
@@ -2005,7 +2005,7 @@ function resetAndReload()
 			if(focus_alcara==1)
 				{
 
-					if(version=='1.15')
+					if(version=='1.15' || version=='1.16')
 					{
 						perk_effectiveness=nodeCheckPE(
 							nodes[i].perk_experience_add,
@@ -2057,7 +2057,7 @@ function resetAndReload()
 		if(focus_gelu==1)
 		{
 
-		if(version=='1.15')
+		if(version=='1.15' || version=='1.16')
 			{
 			perk_effectiveness.i=1+(on_count*.02);
 			perk_effectiveness.m=1;
@@ -2998,7 +2998,7 @@ function reset()
 				nodes[i].available=0;
 		}
 
-		if(version=='1.15'){ perk_points=40; }
+		if(version=='1.15' || version=='1.16'){ perk_points=40; }
 		else{ perk_points=30; }
 
 		perk_points_extra=0;
@@ -3016,7 +3016,7 @@ function reset()
 		document.getElementById('base_melee_damage').value=1;
 		document.getElementById('base_movement_speed').value=0.1;
 
-		if(version=='1.15')
+		if(version=='1.15' || version=='1.16')
 		{document.getElementById('base_mining_speed').value=1;}
 		else
 		{document.getElementById('base_mining_speed').value=1;}
@@ -3054,12 +3054,14 @@ function linkProfile(num)
 		let tmpversion='0';
 		if(version=='1.12'){ tmpversion='0'; }
 		if(version=='1.15'){ tmpversion='1'; }
+		if(version=='1.16'){ tmpversion='2'; }		
 
 
 		let the_whole_thing='';
 
 		//version 1.12 - 0
 		//version 1.15 - 1
+		//version 1.16 - 2		
 		// on 1
 		// off 0
 		//available 1
@@ -3486,15 +3488,21 @@ function morepoints()
  
  
  
-	function defineNodes_115(r)
+	function defineNodes_115(r,ver)
 	{
 
 		let indexpairs={};
 
+			
 
-
-
+		if(ver=='1.15')
+		{let jnodes=JSON.parse(r[0].response);}
+		else
+		if(ver=='1.16')
+		{let jnodes=JSON.parse(r[3].response);}
+		else
 		let jnodes=JSON.parse(r[0].response);
+		
 		let names=JSON.parse(r[1].response);
 		let registry_index=JSON.parse(r[2].response);
 		
@@ -3505,22 +3513,22 @@ function morepoints()
 		
 		
 		
-		//for(let p in inodes)
-		//{		
-		//	if(!(p in jnodes))
-		//	{			
-		//		newnodes.push(inodes[p].registry_name);			
-				//alert("missing new node " + inodes[p].registry_name);			
-		//	}		
-		//}
+		for(let p in inodes)
+		{		
+			if(!(p in jnodes))
+			{			
+				newnodes.push(inodes[p].registry_name);			
+				alert("missing new node " + inodes[p].registry_name);			
+			}		
+		}
 		
-		//for(let p in jnodes)
-		//{		
-		//	if(!(p in inodes))
-		//	{		
-				//alert("old node deleted " + jnodes[p].registry_name);		
-		//	}	
-		//}
+		for(let p in jnodes)
+		{		
+			if(!(p in inodes))
+			{		
+				alert("old node deleted " + jnodes[p].registry_name);		
+			}	
+		}
 
 
 		//for(let i=0;i<newnodes.length;i++)
