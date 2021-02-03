@@ -3497,8 +3497,6 @@ function morepoints()
 
 		let indexpairs={};
 
-			alert(ver);
-
 
 		let jnodes='';
 
@@ -3508,7 +3506,7 @@ function morepoints()
 		jnodes=JSON.parse(r[0].response);
 		names=JSON.parse(r[1].response);		
 		registry_index=JSON.parse(r[2].response);
-		alert("1");		
+	
 		}
 		else
 		if(ver=='1.16')
@@ -3516,18 +3514,18 @@ function morepoints()
 		jnodes=JSON.parse(r[3].response);
 		names=JSON.parse(r[4].response);		
 		registry_index=JSON.parse(r[5].response);				
-		alert("2");				
+			
 		}
 		else
 		{
 		jnodes=JSON.parse(r[0].response);
 		names=JSON.parse(r[1].response);		
 		registry_index=JSON.parse(r[2].response);	
-		alert("3");				
+				
 		}
 		
 		
-				alert(jnodes);		
+		
 		
 		//let names=JSON.parse(r[1].response);
 		//let registry_index=JSON.parse(r[2].response);
@@ -3592,7 +3590,7 @@ function morepoints()
 		let nodes=new Array();
 
 
-			alert(jnodes);	
+	
 
 		for(let p in jnodes)
 		{
