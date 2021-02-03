@@ -109,9 +109,8 @@ function resetAndReload()
 
 <div id="searchwrap" style=" font-family: Arial; display:none;">
   <input type="text" id="search_this"  placeholder="Perk Search..." style="margin: 10px; font-family: Arial;" >
-  <p id="version_p">version <select id="version_select"><option value="1.15">1.15</option><option value="1.12">1.12</option></select></p>
+  <p id="version_p">version <select id="version_select"><option value="1.16">1.16</option><option value="1.15">1.15</option><option value="1.12">1.12</option></select></p>
 </div>
-
 
 <div id="resultswrap" style="overflow-y:scroll; font-family: Arial;  display:none;">
 <div id="menu_stats"  onclick="expand('results')" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ STATS</b></div>
@@ -171,7 +170,17 @@ function resetAndReload()
 		</div>
 	</div>
 
+<div id="menu_contact"  onclick="expand('save')" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ ABOUT</b></div>
+	<div id="contact"  >
+		<div style="margin: 10px;">
+			<p style="font-size: smaller; font-weight: bold;">Astral Sorcery Perk Planner<br></p>
+			<p style="font-size: smaller;">Perk Tree planner for HellFirePVP's awesome Astral Sorcery mod for Minecraft.</p>
+			<p style="font-size: smaller;"><i>Updated on 02/03/2021: Added version 1.16 perk tree.</i></p>		
+			<p style="font-size: smaller; text-align: right;"><i>- grite</i></p>			
 
+		
+		</div>  
+	</div>
 
 
 
@@ -236,13 +245,15 @@ function resetAndReload()
 
 		if(v==1 && localStorage.getItem('version')!=='1.15')
 			{
-
-
-
 			    localStorage.setItem('version','1.15');
 				localStorage.setItem('version',document.getElementById('version_select').value);
-
 					}
+					
+		if(v==2 && localStorage.getItem('version')!=='1.16')
+			{
+			    localStorage.setItem('version','1.16');
+				localStorage.setItem('version',document.getElementById('version_select').value);
+					}					
 
 
 
@@ -289,6 +300,8 @@ function resetAndReload()
 	if(version=='1.15')
 	{perk_points=40;}
 
+	if(version=='1.16')
+	{perk_points=40;}
 
 	var perk_points_extra=0;
 	var root_nodes=0;
@@ -342,18 +355,28 @@ function resetAndReload()
 
 	if(version=='1.15')
 		{max_gems=6;}
-
+		
+	if(version=='1.16')
+		{max_gems=6;}
+		
 	update_gemslots();
 
-	if(version=='1.15')
-		{nodes=defineNodes_115(r);}
-	else
+
+	if(version=='1.12')
 		{nodes=defineNodes();}
 
-	}
+	if(version=='1.15')
+		{nodes=defineNodes_115(r,'1.15');}
+
+	if(version=='1.16')
+		{nodes=defineNodes_115(r,'1.16');}
 
 
-		if(version=='1.15')
+    }
+
+
+
+		if(version=='1.15' || version=='1.16')
 		{document.getElementById('base_mining_speed').value=1;}
 		else
 		{document.getElementById('base_mining_speed').value=1;}
@@ -435,7 +458,7 @@ function resetAndReload()
 
 
 				let os16=document.createElement("option");
-				if(version=='1.15'){
+				if(version=='1.15' || version=='1.16'){
 				os16.value="charge_cap";
 				os16.innerText="Maximum Starlight Charge";
 				}
@@ -460,7 +483,7 @@ function resetAndReload()
 				os14.innerText="Runic Shielding";
 
 				let os15=document.createElement("option");
-				if(version=='1.15'){
+				if(version=='1.15' || version=='1.16'){
 				os15.value="charge_regeneration";
 				os15.innerText="Starlight Charge Regeneration";
 				}
@@ -468,12 +491,12 @@ function resetAndReload()
 
 				s2.appendChild(os0);s2.appendChild(os1);s2.appendChild(os2);s2.appendChild(os3);s2.appendChild(os4);s2.appendChild(os5);s2.appendChild(os6);s2.appendChild(os7);s2.appendChild(os8);
 
-				if(version=='1.15'){s2.appendChild(os16);}
+				if(version=='1.15' || version=='1.16'){s2.appendChild(os16);}
 
 				s2.appendChild(os9);s2.appendChild(os10);s2.appendChild(os11);
 				s2.appendChild(os12);s2.appendChild(os13);s2.appendChild(os14);
 
-				if(version=='1.15'){s2.appendChild(os15);}
+				if(version=='1.15' || version=='1.16'){s2.appendChild(os15);}
 
 				p1.appendChild(s2);
 
@@ -692,7 +715,7 @@ function resetAndReload()
 	 ctx_tooltip.font = 'normal ' + ts.toString() + 'pt Arial';
 
 	 positionResults();
-
+  
 ////////////////BACKGROUND///////////////////////////////////////
 
 
@@ -1991,7 +2014,7 @@ function resetAndReload()
 			if(focus_alcara==1)
 				{
 
-					if(version=='1.15')
+					if(version=='1.15' || version=='1.16')
 					{
 						perk_effectiveness=nodeCheckPE(
 							nodes[i].perk_experience_add,
@@ -2043,7 +2066,7 @@ function resetAndReload()
 		if(focus_gelu==1)
 		{
 
-		if(version=='1.15')
+		if(version=='1.15' || version=='1.16')
 			{
 			perk_effectiveness.i=1+(on_count*.02);
 			perk_effectiveness.m=1;
@@ -2855,7 +2878,11 @@ function resetAndReload()
 		if(focus_ulteria==1){ the_results+='<tr style="font-weight:bold; color: darkorange;"><td>Focus: Ulteria</td></tr>';}
 		if(focus_vorux==1){ the_results+='<tr style="font-weight:bold; color: darkorange;"><td>Focus: Vorux</td></tr>';}
 
-		the_results+='</table>'
+
+		
+
+		the_results+='</table>';
+		
 
   the_text_area.innerHTML = '<div style="padding: 15px;">' + the_results + '</div>';
 
@@ -2984,7 +3011,7 @@ function reset()
 				nodes[i].available=0;
 		}
 
-		if(version=='1.15'){ perk_points=40; }
+		if(version=='1.15' || version=='1.16'){ perk_points=40; }
 		else{ perk_points=30; }
 
 		perk_points_extra=0;
@@ -3002,7 +3029,7 @@ function reset()
 		document.getElementById('base_melee_damage').value=1;
 		document.getElementById('base_movement_speed').value=0.1;
 
-		if(version=='1.15')
+		if(version=='1.15' || version=='1.16')
 		{document.getElementById('base_mining_speed').value=1;}
 		else
 		{document.getElementById('base_mining_speed').value=1;}
@@ -3040,12 +3067,14 @@ function linkProfile(num)
 		let tmpversion='0';
 		if(version=='1.12'){ tmpversion='0'; }
 		if(version=='1.15'){ tmpversion='1'; }
+		if(version=='1.16'){ tmpversion='2'; }		
 
 
 		let the_whole_thing='';
 
 		//version 1.12 - 0
 		//version 1.15 - 1
+		//version 1.16 - 2		
 		// on 1
 		// off 0
 		//available 1
@@ -3468,40 +3497,88 @@ function morepoints()
 
 }
 
-
-	function defineNodes_115(r)
+ 
+ 
+ 
+ 
+	function defineNodes_115(r,ver)
 	{
 
 		let indexpairs={};
 
 
-		let jnodes=JSON.parse(r[0].response);
-		let names=JSON.parse(r[1].response);
-		let registry_index=JSON.parse(r[2].response);
+		let jnodes='';
+
+
+		if(ver=='1.15')
+		{
+		jnodes=JSON.parse(r[0].response);
+		names=JSON.parse(r[1].response);		
+		registry_index=JSON.parse(r[2].response);
+	
+		}
+		else
+		if(ver=='1.16')
+		{
+		jnodes=JSON.parse(r[3].response);
+		names=JSON.parse(r[4].response);		
+		registry_index=JSON.parse(r[5].response);				
+			
+		}
+		else
+		{
+		jnodes=JSON.parse(r[0].response);
+		names=JSON.parse(r[1].response);		
+		registry_index=JSON.parse(r[2].response);	
+				
+		}
 		
+		
+		
+		
+		//let names=JSON.parse(r[1].response);
+		//let registry_index=JSON.parse(r[2].response);
+			
+		
+	//	let jnodes=JSON.parse(r[0].response);
+				
 ////////////////////////////////////////////////////////////////////		
 
-		//let inodes=JSON.parse(r[3].response);			
-		//let newnodes=new Array();
+	//	let inodes=JSON.parse(r[3].response);			
+	//	let newnodes=new Array();
 		
+	//	let jj=0;
+	//	let kk=0
 		
-		
+				
 		//for(let p in inodes)
-		//{		
-		//	if(!(p in jnodes))
-		//	{			
-		//		newnodes.push(inodes[p].registry_name);			
+	//	{		
+//			kk++;
+		
+			//if(!(p in jnodes))
+			//{			
+				//newnodes.push(inodes[p].registry_name);			
 				//alert("missing new node " + inodes[p].registry_name);			
-		//	}		
+			//}		
 		//}
 		
 		//for(let p in jnodes)
 		//{		
-		//	if(!(p in inodes))
-		//	{		
-				//alert("old node deleted " + jnodes[p].registry_name);		
-		//	}	
+		
+	//		jj++;
+		
+			//if(!(p in inodes))
+			//{		
+		//		alert("old node deleted " + jnodes[p].registry_name);		
+			//}	
 		//}
+
+
+		//alert("115 count: " + jj);
+		//alert("116 count: " + kk);
+		//alert("index count: " + registry_index.length);	
+
+
 
 
 		//for(let i=0;i<newnodes.length;i++)
@@ -3520,6 +3597,9 @@ function morepoints()
 		let cnt=0;
 
 		let nodes=new Array();
+
+
+	
 
 		for(let p in jnodes)
 		{
@@ -3577,11 +3657,18 @@ function morepoints()
 			if(jnodes[p].data.modifiers[m].mode=='STACKING_MULTIPLY')
 			{
 				let txt=''
+				if(jnodes[p].data.modifiers[m].value<1)
+				{txt=Math.abs((jnodes[p].data.modifiers[m].value-1)*100).toFixed(0) + '% less ' + names[jnodes[p].data.modifiers[m].type.replace('astralsorcery:','perk.attribute.astralsorcery.') + '.name'];}							
+				else
+				{txt=Math.abs((jnodes[p].data.modifiers[m].value-1)*100).toFixed(0) + '% more ' + names[jnodes[p].data.modifiers[m].type.replace('astralsorcery:','perk.attribute.astralsorcery.') + '.name'];}			
+				
+				
 
-				if(jnodes[p].data.modifiers[m].value>0)
-				{txt=((jnodes[p].data.modifiers[m].value-1)*100).toFixed(0) + '% more ' + names[jnodes[p].data.modifiers[m].type.replace('astralsorcery:','perk.attribute.astralsorcery.') + '.name'];}
-				else{txt=Math.floor((jnodes[p].data.modifiers[m].value*100)-100) + '% less ' + names[jnodes[p].data.modifiers[m].type.replace('astralsorcery:','perk.attribute.astralsorcery.') + '.name'];
-				}
+
+				//if(jnodes[p].data.modifiers[m].value>0)
+				//{txt=((jnodes[p].data.modifiers[m].value-1)*100).toFixed(0) + '% more ' + names[jnodes[p].data.modifiers[m].type.replace('astralsorcery:',//'perk.attribute.astralsorcery.') + '.name'];}
+				//else{txt=Math.floor((jnodes[p].data.modifiers[m].value*100)-100) + '% less ' + names[jnodes[p].data.modifiers[m].type.replace('astralsorcery:',//'perk.attribute.astralsorcery.') + '.name'];
+				//}
 
 				//if(jnodes[p].tooltip.length>1)
 				//{ jnodes[p].tooltip.push(''); }
@@ -3595,12 +3682,12 @@ function morepoints()
 		if((!!names[jnodes[p].name+'.desc']) || (!!names[jnodes[p].name+'.desc.1']))
 		{jnodes[p].tooltip.push('');}
 
-		if(!!names[jnodes[p].name+'.desc']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc']); }
-		if(!!names[jnodes[p].name+'.desc.1']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.1']); }
-		if(!!names[jnodes[p].name+'.desc.2']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.2']); }
-		if(!!names[jnodes[p].name+'.desc.3']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.3']); }
-		if(!!names[jnodes[p].name+'.desc.4']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.4']); }
-		if(!!names[jnodes[p].name+'.desc.5']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.5']); }
+		if(!!names[jnodes[p].name+'.desc']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc'].replace('%%','%')); }
+		if(!!names[jnodes[p].name+'.desc.1']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.1'].replace('%%','%')); }
+		if(!!names[jnodes[p].name+'.desc.2']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.2'].replace('%%','%')); }
+		if(!!names[jnodes[p].name+'.desc.3']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.3'].replace('%%','%')); }
+		if(!!names[jnodes[p].name+'.desc.4']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.4'].replace('%%','%')); }
+		if(!!names[jnodes[p].name+'.desc.5']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.5'].replace('%%','%')); }
 
 			if(jnodes[p].tooltip[0]=='Gem Socket')
 			{
@@ -3962,12 +4049,12 @@ function morepoints()
 }
 
 
-
 ////////////////////////////////////////////////////////////
 
- var urls=[ '1.15_perktree.json', 'en_us.json', 'pregindex.json' ]
+ var urls=[ '1.15_perktree.json', 'en_us1.15.json', 'pregindex1.15.json', '1.16_perktree.json', 'en_us1.16.json','pregindex1.16.json'];
  //var urls=[ '1.15_perktree.json', 'en_us.json', 'pregindex.json','incoming_perks.json' ]
  var xhr=new Array();
+
 
 function load(urls, callback, finalcallback) {
 
