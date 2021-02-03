@@ -468,6 +468,14 @@ function resetAndReload()
 				let os10=document.createElement("option");
 				os10.value="movement_speed";
 				os10.innerText="Movement Speed";
+				
+				let os17=document.createElement("option");
+				if(version=='1.15' || version=='1.16'){
+				os16.value="mining_speed";
+				os16.innerText="Mining Speed";
+				}			
+				
+				
 				let os11=document.createElement("option");
 				os11.value="perk_experience";
 				os11.innerText="Perk Experience";
@@ -2549,6 +2557,16 @@ function resetAndReload()
 				gem_nodes[g].charge_cap,
 				gem_nodes[g].charge_cap_more,
 				charge_cap,perk_effectiveness.t);
+				
+				
+			mining_speed=nodeCheck(
+				gem_nodes[g].mining_speed_add,
+				gem_nodes[g].mining_speed,
+				gem_nodes[g].mining_speed_more,
+				mining_speed,perk_effectiveness.t);				
+				
+				
+				
 
 			}
 
@@ -3038,7 +3056,6 @@ function reset()
 		document.getElementById('base_runic_shielding').value=0;
 		document.getElementById('base_swimming_speed').value=1;
 
-
 		for(let g=1;g<=max_gems;g++)
 		{
 			for(let gs=1;gs<=4;gs++)
@@ -3049,9 +3066,6 @@ function reset()
 
 			}
 		}
-
-
-
 
 
 		updateResults();
