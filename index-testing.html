@@ -3514,13 +3514,14 @@ function morepoints()
 		let inodes=JSON.parse(r[3].response);			
 		let newnodes=new Array();
 		
-		alert("115 count: " + jnodes.keys.length);
-		alert("116 count: " + inodes.keys.length);
-		alert("index count: " + registry_index.length);		
+		let jj=0;
+		let kk=0
 		
 				
 		for(let p in inodes)
 		{		
+			kk++;
+		
 			if(!(p in jnodes))
 			{			
 				newnodes.push(inodes[p].registry_name);			
@@ -3530,11 +3531,19 @@ function morepoints()
 		
 		for(let p in jnodes)
 		{		
+		
+			jj++;
+		
 			if(!(p in inodes))
 			{		
 				alert("old node deleted " + jnodes[p].registry_name);		
 			}	
 		}
+
+
+		alert("115 count: " + jj);
+		alert("116 count: " + kk);
+		alert("index count: " + registry_index.length);	
 
 
 		//for(let i=0;i<newnodes.length;i++)
