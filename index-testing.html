@@ -356,11 +356,11 @@ function resetAndReload()
 	if(version=='1.12')
 		{nodes=defineNodes();}
 
-	if(version=='1.15')
+	if(version=='1.15' || version=='1.16')
 		{nodes=defineNodes_115(r);}
 
-	if(version=='1.16')
-		{nodes=defineNodes_116(r);}
+	//if(version=='1.16')
+		//{nodes=defineNodes_116(r);}
 
 
 
@@ -3493,11 +3493,12 @@ function morepoints()
 
 		if(version=='1.15')
 		{let jnodes=JSON.parse(r[0].response);}
+		
 		if(version=='1.16')
 		{let jnodes=JSON.parse(r[3].response);}
 
 
-		let jnodes=JSON.parse(r[0].response);
+		//let jnodes=JSON.parse(r[0].response);
 		let names=JSON.parse(r[1].response);
 		let registry_index=JSON.parse(r[2].response);
 		
