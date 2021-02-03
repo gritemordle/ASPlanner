@@ -2870,7 +2870,7 @@ function resetAndReload()
 		if(focus_vorux==1){ the_results+='<tr style="font-weight:bold; color: darkorange;"><td>Focus: Vorux</td></tr>';}
 
 
-		the_results.replace('%%','%');
+		
 
 		the_results+='</table>';
 		
@@ -3668,12 +3668,12 @@ function morepoints()
 		if((!!names[jnodes[p].name+'.desc']) || (!!names[jnodes[p].name+'.desc.1']))
 		{jnodes[p].tooltip.push('');}
 
-		if(!!names[jnodes[p].name+'.desc']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc']); }
-		if(!!names[jnodes[p].name+'.desc.1']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.1']); }
-		if(!!names[jnodes[p].name+'.desc.2']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.2']); }
-		if(!!names[jnodes[p].name+'.desc.3']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.3']); }
-		if(!!names[jnodes[p].name+'.desc.4']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.4']); }
-		if(!!names[jnodes[p].name+'.desc.5']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.5']); }
+		if(!!names[jnodes[p].name+'.desc']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc'].replace('%%','%')); }
+		if(!!names[jnodes[p].name+'.desc.1']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.1'].replace('%%','%')); }
+		if(!!names[jnodes[p].name+'.desc.2']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.2'].replace('%%','%')); }
+		if(!!names[jnodes[p].name+'.desc.3']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.3'].replace('%%','%')); }
+		if(!!names[jnodes[p].name+'.desc.4']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.4'].replace('%%','%')); }
+		if(!!names[jnodes[p].name+'.desc.5']){ jnodes[p].tooltip.push(names[jnodes[p].name+'.desc.5'].replace('%%','%')); }
 
 			if(jnodes[p].tooltip[0]=='Gem Socket')
 			{
