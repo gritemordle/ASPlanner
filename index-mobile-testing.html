@@ -992,8 +992,8 @@ function resetAndReload()
 	canvas_listen.ontouchstart = function(event) {
 	
     const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const x = event.touches[0].clientX - rect.left;
+    const y = event.touches[0].clientY - rect.top;
 
 		md=1;
 		start.x=x;
@@ -1184,8 +1184,8 @@ function resetAndReload()
   canvas_listen.ontouchmove = function(event) {
   
     const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const x = event.touches[0].clientX - rect.left;
+    const y = event.touches[0].clientY - rect.top;
 
 
 	mouse.x=x;
