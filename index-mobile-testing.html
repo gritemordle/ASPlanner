@@ -997,7 +997,10 @@ function resetAndReload()
 
 		md=1;
 		start.x=x;
-		start.y=y;		
+		start.y=y;	
+
+
+		document.getElementById("search_this").value='TS: ' + x + ', ' + y;
 	
 	}
 	
@@ -1013,6 +1016,10 @@ function resetAndReload()
 
 		trans.x=0;
 		trans.y=0;	
+		
+		
+		document.getElementById("search_this").value='TE: ' + x + ', ' + y;
+		
 	
 	}	
 	
