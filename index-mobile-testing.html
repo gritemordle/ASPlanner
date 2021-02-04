@@ -641,6 +641,19 @@ function resetAndReload()
 
 	//search_panel.style.minWidth = "100px";
 
+	if((window.innerHeight/1.75)>window.innerWidth)
+	{
+		search_panel.style.fontSize='smaller';
+		
+	 search_panel.style.width=((window.innerWidth/3) * .9).toString() + "px";
+	 search_panel.style.left=((window.innerWidth/3)*2).toString() + "px";		
+		
+		
+		
+	}
+
+
+
 
      let rp_text = document.getElementById('search_this');
 	 rp_text.style.position = "absolute";
@@ -663,12 +676,7 @@ function resetAndReload()
 	 results_panel.style.position = "absolute";
 	 results_panel.style.top="90px";
 	
-	if(window.innerHeight>window.innerWidth)
-	{
-	
-	results_panel.style.fontSize='smaller';
-	
-	}
+
 
 
 	 results_panel.style.height=(window.innerHeight-40-75-20).toString() + "px";
@@ -683,7 +691,16 @@ function resetAndReload()
 	 results_panel.style.zIndex=99;
 	 results_panel.style.backgroundColor="white";
 
-
+	if((window.innerHeight/1.75)>window.innerWidth)
+	{
+		results_panel.style.fontSize='smaller';
+		
+	 results_panel.style.width=((window.innerWidth/3) * .9).toString() + "px";
+	 results_panel.style.left=((window.innerWidth/3)*2).toString() + "px";		
+		
+		
+		
+	}
 
 
 
