@@ -5,7 +5,9 @@
 <head>
   <meta charset="utf-8">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+
 
   <title>Astral Sorcery Perk Planner</title>
   <meta name="description" content="Perk Tree planner for the Astral Sorcery Minecraft mod.">
@@ -36,11 +38,15 @@
 
 <script language="javascript" src="lzstring/lz-string.js"></script>
 
-
 </head>
 
-<body>
+<body style="overscroll-behavior-y: contain; max-width: 100%; overflow-x: hidden;">
 <script>
+
+
+document.body.addEventListener('touchmove', function(event) {
+  event.preventDefault();
+}, false); 
 
 	function expand(id)
 	{
@@ -104,8 +110,6 @@ function resetAndReload()
  </div>
 
 
-
-
 <div id="searchwrap" style=" font-family: Arial; display:none;">
   <input type="text" id="search_this"  placeholder="Perk Search..." style="margin: 10px; font-family: Arial;" >
   <p id="version_p">version <select id="version_select"><option value="1.16">1.16</option><option value="1.15">1.15</option><option value="1.12">1.12</option></select></p>
@@ -163,17 +167,18 @@ function resetAndReload()
 
 		<input type="text" id="prof_1_txt" style="width:90%;">
 		<input type="text" id="prof_hidden_txt" style="width:90%; visibility:hidden; ">		
-
 		<br>
 		<br>
 		</div>
 	</div>
 
-<div id="menu_contact"  onclick="expand('save')" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ ABOUT</b></div>
+
+<div id="menu_contact"  onclick="expand('contact')" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ ABOUT</b></div>
 	<div id="contact"  >
 		<div style="margin: 10px;">
 			<p style="font-size: smaller; font-weight: bold;">Astral Sorcery Perk Planner<br></p>
 			<p style="font-size: smaller;">Perk Tree planner for HellFirePVP's awesome Astral Sorcery mod for Minecraft.</p>
+			<p style="font-size: smaller;"><i>Updated on 02/04/2021: Added some touch support for mobile.</i></p>				
 			<p style="font-size: smaller;"><i>Updated on 02/03/2021: Added version 1.16 perk tree.</i></p>		
 			<p style="font-size: smaller; text-align: right;"><i>- grite</i></p>			
 
@@ -316,6 +321,12 @@ function resetAndReload()
 	var trans={x:0,y:0};
 	var md=0;
 	var start={x:0,y:0};
+	
+	var t1start={x:0,y:0};
+	var t2start={x:0,y:0};
+	var touchdistance=0;
+	
+	
 
 	//nodes=defineNodes();
 
@@ -615,8 +626,6 @@ function resetAndReload()
 
 
 
-
-
 	function positionResults()
 	{
 
@@ -631,6 +640,24 @@ function resetAndReload()
 	 search_panel.style.zIndex=99;
 	 search_panel.style.backgroundColor="white";
 
+	//search_panel.style.minWidth = "100px";
+	
+	
+	search_panel.style.fontSize='inherit';
+
+	if((window.innerHeight/1.25)>window.innerWidth)
+	{
+		search_panel.style.fontSize='smaller';
+		
+	 search_panel.style.width=((window.innerWidth/3) * 1.2).toString() + "px";
+	 search_panel.style.left=((window.innerWidth/3)*1.8).toString() + "px";		
+				
+		
+	}
+
+
+
+
      let rp_text = document.getElementById('search_this');
 	 rp_text.style.position = "absolute";
 	 rp_text.style.top="5px";
@@ -638,6 +665,7 @@ function resetAndReload()
 	 rp_text.style.width="80%";
 	 rp_text.style.margin="10px";
 	 rp_text.style.height="20px";
+
 
      rp_text = document.getElementById('version_p');
 	 rp_text.style.position = "absolute";
@@ -650,12 +678,14 @@ function resetAndReload()
      let results_panel = document.getElementById('resultswrap');
 	 results_panel.style.position = "absolute";
 	 results_panel.style.top="90px";
+	
+
+
 
 	 results_panel.style.height=(window.innerHeight-40-75-20).toString() + "px";
 	 results_panel.style.overflowY='scroll';
 
-
-	 results_panel.style.minWidth = "100px;"
+	 //results_panel.style.minWidth = "100px"
 
 	 results_panel.style.width=((window.innerWidth/3) * .9).toString() + "px";
 	 results_panel.style.left=((window.innerWidth/3)*2).toString() + "px";
@@ -663,8 +693,18 @@ function resetAndReload()
 
 	 results_panel.style.zIndex=99;
 	 results_panel.style.backgroundColor="white";
+		results_panel.style.fontSize='inherit';
 
 
+	if((window.innerHeight/1.25)>window.innerWidth)
+	{
+		results_panel.style.fontSize='smaller';
+		
+	 results_panel.style.width=((window.innerWidth/3) * 1.2).toString() + "px";
+	 results_panel.style.left=((window.innerWidth/3)*1.8).toString() + "px";		
+			
+		
+	}
 
 
 
@@ -984,6 +1024,72 @@ function resetAndReload()
 
   updateResults();
 
+
+	
+
+
+	canvas_listen.ontouchstart = function(event) {
+	
+    const rect = canvas.getBoundingClientRect();
+    const x = event.touches[0].clientX - rect.left;
+    const y = event.touches[0].clientY - rect.top;
+
+		md=1;
+		start.x=x;
+		start.y=y;	
+
+
+
+		if(event.touches.length>1)
+		{
+			t1start.x=event.touches[0].clientX;
+			t1start.y=event.touches[0].clientY;
+			
+			t2start.x=event.touches[1].clientX;
+			t2start.y=event.touches[1].clientY;		
+
+
+		let xs = event.touches[1].clientX - event.touches[0].clientX;
+		let ys = event.touches[1].clientY - event.touches[0].clientY;		
+		
+		xs *= xs;
+		ys *= ys;
+	 
+		touchdistance=Math.sqrt( xs + ys );
+
+
+			
+				
+		}
+
+		
+	
+	}
+	
+	
+	canvas_listen.ontouchend = function(event) {
+	
+ 		md=0;
+
+		for(var i=0;i<nodes.length;i++)
+		{
+			nodes[i].x+=trans.x;
+			nodes[i].y+=trans.y;
+		}
+
+		trans.x=0;
+		trans.y=0;	
+		
+		
+	
+		
+	
+	}	
+	
+	
+	
+
+
     canvas_listen.onmousedown = function(event) {
 
     const rect = canvas.getBoundingClientRect();
@@ -1016,14 +1122,13 @@ function resetAndReload()
 
 
 
-     canvas_listen.onwheel = function(event) {
-
+	function zoomit(d){
+	
 				var leftmost=0;
 				var rightmost=0;
 				var baseradius=5;
 
-
-		if(event.deltaY>0)
+		if(d>0)
 
 		{
 
@@ -1093,7 +1198,23 @@ function resetAndReload()
 
 		    drawWeb();
 
-			event.preventDefault();
+			event.preventDefault();	
+	
+	
+	
+	};
+
+
+
+
+     canvas_listen.onwheel = function(event) {
+
+				var leftmost=0;
+				var rightmost=0;
+				var baseradius=5;
+
+			zoomit(event.deltaY);
+
 
 	}
 
@@ -1104,7 +1225,6 @@ function resetAndReload()
 
 
   window.onresize = function(event) {
-
 
   	 canvas.width=window.innerWidth;
 	 canvas.height=window.innerHeight;
@@ -1135,6 +1255,145 @@ function resetAndReload()
 
 
   }
+
+
+  canvas_listen.ontouchmove = function(event) {
+  
+  
+	if(event.touches.length>1)
+	{
+	
+		let xs = event.touches[1].clientX - event.touches[0].clientX;
+		let ys = event.touches[1].clientY - event.touches[0].clientY;		
+		
+		xs *= xs;
+		ys *= ys;
+	 
+		let newdistance=Math.sqrt( xs + ys );	
+	
+		if(newdistance>touchdistance)
+		{zoomit(-1);}
+		if(newdistance<touchdistance)
+		{zoomit(1);}
+
+		touchdistance=newdistance;
+	
+	}
+  
+  
+	//document.getElementById("search_this").value=event.touches.length;
+   
+    const rect = canvas.getBoundingClientRect();
+    const x = event.touches[0].clientX - rect.left;
+    const y = event.touches[0].clientY - rect.top;
+
+
+	mouse.x=x;
+	mouse.y=y;
+
+
+	if(md==1)
+	{
+
+		trans.x=x-start.x;
+		trans.y=y-start.y;
+
+		    drawWeb();
+
+	}
+
+
+    var i;
+
+  	for (i=0;i<nodes.length; i++) {
+
+
+
+		var a=((nodes[i].x+trans.x)) - x;
+		var b=((nodes[i].y+trans.y)) - y;
+
+		var distance=Math.sqrt(a*a + b*b);
+
+
+			 ctx_tooltip.clearRect(0, 0, canvas.width, canvas.height);
+
+
+		if(distance<=nodes[i].r)
+		{
+
+
+
+
+			 var ii;
+			 var tsize=ctx_tooltip.measureText('');
+			 var th=ts+(ts/1.5);
+
+			 var flip=0;
+
+			 for (ii=0;ii<nodes[i].tooltip.length; ii++) {
+
+				if(ii===0)
+					{ctx_tooltip.font='bold ' + (ts+1).toString() + 'pt Arial';
+						 }
+				else
+					{ctx_tooltip.font='normal ' + ts.toString() + 'pt Arial';}
+
+				if(tsize.width<ctx_tooltip.measureText(nodes[i].tooltip[ii]).width)
+				{tsize=ctx_tooltip.measureText(nodes[i].tooltip[ii]);}
+			 }
+
+	          if(x+10+tsize.width+(ts*2)>=(canvas.width/3)*2 && x+10-(tsize.width+(ts*2)+20)>0)
+			  {
+				flip=-(tsize.width+(ts*2)+20);
+			  }
+
+			 for (ii=0;ii<nodes[i].tooltip.length; ii++) {
+
+
+				ctx_tooltip.fillStyle = 'midnightblue';
+				ctx_tooltip.fillRect(x+10+flip, y-(th*1.5)+(ii*th), tsize.width+(ts*2), th+(ts/2)+(th));
+
+
+
+
+			 }
+
+			for (ii=0;ii<nodes[i].tooltip.length; ii++) {
+
+
+
+			    ctx_tooltip.fillStyle='white';
+
+				if(ii===0)
+				{
+				if(nodes[i].rarity==1){ctx_tooltip.fillStyle='darkorange';}
+				else{ ctx_tooltip.fillStyle='white';  }
+				ctx_tooltip.font='bold ' + (ts+1).toString() + 'pt Arial';
+
+				}
+				else
+				{
+				ctx_tooltip.font='normal ' + ts.toString() + 'pt Arial';
+				}
+
+
+
+
+			    ctx_tooltip.fillText(nodes[i].tooltip[ii],x+10+ts+flip,y-(th)+(ii*th)+(th/2)+(ts/2));
+
+			 }
+
+			 break;
+
+		}
+
+	}  
+  
+  
+  
+  };
+
+
 
 
   canvas_listen.onmousemove = function(event) {
@@ -1264,9 +1523,8 @@ function resetAndReload()
 
 		var distance=Math.sqrt(a*a + b*b);
 
-		if(distance<=nodes[i].r+7)
+		if(distance<=nodes[i].r*1.75)
 		{
-
 
 
 			//////////////////////trying to activate node////////////////////////
