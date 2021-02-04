@@ -321,6 +321,12 @@ function resetAndReload()
 	var trans={x:0,y:0};
 	var md=0;
 	var start={x:0,y:0};
+	
+	var t1start={x:0,y:0};
+	var t2start={x:0,y:0};
+	var touchdistance=0;
+	
+	
 
 	//nodes=defineNodes();
 
@@ -989,6 +995,10 @@ function resetAndReload()
 
   updateResults();
 
+
+	
+
+
 	canvas_listen.ontouchstart = function(event) {
 	
     const rect = canvas.getBoundingClientRect();
@@ -999,6 +1009,29 @@ function resetAndReload()
 		start.x=x;
 		start.y=y;	
 
+
+
+		if(event.touches.length>1)
+		{
+			t1start.x=event.touches[0].clientX;
+			t1start.y=event.touches[0].clientY;
+			
+			t2start.x=event.touches[1].clientX;
+			t2start.y=event.touches[1].clientY;		
+
+
+		let xs = event.touches[1].clientX - event.touches[0].clientX;
+		let ys = event.touches[1].clientY - event.touches[0].clientY;		
+		
+		xs *= xs;
+		ys *= ys;
+	 
+		touchdistance=Math.sqrt( xs + ys );
+
+
+			
+				
+		}
 
 		
 	
@@ -1060,16 +1093,13 @@ function resetAndReload()
 
 
 
-
-
-     canvas_listen.onwheel = function(event) {
-
+	function zoomit(d){
+	
 				var leftmost=0;
 				var rightmost=0;
 				var baseradius=5;
 
-
-		if(event.deltaY>0)
+		if(d>0)
 
 		{
 
@@ -1139,7 +1169,23 @@ function resetAndReload()
 
 		    drawWeb();
 
-			event.preventDefault();
+			event.preventDefault();	
+	
+	
+	
+	};
+
+
+
+
+     canvas_listen.onwheel = function(event) {
+
+				var leftmost=0;
+				var rightmost=0;
+				var baseradius=5;
+
+			zoomit(event.deltaY);
+
 
 	}
 
@@ -1184,6 +1230,28 @@ function resetAndReload()
 
 
   canvas_listen.ontouchmove = function(event) {
+  
+  
+	if(event.touches.length>1)
+	{
+	
+		let xs = event.touches[1].clientX - event.touches[0].clientX;
+		let ys = event.touches[1].clientY - event.touches[0].clientY;		
+		
+		xs *= xs;
+		ys *= ys;
+	 
+		let newdistance=Math.sqrt( xs + ys );	
+	
+		if(newdistance>touchdistance)
+		{zoomit(1);}
+		if(newdistance<touchdistance)
+		{zoomit(-1);}
+
+		touchdistance=newdistance;
+	
+	
+	}
   
   
   
