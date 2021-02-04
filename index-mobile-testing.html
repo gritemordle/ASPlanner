@@ -989,6 +989,39 @@ function resetAndReload()
 
   updateResults();
 
+
+
+	canvas_listen.ontouchstart = function(event) {
+	
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+		md=1;
+		start.x=x;
+		start.y=y;		
+	
+	}
+	
+	canvas_listen.ontouchend = function(event) {
+	
+ 		md=0;
+
+		for(var i=0;i<nodes.length;i++)
+		{
+			nodes[i].x+=trans.x;
+			nodes[i].y+=trans.y;
+		}
+
+		trans.x=0;
+		trans.y=0;	
+	
+	}	
+	
+	
+	
+
+
     canvas_listen.onmousedown = function(event) {
 
     const rect = canvas.getBoundingClientRect();
@@ -1140,6 +1173,123 @@ function resetAndReload()
 
 
   }
+
+
+  canvas_listen.ontouchmove = function(event) {
+  
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+
+	mouse.x=x;
+	mouse.y=y;
+
+
+	if(md==1)
+	{
+
+		trans.x=x-start.x;
+		trans.y=y-start.y;
+
+		    drawWeb();
+
+	}
+
+
+    var i;
+
+  	for (i=0;i<nodes.length; i++) {
+
+
+
+		var a=((nodes[i].x+trans.x)) - x;
+		var b=((nodes[i].y+trans.y)) - y;
+
+		var distance=Math.sqrt(a*a + b*b);
+
+
+			 ctx_tooltip.clearRect(0, 0, canvas.width, canvas.height);
+
+
+		if(distance<=nodes[i].r)
+		{
+
+
+
+
+			 var ii;
+			 var tsize=ctx_tooltip.measureText('');
+			 var th=ts+(ts/1.5);
+
+			 var flip=0;
+
+			 for (ii=0;ii<nodes[i].tooltip.length; ii++) {
+
+				if(ii===0)
+					{ctx_tooltip.font='bold ' + (ts+1).toString() + 'pt Arial';
+						 }
+				else
+					{ctx_tooltip.font='normal ' + ts.toString() + 'pt Arial';}
+
+				if(tsize.width<ctx_tooltip.measureText(nodes[i].tooltip[ii]).width)
+				{tsize=ctx_tooltip.measureText(nodes[i].tooltip[ii]);}
+			 }
+
+	          if(x+10+tsize.width+(ts*2)>=(canvas.width/3)*2 && x+10-(tsize.width+(ts*2)+20)>0)
+			  {
+				flip=-(tsize.width+(ts*2)+20);
+			  }
+
+			 for (ii=0;ii<nodes[i].tooltip.length; ii++) {
+
+
+				ctx_tooltip.fillStyle = 'midnightblue';
+				ctx_tooltip.fillRect(x+10+flip, y-(th*1.5)+(ii*th), tsize.width+(ts*2), th+(ts/2)+(th));
+
+
+
+
+			 }
+
+			for (ii=0;ii<nodes[i].tooltip.length; ii++) {
+
+
+
+			    ctx_tooltip.fillStyle='white';
+
+				if(ii===0)
+				{
+				if(nodes[i].rarity==1){ctx_tooltip.fillStyle='darkorange';}
+				else{ ctx_tooltip.fillStyle='white';  }
+				ctx_tooltip.font='bold ' + (ts+1).toString() + 'pt Arial';
+
+				}
+				else
+				{
+				ctx_tooltip.font='normal ' + ts.toString() + 'pt Arial';
+				}
+
+
+
+
+			    ctx_tooltip.fillText(nodes[i].tooltip[ii],x+10+ts+flip,y-(th)+(ii*th)+(th/2)+(ts/2));
+
+
+			 }
+
+
+			 break;
+
+		}
+
+	}  
+  
+  
+  
+  };
+
+
 
 
   canvas_listen.onmousemove = function(event) {
