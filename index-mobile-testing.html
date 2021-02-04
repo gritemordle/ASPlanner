@@ -633,14 +633,14 @@ function resetAndReload()
 	 search_panel.style.position = "absolute";
 	 search_panel.style.top="10px";
 	 search_panel.style.height="70px";
-	 search_panel.style.width=((window.innerWidth/3) * .9).toString() + "px";
+	 search_panel.style.width=((window.innerWidth/3) * 1.1).toString() + "px";
 	 search_panel.style.left=((window.innerWidth/3)*2).toString() + "px";
 	 search_panel.style.borderStyle = "solid";
 	  search_panel.style.overflowY='hidden'; search_panel.style.overflowX='hidden';
 	 search_panel.style.zIndex=99;
 	 search_panel.style.backgroundColor="white";
 
-	search_panel.style.minWidth = "245px";
+	search_panel.style.minWidth = "100px";
 
 
      let rp_text = document.getElementById('search_this');
@@ -650,6 +650,7 @@ function resetAndReload()
 	 rp_text.style.width="80%";
 	 rp_text.style.margin="10px";
 	 rp_text.style.height="20px";
+
 
      rp_text = document.getElementById('version_p');
 	 rp_text.style.position = "absolute";
@@ -667,9 +668,9 @@ function resetAndReload()
 	 results_panel.style.overflowY='scroll';
 
 
-	 results_panel.style.minWidth = "145px"
+	 results_panel.style.minWidth = "100px"
 
-	 results_panel.style.width=((window.innerWidth/3) * .9).toString() + "px";
+	 results_panel.style.width=((window.innerWidth/3) * 1.1).toString() + "px";
 	 results_panel.style.left=((window.innerWidth/3)*2).toString() + "px";
 	 results_panel.style.borderStyle = "solid";
 
