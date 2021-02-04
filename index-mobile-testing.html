@@ -1244,9 +1244,9 @@ function resetAndReload()
 		let newdistance=Math.sqrt( xs + ys );	
 	
 		if(newdistance>touchdistance)
-		{zoomit(1);}
-		if(newdistance<touchdistance)
 		{zoomit(-1);}
+		if(newdistance<touchdistance)
+		{zoomit(1);}
 
 		touchdistance=newdistance;
 	
