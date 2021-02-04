@@ -5,7 +5,9 @@
 <head>
   <meta charset="utf-8">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+
 
   <title>Astral Sorcery Perk Planner</title>
   <meta name="description" content="Perk Tree planner for the Astral Sorcery Minecraft mod.">
@@ -41,6 +43,11 @@
 
 <body>
 <script>
+
+document.body.addEventListener('touchmove', function(event) {
+  event.preventDefault();
+}, false); 
+
 
 	function expand(id)
 	{
@@ -102,8 +109,6 @@ function resetAndReload()
   <canvas id = "ASListen"  style="position: absolute; top: 0; left: 0; z-index:98; margin: 0; padding:0;"></canvas>
 
  </div>
-
-
 
 
 <div id="searchwrap" style=" font-family: Arial; display:none;">
