@@ -401,6 +401,168 @@ function resetAndReload()
 		{document.getElementById('base_mining_speed').value=1;}
 
 
+	function update_equipmentslots()
+	{
+
+	let gdiv=document.getElementById('equipment');
+	
+		for(let g=1;g<=5;g++)
+		{
+
+			let p0=document.createElement("p");
+			p0.setAttribute("style", "margin-left:15px;");
+			
+			let equip='';
+			
+			switch(g) {
+			case 1:
+			equip='Helmet'
+			break;
+			case 2:
+			equip='Chest'
+			break;
+					case 1:
+			equip='Legs'
+			break;
+			case 1:
+			equip='Boots'
+			break;
+			case 1:
+			equip='Tool/Weapon'
+			break;
+			default:
+			equip=''
+		}
+			
+			
+			p0.innerText=equip
+			gdiv.appendChild(p0);
+
+			for(let gs=1;gs<=4;gs++)
+			{
+
+			let p1=document.createElement("p");
+			p1.setAttribute("style", "margin-left:20px;");
+			gdiv.appendChild(p1);
+
+				let s1=document.createElement("select");
+				s1.addEventListener("change",updateResults);
+				s1.id="gem" + g + "_increase" + gs;
+				let o1=document.createElement("option");
+				o1.value="5";
+				o1.innerText="5%";
+				let o2=document.createElement("option");
+				o2.value="6";
+				o2.innerText="6%";
+				let o3=document.createElement("option");
+				o3.value="7";
+				o3.innerText="7%";
+				let o4=document.createElement("option");
+				o4.value="8";
+				o4.innerText="8%";
+				s1.appendChild(o1);s1.appendChild(o1);s1.appendChild(o2);s1.appendChild(o3);s1.appendChild(o4);
+
+				p1.appendChild(s1);
+				let span1=document.createElement("span");
+				span1.innerText=" increase";
+				p1.appendChild(span1);
+
+				let s2=document.createElement("select");
+				s2.addEventListener("change",updateResults);
+				s2.id="gem" + g + "_stat" + gs;
+				let os0=document.createElement("option");
+				os0.value="";
+				os0.innerText="";
+				let os1=document.createElement("option");
+				os1.value="armor";
+				os1.innerText="Armor";
+				let os2=document.createElement("option");
+				os2.value="attack_speed";
+				os2.innerText="Attack Speed";
+				let os3=document.createElement("option");
+				os3.value="dodge";
+				os3.innerText="Dodge Chance";
+				let os4=document.createElement("option");
+				os4.value="critical_damage_multiplier";
+				os4.innerText="Critical Damage Multiplier";
+				let os5=document.createElement("option");
+				os5.value="critical_hit_chance";
+				os5.innerText="Critical Hit Chance";
+				let os6=document.createElement("option");
+				os6.value="elemental_resistances";
+				os6.innerText="Elemental Resistances";
+				let os7=document.createElement("option");
+				os7.value="life_recovery";
+				os7.innerText="Life Recovery";
+				let os8=document.createElement("option");
+				os8.value="maximum_life";
+				os8.innerText="Maximum Life";
+
+
+				let os16=document.createElement("option");
+				if(version=='1.15' || version=='1.16'){
+				os16.value="charge_cap";
+				os16.innerText="Maximum Starlight Charge";
+				}
+
+				let os9=document.createElement("option");
+				os9.value="melee_damage";
+				os9.innerText="Melee Damage";
+				let os10=document.createElement("option");
+				os10.value="movement_speed";
+				os10.innerText="Movement Speed";
+				
+				let os17=document.createElement("option");
+				if(version=='1.15' || version=='1.16'){
+				os16.value="mining_speed";
+				os16.innerText="Mining Speed";
+				}			
+				
+				
+				let os11=document.createElement("option");
+				os11.value="perk_experience";
+				os11.innerText="Perk Experience";
+				let os12=document.createElement("option");
+				os12.value="projectile_damage";
+				os12.innerText="Projectile Damage";
+				let os13=document.createElement("option");
+				os13.value="reach";
+				os13.innerText="Reach";
+				let os14=document.createElement("option");
+				os14.value="runic_shielding";
+				os14.innerText="Runic Shielding";
+
+				let os15=document.createElement("option");
+				if(version=='1.15' || version=='1.16'){
+				os15.value="charge_regeneration";
+				os15.innerText="Starlight Charge Regeneration";
+				}
+
+
+				s2.appendChild(os0);s2.appendChild(os1);s2.appendChild(os2);s2.appendChild(os3);s2.appendChild(os4);s2.appendChild(os5);s2.appendChild(os6);s2.appendChild(os7);s2.appendChild(os8);
+
+				if(version=='1.15' || version=='1.16'){s2.appendChild(os16);}
+
+				s2.appendChild(os9);s2.appendChild(os10);s2.appendChild(os11);
+				s2.appendChild(os12);s2.appendChild(os13);s2.appendChild(os14);
+
+				if(version=='1.15' || version=='1.16'){s2.appendChild(os15);}
+
+				p1.appendChild(s2);
+
+
+
+			}
+
+				let hr1=document.createElement("hr");
+				gdiv.appendChild(hr1);
+		}
+
+
+
+	}	
+		
+		
 	function update_gemslots()
 	{
 
