@@ -2489,19 +2489,7 @@ function resetAndReload()
 		/////////////////
 
 		
-		//first get effectiveness stats from equipment
-		
-		for(i=0;i<equip_nodes.length;i++)
-		{
-		
-				perk_effectiveness=nodeCheckPE(
-				equip_nodes[i].perk_effectiveness_add,
-				equip_nodes[i].perk_effectiveness,
-				equip_nodes[i].perk_effectiveness_more,
-				perk_effectiveness);	
-		
-		
-		}
+
 		
 
 		//First calculate all effectiveness nodes
@@ -2616,6 +2604,23 @@ function resetAndReload()
 
 
 
+			//first get effectiveness stats from equipment?
+		
+		for(i=0;i<equip_nodes.length;i++)
+		{
+		
+				perk_effectiveness=nodeCheckPE(
+				equip_nodes[i].perk_effectiveness_add,
+				equip_nodes[i].perk_effectiveness,
+				equip_nodes[i].perk_effectiveness_more,
+				perk_effectiveness);	
+		
+		
+		}
+
+
+
+
 		//calculate all perk experience nodes
 
 
@@ -2683,6 +2688,13 @@ function resetAndReload()
 
 	///////////////////////////////////////////////////
 
+	
+	
+
+	
+	
+	
+	
 		//Now calculate the other nodes
 		for(i=0;i<nodes.length;i++)
 		{
