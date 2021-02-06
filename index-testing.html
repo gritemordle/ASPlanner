@@ -649,8 +649,8 @@ function resetAndReload()
 				
 				let os17=document.createElement("option");
 				if(version=='1.15' || version=='1.16'){
-				os16.value="mining_speed";
-				os16.innerText="Mining Speed";
+				os17.value="mining_speed";
+				os17.innerText="Mining Speed";
 				}			
 				
 				
@@ -678,7 +678,11 @@ function resetAndReload()
 
 				if(version=='1.15' || version=='1.16'){s2.appendChild(os16);}
 
-				s2.appendChild(os9);s2.appendChild(os10);s2.appendChild(os11);
+				s2.appendChild(os9);s2.appendChild(os10);
+				
+					if(version=='1.15' || version=='1.16'){s2.appendChild(os17);}
+				
+				s2.appendChild(os11);
 				s2.appendChild(os12);s2.appendChild(os13);s2.appendChild(os14);
 
 				if(version=='1.15' || version=='1.16'){s2.appendChild(os15);}
