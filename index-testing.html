@@ -461,7 +461,7 @@ function resetAndReload()
 
 				let s2=document.createElement("select");
 				s2.addEventListener("change",updateResults);
-				s2.id="gem" + g + "_stat" + gs;
+				s2.id="equipment" + g + "_stat" + gs;
 				let os0=document.createElement("option");
 				os0.value="";
 				os0.innerText="";
@@ -506,8 +506,8 @@ function resetAndReload()
 				
 				let os17=document.createElement("option");
 				if(version=='1.15' || version=='1.16'){
-				os16.value="mining_speed";
-				os16.innerText="Mining Speed";
+				os17.value="mining_speed";
+				os17.innerText="Mining Speed";
 				}			
 				
 				
@@ -535,7 +535,12 @@ function resetAndReload()
 
 				if(version=='1.15' || version=='1.16'){s2.appendChild(os16);}
 
-				s2.appendChild(os9);s2.appendChild(os10);s2.appendChild(os11);
+				s2.appendChild(os9);s2.appendChild(os10);
+				
+				
+				if(version=='1.15' || version=='1.16'){s2.appendChild(os17);}
+				
+				s2.appendChild(os11);
 				s2.appendChild(os12);s2.appendChild(os13);s2.appendChild(os14);
 
 				if(version=='1.15' || version=='1.16'){s2.appendChild(os15);}
