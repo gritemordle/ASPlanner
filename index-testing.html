@@ -465,6 +465,7 @@ function resetAndReload()
 				let os0=document.createElement("option");
 				os0.value="";
 				os0.innerText="";
+				
 				let os1=document.createElement("option");
 				os1.value="armor";
 				os1.innerText="Armor";
@@ -509,7 +510,10 @@ function resetAndReload()
 				os17.value="mining_speed";
 				os17.innerText="Mining Speed";
 				}			
-				
+	
+				let os18=document.createElement("option");
+				os18.value="perk_effectiveness_more";
+				os18.innerText="Perk Effectiveness";	
 				
 				let os11=document.createElement("option");
 				os11.value="perk_experience";
@@ -538,6 +542,8 @@ function resetAndReload()
 				
 				
 				if(version=='1.15' || version=='1.16'){s2.appendChild(os17);}
+				
+				if(version=='1.15' || version=='1.16'){s2.appendChild(os18);}
 				
 				s2.appendChild(os11);
 				s2.appendChild(os12);s2.appendChild(os13);s2.appendChild(os14);
@@ -2347,9 +2353,71 @@ function resetAndReload()
 
 		}
 
-		/////////GEMCOUNTS
+		/////////EQUIPCOUNTS
+	var equipment_nodes=new Array();
+	
+	for(var g=1;g<=5;g++)
+	{
+			var equip_stat1='';
+			var equip_stat2='';
+			var equip_stat3='';
+			var equip_stat4='';
+
+			var equip_stat1a='';
+			var equip_stat2a='';
+			var equip_stat3a='';
+			var equip_stat4a='';
+
+			var equip_increase1='';
+			var equip_increase2='';
+			var equip_increase3='';
+			var equip_increase4='';
+
+			for(var gs=1;gs<=4;gs++)
+			{
+			 var the_stat = document.getElementById('equipment' + g + '_stat' + gs);
+			 var the_increase= document.getElementById('equipment' + g + '_increase' + gs);
+
+			if(gs==1)
+				{equip_stat1=the_stat.options[the_stat.selectedIndex].value; equip_stat1a=the_stat.options[the_stat.selectedIndex].text;
+				equip_increase1=the_increase.options[the_increase.selectedIndex].value;}
+			 if(gs==2)
+				{equip_stat2=the_stat.options[the_stat.selectedIndex].value; equip_stat2a=the_stat.options[the_stat.selectedIndex].text;
+				equip_increase2=the_increase.options[the_increase.selectedIndex].value;}
+			 if(gs==3)
+				{equip_stat3=the_stat.options[the_stat.selectedIndex].value; equip_stat3a=the_stat.options[the_stat.selectedIndex].text;
+				equip_increase3=the_increase.options[the_increase.selectedIndex].value;}
+			 if(gs==4)
+				{equip_stat4=the_stat.options[the_stat.selectedIndex].value; equip_stat4a=the_stat.options[the_stat.selectedIndex].text;
+				equip_increase4=the_increase.options[the_increase.selectedIndex].value;}
+
+			}
+
+			if(equip_stat1!=='' || equip_stat2!=='' || equip_stat3!=='' || equip_stat4!=='')
+			{
+
+					equip_nodes[equip_nodes.length] = {  tooltip: ['Gem Socket']  }
 
 
+
+				if(equip_stat1!=='')
+				{ equip_nodes[equip_nodes.length-1][equip_stat1]=parseFloat(equip_increase1); equip_nodes[equip_nodes.length-1].tooltip.push(equip_increase1 +'% increased ' + equip_stat1a); }
+				if(equip_stat2!=='')
+				{ equip_nodes[equip_nodes.length-1][equip_stat2]=parseFloat(equip_increase2); equip_nodes[equip_nodes.length-1].tooltip.push(equip_increase2 +'% increased ' + equip_stat2a);}
+				if(equip_stat3!=='')
+				{ equip_nodes[equip_nodes.length-1][equip_stat3]=parseFloat(equip_increase3); equip_nodes[equip_nodes.length-1].tooltip.push(equip_increase3 +'% increased ' + equip_stat3a);}
+				if(equip_stat4!=='')
+				{ equip_nodes[equip_nodes.length-1][equip_stat4]=parseFloat(equip_increase4); equip_nodes[equip_nodes.length-1].tooltip.push(equip_increase4 +'% increased ' + equip_stat4a);}
+
+			}
+	
+	
+	
+	}
+		
+		
+		
+	//////////////////GEMCOUNTS
 	var gem_nodes=new Array()
 
 		for(var g=1;g<=max_gems;g++)
@@ -2424,6 +2492,22 @@ function resetAndReload()
 
 		/////////////////
 
+		
+		//first get effectiveness stats from equipment
+		
+		for(i=0;i<equip_nodes.length;i++)
+		{
+		
+				perk_effectiveness=nodeCheckPE(
+				equip_nodes[i].perk_effectiveness_add,
+				equip_nodes[i].perk_effectiveness,
+				equip_nodes[i].perk_effectiveness_more,
+				perk_effectiveness);	
+		
+		
+		}
+		
+		
 
 		//First calculate all effectiveness nodes
 		for(i=0;i<nodes.length;i++)
