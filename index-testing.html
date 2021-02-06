@@ -422,13 +422,13 @@ function resetAndReload()
 			case 2:
 			equip='Chest'
 			break;
-					case 1:
+			case 3:
 			equip='Legs'
 			break;
-			case 1:
+			case 4:
 			equip='Boots'
 			break;
-			case 1:
+			case 5:
 			equip='Tool/Weapon'
 			break;
 			default:
@@ -443,29 +443,23 @@ function resetAndReload()
 			{
 
 			let p1=document.createElement("p");
+			
 			p1.setAttribute("style", "margin-left:20px;");
+			
+		
+			
 			gdiv.appendChild(p1);
 
-				let s1=document.createElement("select");
+				let s1=document.createElement("INPUT");
+					s1.setAttribute("type","text")
+					s1.value="0.0";
 				s1.addEventListener("change",updateResults);
-				s1.id="gem" + g + "_increase" + gs;
-				let o1=document.createElement("option");
-				o1.value="5";
-				o1.innerText="5%";
-				let o2=document.createElement("option");
-				o2.value="6";
-				o2.innerText="6%";
-				let o3=document.createElement("option");
-				o3.value="7";
-				o3.innerText="7%";
-				let o4=document.createElement("option");
-				o4.value="8";
-				o4.innerText="8%";
-				s1.appendChild(o1);s1.appendChild(o1);s1.appendChild(o2);s1.appendChild(o3);s1.appendChild(o4);
+				s1.id="equipment" + g + "_increase" + gs;
+				
 
 				p1.appendChild(s1);
 				let span1=document.createElement("span");
-				span1.innerText=" increase";
+				span1.innerText=" increased";
 				p1.appendChild(span1);
 
 				let s2=document.createElement("select");
