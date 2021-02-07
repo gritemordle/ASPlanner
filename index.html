@@ -4552,6 +4552,23 @@ function morepoints()
 			{
 				let txt=signit(jnodes[p].data.modifiers[m].value) + ' added ' + names[jnodes[p].data.modifiers[m].type.replace('astralsorcery:','perk.attribute.astralsorcery.') + '.name'];
 
+				if(txt.includes("life leech"))
+				{
+				
+					txt= signit(jnodes[p].data.modifiers[m].value) + '% of damage dealth gained as healing';
+				
+				
+				}
+				
+				if(txt.includes("damage reflected"))
+				{
+				
+					txt= signit(jnodes[p].data.modifiers[m].value) + '% of melee damage taken is reflected';
+				
+				
+				}
+				
+				
 				//if(jnodes[p].tooltip.length>1)
 				//{ jnodes[p].tooltip.push(''); }
 
