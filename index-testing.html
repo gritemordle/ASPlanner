@@ -188,7 +188,7 @@ function resetAndReload()
 			<p style="font-size: smaller;">Perk Tree planner for HellFirePVP's awesome Astral Sorcery mod for Minecraft.</p>
 			<p style="font-size: smaller;"><i>Updated on 02/04/2021: Added some touch support for mobile.</i></p>				
 			<p style="font-size: smaller;"><i>Updated on 02/03/2021: Added version 1.16 perk tree.</i></p>		
-			<p style="font-size: smaller; text-align: right;"><i>1.002 - grite</i></p>			
+			<p style="font-size: smaller; text-align: right;"><i>1.003 - grite</i></p>			
 
 			
 		</div>  
@@ -3160,10 +3160,7 @@ function resetAndReload()
 
 			skill_last_breath=skillCheck(nodes[i].skill_last_breath,skill_last_breath);
 			skill_rampage=skillCheck(nodes[i].skill_rampage,skill_rampage);
-		rampage_duration.t=(rampage_duration.b + rampage_duration.a) * rampage_duration.i * rampage_duration.m;
-		rampage_duration.t-=rampage_duration.b;
-		if((rampage_duration.t!==0))
-		{ the_results+=printResults(rampage_duration,'Rampage Duration',1,0,100); }
+
 
 
 			skill_area_of_effect=skillCheck(nodes[i].skill_area_of_effect,skill_area_of_effect);
@@ -3567,6 +3564,12 @@ function resetAndReload()
 		if((projectile_speed.t!==0))
 		{ the_results+=printResults(projectile_speed,'Projectile Speed',1,0,100); }
 
+		rampage_duration.t=(rampage_duration.b + rampage_duration.a) * rampage_duration.i * rampage_duration.m;
+		rampage_duration.t-=rampage_duration.b;
+		if((rampage_duration.t!==0))
+		{ the_results+=printResults(rampage_duration,'Rampage Duration',1,0,100); }
+		
+		
 		reach.t=(reach.b + reach.a) * reach.i * reach.m;
 		if(!(reach.a==0 && reach.i==1 && reach.m==1))
 		{ the_results+=printResults(reach,'Reach',0,0,1); }
