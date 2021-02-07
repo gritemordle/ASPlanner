@@ -188,7 +188,7 @@ function resetAndReload()
 			<p style="font-size: smaller;">Perk Tree planner for HellFirePVP's awesome Astral Sorcery mod for Minecraft.</p>
 			<p style="font-size: smaller;"><i>Updated on 02/04/2021: Added some touch support for mobile.</i></p>				
 			<p style="font-size: smaller;"><i>Updated on 02/03/2021: Added version 1.16 perk tree.</i></p>		
-			<p style="font-size: smaller; text-align: right;"><i>1.007 - grite</i></p>			
+			<p style="font-size: smaller; text-align: right;"><i>1.008 - grite</i></p>			
 
 					
 			
@@ -498,7 +498,7 @@ function resetAndReload()
 				os6.innerText="Elemental Resistances (% increased)";
 	
 				let os7=document.createElement("option");
-				os7.value="prism";
+				os7.value="amulet_enchantments";
 				os7.innerText="Level of Resplendant Prism (% increased)";	
 				
 				let os8=document.createElement("option");
@@ -2296,7 +2296,7 @@ function resetAndReload()
 
 		var reflection={a:0,i:1,m:1,t:0,b:1,fs:0};
 
-		var prism={a:0,i:1,m:1,t:0,b:1,fs:0};
+		//var prism={a:0,i:1,m:1,t:0,b:1,fs:0};
 		
 	    var perk_effectiveness={a:0,i:1,m:1,t:0,b:1,fs:0};
 	    var perk_experience={a:0,i:1,m:1,t:0,b:1,fs:0};
@@ -2909,11 +2909,11 @@ function resetAndReload()
 				equip_nodes[i].successive_chains_more,
 				successive_chains,perk_effectiveness.t);
 
-			prism=nodeCheck(
-				equip_nodes[i].prism_add,
-				equip_nodes[i].prism,
-				equip_nodes[i].prism_more,
-				prism,perk_effectiveness.t);
+			amulet_enchantments=nodeCheck(
+				equip_nodes[i].amulet_enchantments_add,
+				equip_nodes[i].amulet_enchantments,
+				equip_nodes[i].amulet_enchantments_more,
+				amulet_enchantments,perk_effectiveness.t);
 
 			luck=nodeCheck(
 				equip_nodes[i].luck_add,
@@ -3506,9 +3506,7 @@ function resetAndReload()
 		the_results+=printResults(dodge,'Dodge Chance <br/>&nbsp;&nbsp;&nbsp;&nbsp;(Limited to 75%)',1,0,100);
 		}
 
-		amulet_enchantments.t=(amulet_enchantments.b + amulet_enchantments.a) * amulet_enchantments.i * amulet_enchantments.m;
-		amulet_enchantments.t-=amulet_enchantments.b;
-		if(amulet_enchantments.t!==0){ the_results+=printResults(amulet_enchantments,'Effect of Amulet Enchantments',1,0,100); }
+
 
 		perk_effectiveness.t-=perk_effectiveness.b;
 		if(perk_effectiveness.t!==0)
@@ -3519,10 +3517,14 @@ function resetAndReload()
 		if(elemental_resistances.t!==0)
 		{ the_results+=printResults(elemental_resistances,'Elemental Resistances <br/>&nbsp;&nbsp;&nbsp;&nbsp;(Limited to 60%)',1,0,100); }
 
-		prism.t=(prism.b + prism.a) * prism.i * prism.m;
-		prism.t-=prism.b;
-		if(prism.t!==0){ the_results+=printResults(prism,'level of Resplendant Prism enchantments',1,0,100); }
-		
+		//prism.t=(prism.b + prism.a) * prism.i * prism.m;
+		//prism.t-=prism.b;
+		//if(prism.t!==0){ the_results+=printResults(prism,'level of Resplendant Prism enchantments',1,0,100); }
+	
+		amulet_enchantments.t=(amulet_enchantments.b + amulet_enchantments.a) * amulet_enchantments.i * amulet_enchantments.m;
+		amulet_enchantments.t-=amulet_enchantments.b;
+		if(amulet_enchantments.t!==0){ the_results+=printResults(amulet_enchantments,'level of Resplendant Prism enchantments',1,0,100); }
+	
 		
 		life_leech.t=(life_leech.b + life_leech.a) * life_leech.i * life_leech.m;
 		life_leech.t-=life_leech.b;
@@ -3985,6 +3987,23 @@ function linkProfile(num)
 		}
 
 
+		
+		the_whole_thing+='E;';
+
+
+		for(let g=1;g<=5;g++)
+		{
+
+
+			for(let gs=1;gs<=4;gs++)
+			{
+				the_whole_thing+=document.getElementById('equipment' + g + '_increase' + gs).value + ':';
+				the_whole_thing+=document.getElementById('equipment' + g + '_stat' + gs).value + ';';
+			}
+		}
+		
+		
+		
 
 			the_whole_thing=LZString.compressToEncodedURIComponent(the_whole_thing);
 
@@ -4006,7 +4025,7 @@ function linkProfile(num)
 
 
 		var client = new HttpClient();
-		client.get('https://tinyurl.com/api-create.php?url=' + 'https://gritemordle.github.io/ASPlanner/?a=' + the_whole_thing, function(response) {
+		client.get('https://tinyurl.com/api-create.php?url=' + 'https://gritemordle.github.io/ASPlanner/index-testing.html?a=' + the_whole_thing, function(response) {
 			document.getElementById('prof_1_txt').value=response;
 			copy();
 		});
@@ -4078,7 +4097,18 @@ function linkProfile(num)
 			}
 		}
 
+		
+		//save equipment
+		for(let g=1;g<=5;g++)
+		{
 
+
+			for(let gs=1;gs<=4;gs++)
+			{
+				localStorage.setItem(num.toString() + '-equipment' + g + '_increase' + gs + tmpversion,document.getElementById('equipment' + g + '_increase' + gs).value);
+				localStorage.setItem(num.toString() + '-equipment' + g + '_stat' + gs + tmpversion,document.getElementById('equipment' + g + '_stat' + gs).value);
+			}
+		}
 
 
 	}
@@ -4102,6 +4132,7 @@ function linkProfile(num)
 				if(load_this[i]=='P'){ mode='P'; i++; }
 				if(load_this[i]=='B'){ mode='B'; i++; }
 				if(load_this[i]=='G'){ mode='G'; i++; }
+				if(load_this[i]=='E'){ mode='E'; i++; }
 
 				if(mode=='N')
 				{
@@ -4180,6 +4211,25 @@ function linkProfile(num)
 
 						document.getElementById('gem' + g + '_increase' + gs).value=gemstats[0];
 						document.getElementById('gem' + g + '_stat' + gs).value=gemstats[1];
+
+					}
+				}
+
+				}
+				
+				
+				if(mode=='E')
+				{
+
+				for(let g=1;g<=5;g++)
+				{
+					for(let gs=1;gs<=4;gs++)
+					{
+
+						let equipstats=load_this[i].split(':'); i++;
+
+						document.getElementById('equipment' + g + '_increase' + gs).value=equipstats[0];
+						document.getElementById('equipment' + g + '_stat' + gs).value=equipstats[1];
 
 					}
 				}
@@ -4290,6 +4340,19 @@ function linkProfile(num)
 
 				document.getElementById('gem' + g + '_increase' + gs).value=localStorage.getItem(num.toString() + '-gem' + g + '_increase' + gs + tmpversion);
 				document.getElementById('gem' + g + '_stat' + gs).value=localStorage.getItem(num.toString() + '-gem' + g + '_stat' + gs + tmpversion);
+
+			}
+		}
+		
+		
+		
+		for(let g=1;g<=5;g++)
+		{
+			for(let gs=1;gs<=4;gs++)
+			{
+
+				document.getElementById('equipment' + g + '_increase' + gs).value=localStorage.getItem(num.toString() + '-equipment' + g + '_increase' + gs + tmpversion);
+				document.getElementById('equipment' + g + '_stat' + gs).value=localStorage.getItem(num.toString() + '-equipment' + g + '_stat' + gs + tmpversion);
 
 			}
 		}
