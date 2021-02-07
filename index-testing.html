@@ -189,7 +189,7 @@ function resetAndReload()
 			<p style="font-size: smaller;">Perk Tree planner for HellFirePVP's awesome Astral Sorcery mod for Minecraft.</p>
 			<p style="font-size: smaller;"><i>Updated on 02/04/2021: Added some touch support for mobile.</i></p>				
 			<p style="font-size: smaller;"><i>Updated on 02/03/2021: Added version 1.16 perk tree.</i></p>		
-			<p style="font-size: smaller; text-align: right;"><i>1.001 - grite</i></p>			
+			<p style="font-size: smaller; text-align: right;"><i>1.002 - grite</i></p>			
 
 			
 		</div>  
@@ -498,7 +498,7 @@ function resetAndReload()
 				os6.innerText="Elemental Resistances (% increased)";
 	
 				let os7=document.createElement("option");
-				os7.value="amulet_enchantments";
+				os7.value="prism";
 				os7.innerText="Level of Resplendant Prism (% increased)";	
 				
 				let os8=document.createElement("option");
@@ -2296,7 +2296,7 @@ function resetAndReload()
 
 		var reflection={a:0,i:1,m:1,t:0,b:1,fs:0};
 
-		//var prism={a:0,i:1,m:1,t:0,b:1,fs:0};
+		var prism={a:0,i:1,m:1,t:0,b:1,fs:0};
 		
 	    var perk_effectiveness={a:0,i:1,m:1,t:0,b:1,fs:0};
 	    var perk_experience={a:0,i:1,m:1,t:0,b:1,fs:0};
@@ -2889,11 +2889,11 @@ function resetAndReload()
 				equip_nodes[i].successive_chains_more,
 				successive_chains,perk_effectiveness.t);
 
-			amulet_enchantments=nodeCheck(
-				equip_nodes[i].amulet_enchantments_add,
-				equip_nodes[i].amulet_enchantments,
-				equip_nodes[i].amulet_enchantments_more,
-				amulet_enchantments,perk_effectiveness.t);
+			prism=nodeCheck(
+				equip_nodes[i].prism_add,
+				equip_nodes[i].prism,
+				equip_nodes[i].prism_more,
+				prism,perk_effectiveness.t);
 
 			luck=nodeCheck(
 				equip_nodes[i].luck_add,
@@ -3502,6 +3502,11 @@ function resetAndReload()
 		if(elemental_resistances.t!==0)
 		{ the_results+=printResults(elemental_resistances,'Elemental Resistances <br/>&nbsp;&nbsp;&nbsp;&nbsp;(Limited to 60%)',1,0,100); }
 
+		prism.t=(prism.b + prism.a) * prism.i * prism.m;
+		prism.t-=prism.b;
+		if(prism.t!==0){ the_results+=printResults(prism,'level of Resplendant Prism enchantments',1,0,100); }
+		
+		
 		life_leech.t=(life_leech.b + life_leech.a) * life_leech.i * life_leech.m;
 		life_leech.t-=life_leech.b;
 		if(life_leech.t!==0)
