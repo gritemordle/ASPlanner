@@ -127,7 +127,7 @@ function resetAndReload()
 	</div>
 	
 		
- <div id="menu_equipment" onclick="expand('equipment');expand('equipment_header');" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ EQUIPMENT PERKS</b></div>
+ <div id="menu_equipment" onclick="expand('equipment');expand('equipment_header');" onmouseover="menu_over(this);" onmouseleave="menu_leave(this);" style="width:100% text-align: right; margin-top: 0; padding-top: 0; background-color: lightgray; border-top: solid; border-color: darkgray; cursor: pointer;"  ><b>★ EQUIPMENT</b></div>
  	<div id="equipment_header"  style="display:none;">
 
 	</div>
@@ -401,6 +401,17 @@ function resetAndReload()
 		{document.getElementById('base_mining_speed').value=1;}
 
 
+		if(version=='1.12')
+		{
+		
+			document.getElementById('menu_equipment').display = "none";
+			document.getElementById('equipment').display = "none";
+			document.getElementById('equipment_header').display = "none";
+		
+		
+		}
+		
+		
 	function update_equipmentslots()
 	{
 
