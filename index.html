@@ -4553,11 +4553,8 @@ function morepoints()
 				let txt=signit(jnodes[p].data.modifiers[m].value) + ' added ' + names[jnodes[p].data.modifiers[m].type.replace('astralsorcery:','perk.attribute.astralsorcery.') + '.name'];
 
 				if(txt.includes("life leech"))
-				{
-				
-					txt= signit(jnodes[p].data.modifiers[m].value) + '% of damage dealt gained as healing';
-				
-				
+				{				
+					txt= signit(jnodes[p].data.modifiers[m].value) + '% of damage dealt gained as healing';							
 				}
 				
 				if(txt.includes("damage reflected"))
