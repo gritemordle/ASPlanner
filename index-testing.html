@@ -188,7 +188,7 @@ function resetAndReload()
 			<p style="font-size: smaller;">Perk Tree planner for HellFirePVP's awesome Astral Sorcery mod for Minecraft.</p>
 			<p style="font-size: smaller;"><i>Updated on 02/04/2021: Added some touch support for mobile.</i></p>				
 			<p style="font-size: smaller;"><i>Updated on 02/03/2021: Added version 1.16 perk tree.</i></p>		
-			<p style="font-size: smaller; text-align: right;"><i>1.003 - grite</i></p>			
+			<p style="font-size: smaller; text-align: right;"><i>1.004 - grite</i></p>			
 		
 		</div>  
 	</div>
@@ -2734,7 +2734,21 @@ function resetAndReload()
 		}
 
 
-
+		for(i=0;i<equip_nodes.length;i++)
+		{
+		
+				perk_experience=nodeCheck(
+				equip_nodes[i].perk_experience_add,
+				equip_nodes[i].perk_experience,
+				equip_nodes[i].perk_experience_more,
+				perk_experience,perk_effectiveness.t);
+		
+		
+		}
+		
+		
+		
+		
 		perk_experience.t=(perk_experience.b + perk_experience.a) * perk_experience.i * perk_experience.m;
 		perk_experience.t-=perk_experience.b;
 
