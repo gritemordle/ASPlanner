@@ -454,11 +454,14 @@ function resetAndReload()
 				s1.addEventListener("change",updateResults);
 				s1.id="equipment" + g + "_increase" + gs;
 				
-				p1.appendChild(s1);
-				let span1=document.createElement("span");
-				span1.innerText=" increased";
-				p1.appendChild(span1);
+				//p1.appendChild(s1);
+				//let span1=document.createElement("span");
+				//span1.innerText=" increased";
+				//p1.appendChild(span1);
 
+				
+				
+				
 				let s2=document.createElement("select");
 				s2.addEventListener("change",updateResults);
 				s2.id="equipment" + g + "_stat" + gs;
@@ -466,88 +469,155 @@ function resetAndReload()
 				os0.value="";
 				os0.innerText="";
 				
+				s2.appendChild(os0);
+				
+				
+				if(g<5)
+				{
+								
 				let os1=document.createElement("option");
-				os1.value="armor";
-				os1.innerText="Armor";
+				os1.value="armor_more";
+				os1.innerText="Armor (% more)";
+				
 				let os2=document.createElement("option");
-				os2.value="attack_speed";
-				os2.innerText="Attack Speed";
+				os2.value="critical_damage_multiplier";
+				os2.innerText="Critical Damage Multiplier (% increased)";
+				
 				let os3=document.createElement("option");
-				os3.value="dodge";
-				os3.innerText="Dodge Chance";
+				os3.value="critical_hit_chance_add";
+				os3.innerText="Critical Hit Chance (% added)";	
+
 				let os4=document.createElement("option");
-				os4.value="critical_damage_multiplier";
-				os4.innerText="Critical Damage Multiplier";
+				os4.value="dodge";
+				os4.innerText="Dodge Chance (% increased)";			
+				
 				let os5=document.createElement("option");
-				os5.value="critical_hit_chance";
-				os5.innerText="Critical Hit Chance";
+				os5.value="perk_effectiveness_more";
+				os5.innerText="Effectiveness of Perks (% more)";	
+
 				let os6=document.createElement("option");
 				os6.value="elemental_resistances";
-				os6.innerText="Elemental Resistances";
-				let os7=document.createElement("option");
-				os7.value="life_recovery";
-				os7.innerText="Life Recovery";
-				let os8=document.createElement("option");
-				os8.value="maximum_life";
-				os8.innerText="Maximum Life";
-
-
-				let os16=document.createElement("option");
-				if(version=='1.15' || version=='1.16'){
-				os16.value="charge_cap";
-				os16.innerText="Maximum Starlight Charge";
-				}
-
-				let os9=document.createElement("option");
-				os9.value="melee_damage";
-				os9.innerText="Melee Damage";
-				let os10=document.createElement("option");
-				os10.value="movement_speed";
-				os10.innerText="Movement Speed";
-				
-				let os17=document.createElement("option");
-				if(version=='1.15' || version=='1.16'){
-				os17.value="mining_speed";
-				os17.innerText="Mining Speed";
-				}			
+				os6.innerText="Elemental Resistances (% increased)";
 	
-				let os18=document.createElement("option");
-				os18.value="perk_effectiveness_more";
-				os18.innerText="Perk Effectiveness";	
+				let os7=document.createElement("option");
+				os7.value="prism";
+				os7.innerText="Level of Resplendant Prism (% increased)";				
+				let os8=document.createElement("option");
+				os8.value="maximum_life_add";
+				os8.innerText="Maximum Life (added)";
 				
+				let os9=document.createElement("option");	
+				os9.value="charge_cap";
+				os9.innerText="Maximum Starlight Charge (% increased)";	
+	
+				let os10=document.createElement("option");
+				os10.value="mining_speed";
+				os10.innerText="Mining Speed (% increased)";
+		
 				let os11=document.createElement("option");
-				os11.value="perk_experience";
-				os11.innerText="Perk Experience";
+				os11.value="movement_speed";
+				os11.innerText="Movement Speed (% increased)";	
+	
 				let os12=document.createElement("option");
-				os12.value="projectile_damage";
-				os12.innerText="Projectile Damage";
+				os12.value="movement_speed_more";
+				os12.innerText="Movement Speed (% more)";	
+	
 				let os13=document.createElement("option");
-				os13.value="reach";
-				os13.innerText="Reach";
+				os13.value="perk_experience_more";
+				os13.innerText="Perk Experience (% more)";	
+	
 				let os14=document.createElement("option");
-				os14.value="runic_shielding";
-				os14.innerText="Runic Shielding";
+				os14.value="potion_effect_duration";
+				os14.innerText="Potion Effect Duration (% increased)";
 
 				let os15=document.createElement("option");
-				if(version=='1.15' || version=='1.16'){
-				os15.value="charge_regeneration";
-				os15.innerText="Starlight Charge Regeneration";
+				os15.value="rampage_duration_more";
+				os15.innerText="Rampage Duration (% more)";				
+	
+				let os16=document.createElement("option");
+				os16.value="swimming_speed";
+				os16.innerText="Swimming Speed (% increased)";		
+	
+				s2.appendChild(os1);s2.appendChild(os2);s2.appendChild(os3);s2.appendChild(os4);s2.appendChild(os5);s2.appendChild(os6);s2.appendChild(os7);s2.appendChild(os8);s2.appendChild(os9);s2.appendChild(os10);s2.appendChild(os11);s2.appendChild(os12);s2.appendChild(os13);s2.appendChild(os14);s2.appendChild(os15);s2.appendChild(os16);
+				
+
+	
+	
 				}
-
-				s2.appendChild(os0);s2.appendChild(os1);s2.appendChild(os2);s2.appendChild(os3);s2.appendChild(os4);s2.appendChild(os5);s2.appendChild(os6);s2.appendChild(os7);s2.appendChild(os8);
-
-				if(version=='1.15' || version=='1.16'){s2.appendChild(os16);}
-
-				s2.appendChild(os9);s2.appendChild(os10);
-								
-				if(version=='1.15' || version=='1.16'){s2.appendChild(os17);}
+				else
+				{
+				//weapons and tools
 				
-				if(version=='1.15' || version=='1.16'){s2.appendChild(os18);}
+				let os1=document.createElement("option");
+				os1.value="attack_speed";
+				os1.innerText="Attack Speed (% increased)";
 				
-				s2.appendChild(os11);
-				s2.appendChild(os12);s2.appendChild(os13);s2.appendChild(os14);
+				let os2=document.createElement("option");
+				os2.value="bleed_chance_more";
+				os2.innerText="Bleeding Chance (% more)";
+				
+				let os3=document.createElement("option");
+				os3.value="cooldown_recovery";
+				os3.innerText="Cooldown Recovery (% increased)";	
+			
+				let os4=document.createElement("option");
+				os4.value="critical_damage_multiplier_more";
+				os4.innerText="Critical Damage Multiplier (% more)";			
+				
+				let os5=document.createElement("option");
+				os5.value="critical_hit_chance";
+				os5.innerText="Critical Hit Chance (% increased)";	
 
-				if(version=='1.15' || version=='1.16'){s2.appendChild(os15);}
+				let os6=document.createElement("option");
+				os6.value="life_leech_add";
+				os6.innerText="Damage Dealth Gained as Healing (% added)";
+	
+				let os7=document.createElement("option");
+				os7.value="dodge_add";
+				os7.innerText="Dodge Chance (% added)";	
+				
+				let os8=document.createElement("option");
+				os8.value="melee_damage_more";
+				os8.innerText="Melee Damage (% more)";
+				
+				let os9=document.createElement("option");	
+				os9.value="reflection_add";
+				os9.innerText="Melee Damage Reflected (% added)";	
+	
+				let os10=document.createElement("option");
+				os10.value="mining_size_add";
+				os10.innerText="Mining Size (added)";
+		
+				let os11=document.createElement("option");
+				os11.value="mining_speed";
+				os11.innerText="Mining Speed (% increased)";	
+	
+				let os12=document.createElement("option");
+				os12.value="projectile_speed_more";
+				os12.innerText="Projectile Speed (% more)";	
+	
+				let os13=document.createElement("option");
+				os13.value="reach_add";
+				os13.innerText="Reach (added)";	
+	
+				let os14=document.createElement("option");
+				os14.value="reach";
+				os14.innerText="Reach (% increased)";
+
+				let os15=document.createElement("option");
+				os15.value="charge_regeneration_more";
+				os15.innerText="Starlight Charge Regeneration (% more)";				
+	
+	
+	
+				s2.appendChild(os1);s2.appendChild(os2);s2.appendChild(os3);s2.appendChild(os4);s2.appendChild(os5);s2.appendChild(os6);s2.appendChild(os7);s2.appendChild(os8);s2.appendChild(os9);s2.appendChild(os10);s2.appendChild(os11);s2.appendChild(os12);s2.appendChild(os13);s2.appendChild(os14);s2.appendChild(os15);			
+				
+	
+				}
+				
+				
+
+	
 
 				p1.appendChild(s2);
 
