@@ -188,7 +188,7 @@ function resetAndReload()
 			<p style="font-size: smaller;">Perk Tree planner for HellFirePVP's awesome Astral Sorcery mod for Minecraft.</p>
 			<p style="font-size: smaller;"><i>Updated on 02/04/2021: Added some touch support for mobile.</i></p>				
 			<p style="font-size: smaller;"><i>Updated on 02/03/2021: Added version 1.16 perk tree.</i></p>		
-			<p style="font-size: smaller; text-align: right;"><i>1.004 - grite</i></p>			
+			<p style="font-size: smaller; text-align: right;"><i>1.005 - grite</i></p>			
 		
 		</div>  
 	</div>
@@ -566,7 +566,7 @@ function resetAndReload()
 
 				let os6=document.createElement("option");
 				os6.value="life_leech_add";
-				os6.innerText="Damage Dealth Gained as Healing (% added)";
+				os6.innerText="Damage Dealt Gained as Healing (% added)";
 	
 				let os7=document.createElement("option");
 				os7.value="dodge_add";
@@ -3545,11 +3545,15 @@ function resetAndReload()
 		if(!(melee_damage.a==0 && melee_damage.i==1 && melee_damage.m==1))
 		{ the_results+=printResults(melee_damage,'Melee Damage',0,0,1); }
 
- 		mining_size.t=(mining_size.b + mining_size.a) * mining_size.i * mining_size.m;
-		mining_size.t-=mining_size.b;
-		if((mining_size.t!==0))
-		{ the_results+=printResults(mining_size,'Mining Size',1,0,100); }
+ 		//mining_size.t=(mining_size.b + mining_size.a) * mining_size.i * mining_size.m;
+		//mining_size.t-=mining_size.b;
+		//if((mining_size.t!==0))
+		//{ the_results+=printResults(mining_size,'Mining Size',1,0,100); }
 
+		mining_size.t=(mining_size.b + mining_size.a) * mining_size.i * mining_size.m;
+		if(!(mining_size.a==0 && mining_size.i==1 && mining_size.m==1))
+		{ the_results+=printResults(reach,'Mining Size',0,0,1); }
+		
 		mining_speed.t=(mining_speed.b + mining_speed.a) * mining_speed.i * mining_speed.m;
 		//mining_speed.t-=mining_speed.b;
 		if(!(mining_speed.a==0 && mining_speed.i==1 && mining_speed.m==1))
